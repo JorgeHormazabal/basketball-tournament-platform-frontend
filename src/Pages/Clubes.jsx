@@ -44,7 +44,7 @@ export function Clubes() {
     },500)
   }
 
-  const validar = () => {
+  const validar = async () => {
     var parametros;
     var metodo;
     var id2;
@@ -60,11 +60,21 @@ export function Clubes() {
         id2="nada";
         parametros={name:nombre.trim(),email:correo.trim(),password:clave.trim()}
         metodo= 'POST'
+        enviarSolicitud(metodo,parametros,id2);
       }else if(operacion===2){
-        parametros={id:id,name:nombre.trim(),email:correo.trim(),password:clave.trim()}
-        metodo= 'PATCH'
+        id2=id
+        await axios.patch(url+id, {name: nombre, email:correo, password:clave}).then(function(respuesta){
+          var tipo = respuesta.data[0];
+          showAlert('Accion Realizada','success');
+          if(tipo === 'success'){
+            document.getElementById('btnCerrar').click();
+          }
+        }).catch(function(error){
+          showAlert('Error en la solicitud', 'error');
+          console.log(error);
+        })
+        getClubes();
       }
-      enviarSolicitud(metodo,parametros,id2);
     }
   }
 
@@ -72,7 +82,6 @@ export function Clubes() {
       var url2 = url;
       if(metodo == 'POST'){url2 = url}
       if(metodo == 'DELETE'){ url2=url+id}
-      if(metodo == 'PATCH'){ url2=url+id}
 
       await axios({method:metodo, url: url2, data:parametros}).then(function(respuesta){
         var tipo = respuesta.data[0];
