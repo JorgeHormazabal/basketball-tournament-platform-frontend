@@ -42,12 +42,12 @@ export function Clubes() {
     window.setTimeout(function(){
       document.getElementById('nombre').focus();
     },500)
-
   }
 
   const validar = () => {
     var parametros;
     var metodo;
+    var id2;
     if(nombre.trim()===''){
         showAlert('Escribe el nombre del club','warning');
     } else if(correo.trim()===''){
@@ -57,20 +57,26 @@ export function Clubes() {
     }
     else{
       if(operacion===1){
+        id2="nada";
         parametros={name:nombre.trim(),email:correo.trim(),password:clave.trim()}
         metodo= 'POST'
       }else if(operacion===2){
         parametros={id:id,name:nombre.trim(),email:correo.trim(),password:clave.trim()}
         metodo= 'PATCH'
       }
-      enviarSolicitud(metodo,parametros);
+      enviarSolicitud(metodo,parametros,id2);
     }
   }
 
-  const enviarSolicitud = async(metodo,parametros)=>{
-      await axios({method:metodo, url: url, data:parametros}).then(function(respuesta){
+  const enviarSolicitud = async(metodo,parametros,id)=>{
+      var url2 = url;
+      if(metodo == 'POST'){url2 = url}
+      if(metodo == 'DELETE'){ url2=url+id}
+      if(metodo == 'PATCH'){ url2=url+id}
+
+      await axios({method:metodo, url: url2, data:parametros}).then(function(respuesta){
         var tipo = respuesta.data[0];
-        showAlert('Club Guardado','success');
+        showAlert('Accion Realizada','success');
         if(tipo === 'success'){
           document.getElementById('btnCerrar').click();
         }
@@ -90,7 +96,7 @@ export function Clubes() {
     }).then((result)=>{
       if (result.isConfirmed) {
         setId(id);
-        enviarSolicitud('DELETE',{id:id});
+        enviarSolicitud('DELETE',{id:id},id);
       }
       else{
         showAlert('El producto NO fue eliminado','info');
