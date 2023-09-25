@@ -1,8 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider} from "react-router-dom"
-import { Clubes } from './Pages/Clubes'
-import { Home } from './Pages/Home'
-import { Home2 } from './Pages/Home2'
 import { Navbar } from './Components/Navbar'
+import { Club } from './Pages/Club'
+import { Organizador } from './Pages/Organizador'
+import { Equipo } from './Pages/Equipo'
 
 const AppLayout = () => (
   <>
@@ -17,15 +17,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Organizador />,
       },
       {
-        path: "clubes",
-        element: <Clubes />,
+        path: "club",
+        element: <Club />,
       },
       {
-        path: "home2",
-        element: <Home2 />,
+        path: "equipo",
+        element: <Equipo />,
       },
     ]
   }

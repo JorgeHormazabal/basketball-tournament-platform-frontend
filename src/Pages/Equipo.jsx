@@ -1,4 +1,4 @@
-export function Home2(){
+export function Equipo(){
     return <>
     <h1>Home dosssss eeeeeee</h1>
     </>
