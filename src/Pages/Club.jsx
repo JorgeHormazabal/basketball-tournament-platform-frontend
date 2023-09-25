@@ -115,7 +115,7 @@ export function Club() {
     MySwal.fire({
       title: '¿Seguro que desea eliminar el club "' + nombre + '"?',
       icon: "question",
-      text: "Esta accion no se podrá restablecer",
+      text: "Esta acción no se podrá restablecer",
       showCancelButton: true,
       confirmButtonText: "Si, Eliminar",
       cancelButtonText: "Cancelar",
@@ -124,7 +124,7 @@ export function Club() {
         setId(id);
         enviarSolicitud("DELETE", { id: id }, id);
       } else {
-        showAlert("El producto NO fue eliminado", "info");
+        showAlert("El club NO fue eliminado", "info");
       }
     });
   };
@@ -172,7 +172,7 @@ export function Club() {
                       <td>{club.email}</td>
                       <td>{club.password}</td>
                       <td className="w-25">
-                        <div className="btn-group ms-5" role="group">
+                        <div className="btn-group" role="group">
                           <button
                             className="btn btn-warning"
                             data-bs-toggle="modal"
