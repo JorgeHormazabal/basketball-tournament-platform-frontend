@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       },
     ]
   }
-]);
+], { basename: import.meta.env.DEV ? '/' : '/basketball-tournament-platform-frontend/' }); 
 
 function App() {
   return (
