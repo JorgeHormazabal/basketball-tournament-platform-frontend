@@ -3,6 +3,8 @@ import { Navbar } from './Components/Navbar'
 import { Club } from './Pages/Club'
 import { Organizador } from './Pages/Organizador'
 import { Equipo } from './Pages/Equipo'
+import { Jugadoras } from './Pages/Jugadoras'
+import { Divisiones } from './Pages/Divisiones'
 
 const AppLayout = () => (
   <>
@@ -20,12 +22,20 @@ const router = createBrowserRouter([
         element: <Organizador />,
       },
       {
-        path: "club",
+        path: "clubes",
         element: <Club />,
       },
       {
-        path: "equipo",
+        path: "equipos",
         element: <Equipo />,
+      },
+      {
+        path: "jugadoras",
+        element: <Jugadoras />,
+      },
+      {
+        path: "divisiones",
+        element: <Divisiones />,
       },
     ]
   }

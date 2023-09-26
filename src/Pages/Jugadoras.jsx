@@ -6,39 +6,39 @@ import Swal from "sweetalert2";
 import { Spinnerr } from "../functions/Spinner";
 import "./pages.css";
 
-export function Organizador() {
-  const url = "https://blue-fair-mackerel.cyclic.cloud/api/organizers/";
-  const [organizadores, setOrganizadores] = useState([]);
+export function Jugadoras() {
+  const url = "https://blue-fair-mackerel.cyclic.cloud/api/players/";
+  const [jugadoras, setjugadoras] = useState([]);
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [clave, setClave] = useState("");
+  const [rut, setrut] = useState("");
+  const [cumpleanos, setcumpleanos] = useState("");
   const [operacion, SetOperacion] = useState(1);
   const [titulo, setTitulo] = useState("");
 
   useEffect(() => {
-    getOrganizadores();
+    getjugadoras();
   }, []);
 
-  const getOrganizadores = async () => {
+  const getjugadoras = async () => {
     const res = await axios.get(url);
-    setOrganizadores(res.data);
+    setjugadoras(res.data);
   };
 
-  const openModal = (op, id, nombre, correo, clave) => {
+  const openModal = (op, id, nombre, rut, cumpleanos) => {
     setId("");
     setNombre("");
-    setCorreo("");
-    setClave("");
+    setrut("");
+    setcumpleanos("");
     SetOperacion(op);
     if (op === 1) {
-      setTitulo("Agregar Organizador");
+      setTitulo("Agregar Jugadora");
     } else if (op === 2) {
-      setTitulo("Editar Organizador");
+      setTitulo("Editar Jugadora");
       setId(id);
       setNombre(nombre);
-      setCorreo(correo);
-      setClave(clave);
+      setrut(rut);
+      setcumpleanos(cumpleanos);
     }
     window.setTimeout(function () {
       document.getElementById("nombre").focus();
@@ -50,26 +50,26 @@ export function Organizador() {
     var metodo;
     var id2;
     if (nombre.trim() === "") {
-      showAlert("Escribe el nombre del organizador", "warning");
-    } else if (correo.trim() === "") {
-      showAlert("Escribe el correo del organizador", "warning");
-    } else if (clave.trim() === "") {
-      showAlert("Escribe la contraseña del organizador", "warning");
+      showAlert("Escribe el nombre de la jugadora", "warning");
+    } else if (rut.trim() === "") {
+      showAlert("Escribe el Rut de la jugadora", "warning");
+    } else if (cumpleanos.trim() === "") {
+      showAlert("Escribe la fecha de nacimineto de la jugadora", "warning");
     } else {
       if (operacion === 1) {
         id2 = "nada";
         parametros = {
           name: nombre.trim(),
-          email: correo.trim(),
-          password: clave.trim(),
+          rut: rut.trim(),
+          birthdate: cumpleanos.trim(),
         };
         metodo = "POST";
         enviarSolicitud(metodo, parametros, id2);
       } else if (operacion === 2) {
         id2 = id;
-        console.log(url + id, { name: nombre, email: correo, password: clave });
+        console.log(url + id, { name: nombre, rut: rut, birthdate: cumpleanos});
         await axios
-          .patch(url + id, { name: nombre, password: clave })
+          .patch(url + id, { name: nombre, birthdate: cumpleanos })
           .then(function (respuesta) {
             var tipo = respuesta.data[0];
             showAlert("Accion Realizada", "success");
@@ -81,7 +81,7 @@ export function Organizador() {
             showAlert("Error en la solicitud", "error");
             console.log(error);
           });
-        getOrganizadores();
+        getjugadoras();
       }
     }
   };
@@ -107,13 +107,13 @@ export function Organizador() {
         showAlert("Error en la solicitud", "error");
         console.log(error);
       });
-    getOrganizadores();
+    getjugadoras();
   };
 
-  const borrarorganizador = (id, nombre) => {
+  const borrarClub = (id, nombre) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: '¿Seguro que desea eliminar el organizador "' + nombre + '"?',
+      title: '¿Seguro que desea eliminar la jugadora "' + nombre + '"?',
       icon: "question",
       text: "Esta acción no se podrá restablecer",
       showCancelButton: true,
@@ -124,7 +124,7 @@ export function Organizador() {
         setId(id);
         enviarSolicitud("DELETE", { id: id }, id);
       } else {
-        showAlert("El organizador NO fue eliminado", "info");
+        showAlert("La jugadora NO fue eliminada", "info");
       }
     });
   };
@@ -135,15 +135,15 @@ export function Organizador() {
         <div className="row mt-3">
           <div className="col-md-4 offset-md-4">
             <div className="d-flex justify-content-between align-items-center">
-              <h1>Organizadores</h1>
+              <h1>Jugadoras</h1>
               <div className="d-grid mx-auto">
                 <button
                   onClick={() => openModal(1)}
                   className="btn btn-success"
                   data-bs-toggle="modal"
-                  data-bs-target="#modalorganizadores"
+                  data-bs-target="#modaljugadoras"
                 >
-                  <i className="fa-solid fa-plus"></i> Agregar Organizador
+                  <i className="fa-solid fa-plus"></i> Agregar Jugadora
                 </button>
               </div>
             </div>
@@ -158,31 +158,33 @@ export function Organizador() {
                   <tr>
                     <th id="headtable">#</th>
                     <th id="headtable">Nombre</th>
-                    <th id="headtable">Correo</th>
-                    <th id="headtable">Contraseña</th>
+                    <th id="headtable">Rut</th>
+                    <th id="headtable">Fecha de nacimineto</th>
+                    <th id="headtable">Equipo</th>
                     <th id="headtable">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="table-group" >
-                {organizadores.length === 0 && Spinnerr()}
-                  {organizadores.map((organizador, index) => (
+                {jugadoras.length === 0 && Spinnerr()}
+                  {jugadoras.map((jugadora, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{organizador.name}</td>
-                      <td>{organizador.email}</td>
-                      <td>{organizador.password}</td>
+                      <td>{jugadora.name}</td>
+                      <td>{jugadora.rut}</td>
+                      <td>{jugadora.birthdate}</td>
+                      <td>{jugadora.teamId}</td>
                       <td className="w-25">
                         <div className="btn-group" role="group">
                           <button
                             className="btn btn-warning"
                             data-bs-toggle="modal"
-                            data-bs-target="#modalorganizadores"
-                            onClick={()=>openModal(2,organizador.id,organizador.name,organizador.email,organizador.password)}
+                            data-bs-target="#modaljugadoras"
+                            onClick={()=>openModal(2,jugadora.id,jugadora.name,jugadora.rut,jugadora.birthdate)}
                           >
                             <i className="fa-solid fa-edit"></i> Editar
                           </button>
                           <button
-                            onClick={() => borrarorganizador(organizador.id, organizador.name)}
+                            onClick={() => borrarClub(jugadora.id, jugadora.name)}
                             className="btn btn-danger"
                           >
                             <i className="fa-solid fa-trash"></i> Borrar
@@ -198,7 +200,7 @@ export function Organizador() {
         </div>
       </div>
 
-      <div id="modalorganizadores" className="modal fade" aria-hidden="true">
+      <div id="modaljugadoras" className="modal fade" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header" style={{ backgroundColor: '#EC661B', color: '#000' }}>
@@ -214,7 +216,7 @@ export function Organizador() {
         <input type="hidden" id="id" />
         <div className="mb-3">
           <label htmlFor="nombre" className="form-label">
-            Nombre del organizador
+            Nombre de la jugadora
           </label>
           <div className="input-group">
             <span className="input-group-text">
@@ -224,7 +226,7 @@ export function Organizador() {
               type="text"
               id="nombre"
               className="form-control"
-              placeholder="Nombre del organizador"
+              placeholder="Nombre de la jugadora"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
             />
@@ -232,8 +234,8 @@ export function Organizador() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="correo" className="form-label">
-            Correo del organizador
+          <label htmlFor="rut" className="form-label">
+            Rut de la jugadora
           </label>
           <div className="input-group">
             <span className="input-group-text">
@@ -241,18 +243,18 @@ export function Organizador() {
             </span>
             <input
               type="text"
-              id="correo"
+              id="rut"
               className="form-control"
-              placeholder="Correo del organizador"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
+              placeholder="Ej: 21369852-1"
+              value={rut}
+              onChange={(e) => setrut(e.target.value)}
             />
           </div>
         </div>
 
         <div className="mb-3">
-          <label htmlFor="clave" className="form-label">
-            Contraseña del organizador
+          <label htmlFor="cumpleanos" className="form-label">
+            Fecha de nacimiento de la jugadora
           </label>
           <div className="input-group">
             <span className="input-group-text">
@@ -260,18 +262,18 @@ export function Organizador() {
             </span>
             <input
               type="text"
-              id="clave"
+              id="cumpleanos"
               className="form-control"
-              placeholder="Contraseña del organizador"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
+              placeholder="Ej: 1999-03-25"
+              value={cumpleanos}
+              onChange={(e) => setcumpleanos(e.target.value)}
             />
           </div>
         </div>
 
         <div className="d-grid col-6 mx-auto">
           <button className="btn btn-success" onClick={() => validar()}>
-            <i className="fa-solid fa-floppy-disk"></i> Guardar Organizador
+            <i className="fa-solid fa-floppy-disk"></i> Guardar Club
           </button>
         </div>
       </div>
