@@ -69,22 +69,12 @@ export function Equipo() {
       setclub(club);
       setentrenador(entrenador);
     }
-    window.setTimeout(function () {
-      document.getElementById("entenador").focus();
-    }, 500);
   };
 
   const validar = async () => {
     var parametros;
     var metodo;
     var id2;
-    if (categoria.trim() === "") {
-      showAlert("Escribe la categoria del club", "warning");
-    } else if (club.trim() === "") {
-      showAlert("Escribe el club al que pertenece el club", "warning");
-    } else if (entrenador.trim() === "") {
-      showAlert("Escribe el entenador del club", "warning");
-    } else {
       if (operacion === 1) {
         id2 = "nada";
         parametros = {
@@ -97,7 +87,7 @@ export function Equipo() {
       } else if (operacion === 2) {
         id2 = id;
         await axios
-          .patch(url + id, {coach: entrenador, clubId: parseInt(club), divisionId: parseInt(categoria) })
+          .patch(url + id, {coach: entrenador, divisionId: parseInt(categoria) })
           .then(function (respuesta) {
             var tipo = respuesta.data[0];
             showAlert("Accion Realizada", "success");
@@ -111,7 +101,6 @@ export function Equipo() {
           });
         getequipos();
       }
-    }
   };
 
   const enviarSolicitud = async (metodo, parametros, id) => {
@@ -277,8 +266,8 @@ export function Equipo() {
                 className="form-control"
                 value={categoria}
                 onChange={(e) => setcategoria(e.target.value)}
-            >      
-            <option value="">Seleccionar división  </option> 
+            > 
+            <option value="">Seleccionar división</option> 
             {divisiones.map((division) => (
             <option key={division.id} value={division.id}>
             {division.category}

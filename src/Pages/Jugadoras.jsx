@@ -16,6 +16,20 @@ export function Jugadoras() {
   const [operacion, SetOperacion] = useState(1);
   const [titulo, setTitulo] = useState("");
 
+  const [equipos, setequipos] = useState([]);
+  const [equipo, setequipo] = useState("");
+
+  useEffect(() => {
+    fetch('https://blue-fair-mackerel.cyclic.cloud/api/teams')
+      .then((response) => response.json())
+      .then((data) => {
+        setequipos(data);
+      })
+      .catch((error) => {
+        console.error('Error al cargar los clubes:', error);
+      });
+  }, []);
+
   useEffect(() => {
     getjugadoras();
   }, []);
@@ -62,14 +76,14 @@ export function Jugadoras() {
           name: nombre.trim(),
           rut: rut.trim(),
           birthdate: cumpleanos.trim(),
+          teamId: parseInt(equipo.trim())
         };
         metodo = "POST";
         enviarSolicitud(metodo, parametros, id2);
       } else if (operacion === 2) {
         id2 = id;
-        console.log(url + id, { name: nombre, rut: rut, birthdate: cumpleanos});
         await axios
-          .patch(url + id, { name: nombre, birthdate: cumpleanos })
+          .patch(url + id, { teamId: parseInt(equipo) })
           .then(function (respuesta) {
             var tipo = respuesta.data[0];
             showAlert("Accion Realizada", "success");
@@ -172,7 +186,7 @@ export function Jugadoras() {
                       <td>{jugadora.name}</td>
                       <td>{jugadora.rut}</td>
                       <td>{jugadora.birthdate}</td>
-                      <td>{jugadora.teamId}</td>
+                      <td>{jugadora.team.club.name}</td>
                       <td className="w-25">
                         <div className="btn-group" role="group">
                           <button
@@ -270,6 +284,30 @@ export function Jugadoras() {
             />
           </div>
         </div>
+
+        <div className="mb-3">
+          <label htmlFor="equipo" className="form-label">
+            Equipo
+          </label>
+          <div className="input-group">
+            <span className="input-group-text">
+              <i className="fa-solid fa-user"></i>
+            </span>
+            <select
+                id="equipo"
+                className="form-control"
+                value={equipo}
+                onChange={(e) => setequipo(e.target.value)}
+            > 
+              <option value="">Seleccionar Equipo</option> 
+                {equipos.map((equipoo) => (
+                <option key={equipoo.id} value={equipoo.id}>
+                {equipoo.coach}
+                </option>
+              ))}
+            </select>
+            </div>
+          </div>
 
         <div className="d-grid col-6 mx-auto">
           <button className="btn btn-success" onClick={() => validar()}>
