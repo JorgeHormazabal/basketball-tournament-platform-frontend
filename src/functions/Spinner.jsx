@@ -1,10 +1,11 @@
-import Spinner from 'react-bootstrap/Spinner';
-
 export function Spinnerr() {
   return (
     <>
       <br />
-      <Spinner animation="grow" variant="info"/> <span>Generando Tabla... </span>
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status"></div>
+        <span className="">Generando tabla...</span>
+      </div>
     </>
   );
 }

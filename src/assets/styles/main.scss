@@ -1,0 +1,30 @@
+/*
+// Import all of Bootstrap's CSS
+// Bootstrap Bundle JS
+@import "./_variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$body-bg: $primary_background;
+$body-color: $primary_headline;
+
+$custom-colors: (
+  "primary": $primary_button,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+@import "~bootstrap/scss/bootstrap";
+.btn-primary {
+  --bs-btn-color: #fffffe;
+}
+*/
+@import "./_variables";
+$primary: $primary_button;
+$body-bg: $primary_background;
+$body-color: $primary_headline;
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.btn-primary {
+  --bs-btn-color: #fffffe;
+}
