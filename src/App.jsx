@@ -4,6 +4,7 @@ import { Organizador } from "./Pages/Organizador";
 import { Equipo } from "./Pages/Equipo";
 import { Jugadoras } from "./Pages/Jugadoras";
 import { Divisiones } from "./Pages/Divisiones";
+import { Login } from "./Login/Login";
 import Sidebar from "./Components/Sidebar/Sidebar";
 
 const AppLayout = () => (
@@ -37,6 +38,10 @@ const router = createBrowserRouter(
         {
           path: "divisiones",
           element: <Divisiones />,
+        },
+        {
+          path: "login",
+          element: <Login />,
         },
       ],
     },

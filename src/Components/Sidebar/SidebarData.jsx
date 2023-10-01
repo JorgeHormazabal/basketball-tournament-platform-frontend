@@ -3,6 +3,7 @@ import { FaPerson } from "react-icons/fa6";
 import { FaHouseUser } from "react-icons/fa6";
 import { FaPeopleRoof } from "react-icons/fa6";
 import { FaTableList } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
 
 export const SidebarData = [
   {
@@ -33,6 +34,12 @@ export const SidebarData = [
     title: "Divisiones",
     path: "/divisiones",
     icon: <FaTableList style={{ fontSize: "1.75em" }} />,
+    cName: "nav-text",
+  },
+  {
+    title: "Login",
+    path: "/login",
+    icon: <FaUserCircle style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
 ];
