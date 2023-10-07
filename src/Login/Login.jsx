@@ -4,7 +4,7 @@ export function Login() {
     <>
      <div className="login-box">
       <img src="/src/assets/img/icon.png" className="avatar"/>
-      <h1>Login</h1>
+      <h1>Iniciar Sesión</h1>
       <form>
         <label>Correo</label>
         <input  type="text" placeholder="Ingrese su correo"/>

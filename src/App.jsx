@@ -1,18 +1,29 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider, useLocation } from "react-router-dom";
 import { Club } from "./Pages/Club";
 import { Organizador } from "./Pages/Organizador";
 import { Equipo } from "./Pages/Equipo";
 import { Jugadoras } from "./Pages/Jugadoras";
 import { Divisiones } from "./Pages/Divisiones";
 import { Login } from "./Login/Login";
-import Sidebar from "./Components/Sidebar/Sidebar";
+import { Home } from "./Pages/invitado/Home"
+import { Pasados } from "./Pages/invitado/Pasados"
+import { Proximos } from "./Pages/invitado/Proximos"
+import { Navbar } from "./Components/Navbar/Navbar"
+import { Ligas } from "./Pages/invitado/Ligas"
+import { Clubes } from "./Pages/invitado/Clubes"
+//import Sidebar from "./Components/Sidebar/Sidebar";
 
-const AppLayout = () => (
-  <>
-    <Sidebar />
-    <Outlet />
-  </>
-);
+const AppLayout = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
+  return (
+    <>
+      {!isLoginPage && <Navbar />}
+      <Outlet />
+    </>
+  );
+};
 
 const router = createBrowserRouter(
   [
@@ -21,10 +32,30 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <Organizador />,
+          element: <Home />,
+        },
+        {
+          path: "pasados",
+          element: <Pasados />,
+        },
+        {
+          path: "proximos",
+          element: <Proximos />,
+        },
+        {
+          path: "ligas",
+          element: <Ligas />,
         },
         {
           path: "clubes",
+          element: <Clubes />,
+        },
+        {
+          path: "organizadores",
+          element: <Organizador />,
+        },
+        {
+          path: "clubs",
           element: <Club />,
         },
         {
@@ -43,6 +74,7 @@ const router = createBrowserRouter(
           path: "login",
           element: <Login />,
         },
+        
       ],
     },
   ],
