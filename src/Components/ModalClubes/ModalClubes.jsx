@@ -1,16 +1,43 @@
-//rnf
 import { useEffect } from "react";
 import { useState } from "react";
+import { useClubStore } from "../../hooks";
+import { useMemo } from "react";
 
-export const ModalClubes = ({ titulo, club, validar }) => {
-  const [formClub, setFormClub] = useState({ ...club });
-  console.log(titulo);
-  useEffect(() => {
-    setFormClub({ ...club });
-  }, [club]);
-  const actualizarClub = (campo, valor) => {
-    setFormClub({ ...formClub, [campo]: valor });
+export const ModalClubes = () => {
+  const newClub = {
+    id: "",
+    name: "",
+    email: "",
+    password: "",
   };
+  const { activeEvent, startSavingEvent } = useClubStore();
+  const [formValues, setFormValues] = useState(newClub);
+
+  const titulo = useMemo(
+    () => (activeEvent === null ? "Nuevo Club" : "Editar Club"),
+    [activeEvent]
+  );
+
+  useEffect(() => {
+    if (activeEvent !== null) {
+      setFormValues({ ...activeEvent });
+    } else {
+      setFormValues(newClub);
+    }
+  }, [activeEvent]);
+
+  const onInputChanged = ({ target }) => {
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value,
+    });
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    await startSavingEvent(formValues);
+  };
+
   return (
     <div id="modalClubes" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -27,7 +54,7 @@ export const ModalClubes = ({ titulo, club, validar }) => {
               aria-label="close"
             ></button>
           </div>
-          <div className="modal-body">
+          <form className="modal-body" onSubmit={onSubmit}>
             <input type="hidden" id="id" />
             <div className="mb-3">
               <label htmlFor="nombre" className="form-label">
@@ -42,12 +69,13 @@ export const ModalClubes = ({ titulo, club, validar }) => {
                   id="nombre"
                   className="form-control"
                   placeholder="Nombre del club"
-                  value={formClub.nombre}
-                  onChange={(e) => actualizarClub("nombre", e.target.value)}
+                  value={formValues.name}
+                  name="name" // Corrected name attribute
+                  onChange={onInputChanged}
                 />
               </div>
             </div>
-            {!club.id && (
+            {!formValues.id && ( // Check if formValues.id is falsy
               <div className="mb-3">
                 <label htmlFor="correo" className="form-label">
                   Correo del club
@@ -59,10 +87,11 @@ export const ModalClubes = ({ titulo, club, validar }) => {
                   <input
                     type="text"
                     id="correo"
+                    name="email" // Corrected name attribute
                     className="form-control"
                     placeholder="Correo del club"
-                    value={formClub.correo}
-                    onChange={(e) => actualizarClub("correo", e.target.value)}
+                    value={formValues.email}
+                    onChange={onInputChanged}
                   />
                 </div>
               </div>
@@ -79,23 +108,21 @@ export const ModalClubes = ({ titulo, club, validar }) => {
                 <input
                   type="text"
                   id="clave"
+                  name="password" // Corrected name attribute
                   className="form-control"
                   placeholder="Contraseña del club"
-                  value={formClub.clave}
-                  onChange={(e) => actualizarClub("clave", e.target.value)}
+                  value={formValues.password}
+                  onChange={onInputChanged}
                 />
               </div>
             </div>
 
             <div className="d-grid col-6 mx-auto">
-              <button
-                className="btn btn-success"
-                onClick={() => validar(formClub)}
-              >
+              <button type="submit" className="btn btn-success">
                 <i className="fa-solid fa-floppy-disk"></i> Guardar Club
               </button>
             </div>
-          </div>
+          </form>
           <div className="modal-footer">
             <button
               id="btnCerrar"
