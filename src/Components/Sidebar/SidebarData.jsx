@@ -3,18 +3,17 @@ import { FaPerson } from "react-icons/fa6";
 import { FaHouseUser } from "react-icons/fa6";
 import { FaPeopleRoof } from "react-icons/fa6";
 import { FaTableList } from "react-icons/fa6";
-import { FaUserCircle } from "react-icons/fa";
 
 export const SidebarData = [
   {
     title: "Organizadores",
-    path: "/",
+    path: "/organizadores",
     icon: <FaHouseUser style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
   {
     title: "Clubes ",
-    path: "/clubes",
+    path: "/clubs",
     icon: <FaPeopleRoof style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
@@ -34,12 +33,6 @@ export const SidebarData = [
     title: "Divisiones",
     path: "/divisiones",
     icon: <FaTableList style={{ fontSize: "1.75em" }} />,
-    cName: "nav-text",
-  },
-  {
-    title: "Login",
-    path: "/login",
-    icon: <FaUserCircle style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
 ];
