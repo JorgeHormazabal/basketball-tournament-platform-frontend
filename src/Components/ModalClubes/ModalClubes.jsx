@@ -47,25 +47,26 @@ export const ModalClubes = ({ titulo, club, validar }) => {
                 />
               </div>
             </div>
-
-            <div className="mb-3">
-              <label htmlFor="correo" className="form-label">
-                Correo del club
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-envelope"></i>
-                </span>
-                <input
-                  type="text"
-                  id="correo"
-                  className="form-control"
-                  placeholder="Correo del club"
-                  value={formClub.correo}
-                  onChange={(e) => actualizarClub("correo", e.target.value)}
-                />
+            {!club.id && (
+              <div className="mb-3">
+                <label htmlFor="correo" className="form-label">
+                  Correo del club
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-envelope"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="correo"
+                    className="form-control"
+                    placeholder="Correo del club"
+                    value={formClub.correo}
+                    onChange={(e) => actualizarClub("correo", e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="mb-3">
               <label htmlFor="clave" className="form-label">

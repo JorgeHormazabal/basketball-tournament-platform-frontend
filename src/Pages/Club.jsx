@@ -33,8 +33,8 @@ export function Club() {
 
   const openModal = ({ op, id, name, email, password }) => {
     if (op === 1) {
-      setClub({ id: "", nombre: "", correo: "", clave: "" });
       setTitulo("Agregar Club");
+      setClub({ id: "", nombre: "", correo: "", clave: "" });
     } else if (op === 2) {
       setTitulo("Editar Club");
       setClub({ id: id, nombre: name, correo: email, clave: password });

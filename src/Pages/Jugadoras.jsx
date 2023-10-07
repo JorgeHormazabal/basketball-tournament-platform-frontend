@@ -15,18 +15,19 @@ export function Jugadoras() {
   const [cumpleanos, setcumpleanos] = useState("");
   const [operacion, SetOperacion] = useState(1);
   const [titulo, setTitulo] = useState("");
+  const idEquipo = 3;
 
   const [equipos, setequipos] = useState([]);
   const [equipo, setequipo] = useState("");
 
   useEffect(() => {
-    fetch('https://blue-fair-mackerel.cyclic.cloud/api/teams')
+    fetch("https://blue-fair-mackerel.cyclic.cloud/api/teams")
       .then((response) => response.json())
       .then((data) => {
         setequipos(data);
       })
       .catch((error) => {
-        console.error('Error al cargar los clubes:', error);
+        console.error("Error al cargar los clubes:", error);
       });
   }, []);
 
@@ -76,7 +77,7 @@ export function Jugadoras() {
           name: nombre.trim(),
           rut: rut.trim(),
           birthdate: cumpleanos.trim(),
-          teamId: parseInt(equipo.trim())
+          teamId: parseInt(equipo.trim()),
         };
         metodo = "POST";
         enviarSolicitud(metodo, parametros, id2);
@@ -178,8 +179,8 @@ export function Jugadoras() {
                     <th id="headtable">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="table-group" >
-                {jugadoras.length === 0 && Spinnerr()}
+                <tbody className="table-group">
+                  {jugadoras.length === 0 && Spinnerr()}
                   {jugadoras.map((jugadora, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
@@ -193,12 +194,22 @@ export function Jugadoras() {
                             className="btn btn-warning"
                             data-bs-toggle="modal"
                             data-bs-target="#modaljugadoras"
-                            onClick={()=>openModal(2,jugadora.id,jugadora.name,jugadora.rut,jugadora.birthdate)}
+                            onClick={() =>
+                              openModal(
+                                2,
+                                jugadora.id,
+                                jugadora.name,
+                                jugadora.rut,
+                                jugadora.birthdate
+                              )
+                            }
                           >
                             <i className="fa-solid fa-edit"></i> Editar
                           </button>
                           <button
-                            onClick={() => borrarClub(jugadora.id, jugadora.name)}
+                            onClick={() =>
+                              borrarClub(jugadora.id, jugadora.name)
+                            }
                             className="btn btn-danger"
                           >
                             <i className="fa-solid fa-trash"></i> Borrar
@@ -215,119 +226,127 @@ export function Jugadoras() {
       </div>
 
       <div id="modaljugadoras" className="modal fade" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header" style={{ backgroundColor: '#EC661B', color: '#000' }}>
-        <h5 className="modal-title">{titulo}</h5>
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="close"
-        ></button>
-      </div>
-      <div className="modal-body">
-        <input type="hidden" id="id" />
-        <div className="mb-3">
-          <label htmlFor="nombre" className="form-label">
-            Nombre de la jugadora
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-user"></i>
-            </span>
-            <input
-              type="text"
-              id="nombre"
-              className="form-control"
-              placeholder="Nombre de la jugadora"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
-          </div>
-        </div>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div
+              className="modal-header"
+              style={{ backgroundColor: "#EC661B", color: "#000" }}
+            >
+              <h5 className="modal-title">{titulo}</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="id" />
+              <div className="mb-3">
+                <label htmlFor="nombre" className="form-label">
+                  Nombre de la jugadora
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="nombre"
+                    className="form-control"
+                    placeholder="Nombre de la jugadora"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                </div>
+              </div>
 
-        <div className="mb-3">
-          <label htmlFor="rut" className="form-label">
-            Rut de la jugadora
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-envelope"></i>
-            </span>
-            <input
-              type="text"
-              id="rut"
-              className="form-control"
-              placeholder="Ej: 21369852-1"
-              value={rut}
-              onChange={(e) => setrut(e.target.value)}
-            />
-          </div>
-        </div>
+              <div className="mb-3">
+                <label htmlFor="rut" className="form-label">
+                  Rut de la jugadora
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-envelope"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="rut"
+                    className="form-control"
+                    placeholder="Ej: 21369852-1"
+                    value={rut}
+                    onChange={(e) => setrut(e.target.value)}
+                  />
+                </div>
+              </div>
 
-        <div className="mb-3">
-          <label htmlFor="cumpleanos" className="form-label">
-            Fecha de nacimiento de la jugadora
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-key"></i>
-            </span>
-            <input
-              type="text"
-              id="cumpleanos"
-              className="form-control"
-              placeholder="Ej: 1999-03-25"
-              value={cumpleanos}
-              onChange={(e) => setcumpleanos(e.target.value)}
-            />
-          </div>
-        </div>
+              <div className="mb-3">
+                <label htmlFor="cumpleanos" className="form-label">
+                  Fecha de nacimiento de la jugadora
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-key"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="cumpleanos"
+                    className="form-control"
+                    placeholder="Ej: 1999-03-25"
+                    value={cumpleanos}
+                    onChange={(e) => setcumpleanos(e.target.value)}
+                  />
+                </div>
+              </div>
 
-        <div className="mb-3">
-          <label htmlFor="equipo" className="form-label">
-            Equipo
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-user"></i>
-            </span>
-            <select
-                id="equipo"
-                className="form-control"
-                value={equipo}
-                onChange={(e) => setequipo(e.target.value)}
-            > 
-              <option value="">Seleccionar Equipo</option> 
-                {equipos.map((equipoo) => (
-                <option key={equipoo.id} value={equipoo.id}>
-                {equipoo.coach}
-                </option>
-              ))}
-            </select>
+              <div className="mb-3">
+                <label htmlFor="equipo" className="form-label">
+                  Equipo
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-user"></i>
+                  </span>
+                  <select
+                    id="equipo"
+                    className="form-control"
+                    value={equipo}
+                    onChange={(e) => setequipo(e.target.value)}
+                  >
+                    {" "}
+                    <option value="">Seleccionar Equipo</option>
+                    {equipos.map((equipoo) => (
+                      <option
+                        key={equipoo.id}
+                        value={equipoo.id}
+                        selected={equipoo.id === idEquipo && "selected"}
+                      >
+                        {equipoo.coach}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="d-grid col-6 mx-auto">
+                <button className="btn btn-success" onClick={() => validar()}>
+                  <i className="fa-solid fa-floppy-disk"></i> Guardar Club
+                </button>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                id="btnCerrar"
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
             </div>
           </div>
-
-        <div className="d-grid col-6 mx-auto">
-          <button className="btn btn-success" onClick={() => validar()}>
-            <i className="fa-solid fa-floppy-disk"></i> Guardar Club
-          </button>
         </div>
       </div>
-      <div className="modal-footer">
-        <button
-          id="btnCerrar"
-          type="button"
-          className="btn btn-danger"
-          data-bs-dismiss="modal"
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
     </div>
   );
 }
