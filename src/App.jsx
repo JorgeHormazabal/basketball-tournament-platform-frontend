@@ -15,16 +15,11 @@ import {
   createBrowserRouter,
   Outlet,
   RouterProvider,
-  useLocation,
 } from "react-router-dom";
 
 const PublicLayout = () => {
-  const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
-
   return (
     <>
-      {!isLoginPage && <Navbar />}
       <Outlet />
     </>
   );
