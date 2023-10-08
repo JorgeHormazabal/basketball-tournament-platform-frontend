@@ -11,15 +11,12 @@ import { Ligas } from "pages/invitado/Ligas";
 import { Pasados } from "pages/invitado/Pasados";
 import { Proximos } from "pages/invitado/Proximos";
 import { Login } from "pages/invitado/login/Login";
-import {
-  createBrowserRouter,
-  Outlet,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 const PublicLayout = () => {
   return (
     <>
+      <Navbar />
       <Outlet />
     </>
   );
