@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { showAlert } from "../functions/alertas";
+import { showAlert } from "functions/alertas";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { Spinnerr } from "../functions/Spinner";
-import "./pages.css";
+import { Spinnerr } from "functions/Spinner";
 
 export function Organizador() {
   const url = "https://blue-fair-mackerel.cyclic.cloud/api/organizers/";
@@ -163,8 +162,8 @@ export function Organizador() {
                     <th id="headtable">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="table-group" >
-                {organizadores.length === 0 && Spinnerr()}
+                <tbody className="table-group">
+                  {organizadores.length === 0 && Spinnerr()}
                   {organizadores.map((organizador, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
@@ -177,12 +176,25 @@ export function Organizador() {
                             className="btn btn-warning"
                             data-bs-toggle="modal"
                             data-bs-target="#modalorganizadores"
-                            onClick={()=>openModal(2,organizador.id,organizador.name,organizador.email,organizador.password)}
+                            onClick={() =>
+                              openModal(
+                                2,
+                                organizador.id,
+                                organizador.name,
+                                organizador.email,
+                                organizador.password
+                              )
+                            }
                           >
                             <i className="fa-solid fa-edit"></i> Editar
                           </button>
                           <button
-                            onClick={() => borrarorganizador(organizador.id, organizador.name)}
+                            onClick={() =>
+                              borrarorganizador(
+                                organizador.id,
+                                organizador.name
+                              )
+                            }
                             className="btn btn-danger"
                           >
                             <i className="fa-solid fa-trash"></i> Borrar
@@ -199,95 +211,99 @@ export function Organizador() {
       </div>
 
       <div id="modalorganizadores" className="modal fade" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header" style={{ backgroundColor: '#EC661B', color: '#000' }}>
-        <h5 className="modal-title">{titulo}</h5>
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="close"
-        ></button>
-      </div>
-      <div className="modal-body">
-        <input type="hidden" id="id" />
-        <div className="mb-3">
-          <label htmlFor="nombre" className="form-label">
-            Nombre del organizador
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-user"></i>
-            </span>
-            <input
-              type="text"
-              id="nombre"
-              className="form-control"
-              placeholder="Nombre del organizador"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div
+              className="modal-header"
+              style={{ backgroundColor: "#EC661B", color: "#000" }}
+            >
+              <h5 className="modal-title">{titulo}</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <input type="hidden" id="id" />
+              <div className="mb-3">
+                <label htmlFor="nombre" className="form-label">
+                  Nombre del organizador
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="nombre"
+                    className="form-control"
+                    placeholder="Nombre del organizador"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="correo" className="form-label">
+                  Correo del organizador
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-envelope"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="correo"
+                    className="form-control"
+                    placeholder="Correo del organizador"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="clave" className="form-label">
+                  Contraseña del organizador
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="fa-solid fa-key"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="clave"
+                    className="form-control"
+                    placeholder="Contraseña del organizador"
+                    value={clave}
+                    onChange={(e) => setClave(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="d-grid col-6 mx-auto">
+                <button className="btn btn-success" onClick={() => validar()}>
+                  <i className="fa-solid fa-floppy-disk"></i> Guardar
+                  Organizador
+                </button>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                id="btnCerrar"
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="correo" className="form-label">
-            Correo del organizador
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-envelope"></i>
-            </span>
-            <input
-              type="text"
-              id="correo"
-              className="form-control"
-              placeholder="Correo del organizador"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="clave" className="form-label">
-            Contraseña del organizador
-          </label>
-          <div className="input-group">
-            <span className="input-group-text">
-              <i className="fa-solid fa-key"></i>
-            </span>
-            <input
-              type="text"
-              id="clave"
-              className="form-control"
-              placeholder="Contraseña del organizador"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="d-grid col-6 mx-auto">
-          <button className="btn btn-success" onClick={() => validar()}>
-            <i className="fa-solid fa-floppy-disk"></i> Guardar Organizador
-          </button>
-        </div>
       </div>
-      <div className="modal-footer">
-        <button
-          id="btnCerrar"
-          type="button"
-          className="btn btn-danger"
-          data-bs-dismiss="modal"
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
     </div>
   );
 }

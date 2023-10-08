@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import "./pages.css";
-import Tabla from "../Components/Tabla/Tabla";
-import { ModalClubes } from "../Components/ModalClubes/ModalClubes";
-import BotonAgregar from "../Components/BotonAgregar/BotonAgregar";
 
 import "./Dashboard.scss";
-import { useClubStore, useUiClub } from "../hooks";
+import { useClubStore, useUiClub } from "../../hooks";
+import { TailSpin } from "react-loader-spinner";
+import BotonAgregar from "components/BotonAgregar/BotonAgregar";
+import { ModalClubes } from "components/ModalClubes/ModalClubes";
+import Tabla from "components/Tabla/Tabla";
 
 export function Club() {
   const {
@@ -38,13 +38,24 @@ export function Club() {
     <div className="dashboard-page">
       <div className="container-fluid">
         <BotonAgregar titulo="Clubes" boton="Agregar Club" abrir={abrirModal} />
-        {clubes.length > 0 && (
+        {clubes.length > 0 ? (
           <Tabla
             cabeceras={["id", "Nombre", "Correo", "Contraseña", "Acciones"]}
             filas={["id", "name", "email", "password"]}
             data={clubes}
             editar={editarModal}
             borrar={borrar}
+          />
+        ) : (
+          <TailSpin
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
           />
         )}
       </div>

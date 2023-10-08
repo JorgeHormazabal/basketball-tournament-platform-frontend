@@ -1,103 +1,104 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { showAlert } from "../functions/alertas";
+import { showAlert } from "functions/alertas";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { Spinnerr } from "../functions/Spinner";
-import "./pages.css";
+import { Spinnerr } from "functions/Spinner";
 
-export function Jugadoras() {
-  const url = "https://blue-fair-mackerel.cyclic.cloud/api/players/";
-  const [jugadoras, setjugadoras] = useState([]);
+export function Equipo() {
+  const url = "https://blue-fair-mackerel.cyclic.cloud/api/teams/";
+  const [equipos, setequipos] = useState([]);
   const [id, setId] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [rut, setrut] = useState("");
-  const [cumpleanos, setcumpleanos] = useState("");
+  const [club, setclub] = useState("");
+  const [categoria, setcategoria] = useState("");
+  const [entrenador, setentrenador] = useState("");
   const [operacion, SetOperacion] = useState(1);
   const [titulo, setTitulo] = useState("");
-  const idEquipo = 3;
 
-  const [equipos, setequipos] = useState([]);
-  const [equipo, setequipo] = useState("");
+  const [clubes, setClubes] = useState([]);
+  const [divisiones, setdivisiones] = useState([]);
 
   useEffect(() => {
-    fetch("https://blue-fair-mackerel.cyclic.cloud/api/teams")
+    fetch("https://blue-fair-mackerel.cyclic.cloud/api/clubs")
       .then((response) => response.json())
       .then((data) => {
-        setequipos(data);
+        setClubes(data);
       })
       .catch((error) => {
         console.error("Error al cargar los clubes:", error);
       });
   }, []);
 
-  useEffect(() => {
-    getjugadoras();
-  }, []);
-
-  const getjugadoras = async () => {
-    const res = await axios.get(url);
-    setjugadoras(res.data);
+  const handleClubChange = (e) => {
+    setclub(e.target.value);
   };
 
-  const openModal = (op, id, nombre, rut, cumpleanos) => {
+  useEffect(() => {
+    fetch("https://blue-fair-mackerel.cyclic.cloud/api/divisions")
+      .then((response) => response.json())
+      .then((data) => {
+        setdivisiones(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar las divisiones:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    getequipos();
+  }, []);
+
+  const getequipos = async () => {
+    const res = await axios.get(url);
+    setequipos(res.data);
+  };
+
+  const openModal = (op, id, categoria, club, entrenador) => {
     setId("");
-    setNombre("");
-    setrut("");
-    setcumpleanos("");
+    setcategoria("");
+    setclub("");
+    setentrenador("");
     SetOperacion(op);
     if (op === 1) {
-      setTitulo("Agregar Jugadora");
+      setTitulo("Agregar Equipo");
     } else if (op === 2) {
-      setTitulo("Editar Jugadora");
+      setTitulo("Editar Equipo");
       setId(id);
-      setNombre(nombre);
-      setrut(rut);
-      setcumpleanos(cumpleanos);
+      setcategoria(categoria);
+      setclub(club);
+      setentrenador(entrenador);
     }
-    window.setTimeout(function () {
-      document.getElementById("nombre").focus();
-    }, 500);
   };
 
   const validar = async () => {
     var parametros;
     var metodo;
     var id2;
-    if (nombre.trim() === "") {
-      showAlert("Escribe el nombre de la jugadora", "warning");
-    } else if (rut.trim() === "") {
-      showAlert("Escribe el Rut de la jugadora", "warning");
-    } else if (cumpleanos.trim() === "") {
-      showAlert("Escribe la fecha de nacimineto de la jugadora", "warning");
-    } else {
-      if (operacion === 1) {
-        id2 = "nada";
-        parametros = {
-          name: nombre.trim(),
-          rut: rut.trim(),
-          birthdate: cumpleanos.trim(),
-          teamId: parseInt(equipo.trim()),
-        };
-        metodo = "POST";
-        enviarSolicitud(metodo, parametros, id2);
-      } else if (operacion === 2) {
-        id2 = id;
-        await axios
-          .patch(url + id, { teamId: parseInt(equipo) })
-          .then(function (respuesta) {
-            var tipo = respuesta.data[0];
-            showAlert("Accion Realizada", "success");
-            if (tipo === "success") {
-              document.getElementById("btnCerrar").click();
-            }
-          })
-          .catch(function (error) {
-            showAlert("Error en la solicitud", "error");
-            console.log(error);
-          });
-        getjugadoras();
-      }
+    if (operacion === 1) {
+      id2 = "nada";
+      parametros = {
+        divisionId: parseInt(categoria.trim()),
+        clubId: parseInt(club.trim()),
+        coach: entrenador.trim(),
+      };
+      metodo = "POST";
+      enviarSolicitud(metodo, parametros, id2);
+    } else if (operacion === 2) {
+      id2 = id;
+      await axios
+        .patch(url + id, { coach: entrenador, divisionId: parseInt(categoria) })
+        .then(function (respuesta) {
+          var tipo = respuesta.data[0];
+          showAlert("Accion Realizada", "success");
+          if (tipo === "success") {
+            document.getElementById("btnCerrar").click();
+          }
+        })
+        .catch(function (error) {
+          showAlert("Error en la solicitud", "error");
+          console.log(error);
+        });
+      getequipos();
     }
   };
 
@@ -122,13 +123,16 @@ export function Jugadoras() {
         showAlert("Error en la solicitud", "error");
         console.log(error);
       });
-    getjugadoras();
+    getequipos();
   };
 
-  const borrarClub = (id, nombre) => {
+  const borrarequipo = (id, entrenador) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      title: '¿Seguro que desea eliminar la jugadora "' + nombre + '"?',
+      title:
+        '¿Seguro que desea eliminar el club del enternador "' +
+        entrenador +
+        '"?',
       icon: "question",
       text: "Esta acción no se podrá restablecer",
       showCancelButton: true,
@@ -139,7 +143,7 @@ export function Jugadoras() {
         setId(id);
         enviarSolicitud("DELETE", { id: id }, id);
       } else {
-        showAlert("La jugadora NO fue eliminada", "info");
+        showAlert("El club NO fue eliminado", "info");
       }
     });
   };
@@ -150,15 +154,15 @@ export function Jugadoras() {
         <div className="row mt-3">
           <div className="col-md-4 offset-md-4">
             <div className="d-flex justify-content-between align-items-center">
-              <h1>Jugadoras</h1>
+              <h1>Equipos</h1>
               <div className="d-grid mx-auto">
                 <button
                   onClick={() => openModal(1)}
                   className="btn btn-success"
                   data-bs-toggle="modal"
-                  data-bs-target="#modaljugadoras"
+                  data-bs-target="#modalequipos"
                 >
-                  <i className="fa-solid fa-plus"></i> Agregar Jugadora
+                  <i className="fa-solid fa-plus"></i> Agregar Equipo
                 </button>
               </div>
             </div>
@@ -172,35 +176,33 @@ export function Jugadoras() {
                 <thead>
                   <tr>
                     <th id="headtable">#</th>
-                    <th id="headtable">Nombre</th>
-                    <th id="headtable">Rut</th>
-                    <th id="headtable">Fecha de nacimineto</th>
-                    <th id="headtable">Equipo</th>
+                    <th id="headtable">Club</th>
+                    <th id="headtable">División</th>
+                    <th id="headtable">Entrenador</th>
                     <th id="headtable">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="table-group">
-                  {jugadoras.length === 0 && Spinnerr()}
-                  {jugadoras.map((jugadora, index) => (
+                  {equipos.length === 0 && Spinnerr()}
+                  {equipos.map((equipo, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{jugadora.name}</td>
-                      <td>{jugadora.rut}</td>
-                      <td>{jugadora.birthdate}</td>
-                      <td>{jugadora.team.club.name}</td>
+                      <td>{equipo.club.name}</td>
+                      <td>{equipo.division.category}</td>
+                      <td>{equipo.coach}</td>
                       <td className="w-25">
                         <div className="btn-group" role="group">
                           <button
                             className="btn btn-warning"
                             data-bs-toggle="modal"
-                            data-bs-target="#modaljugadoras"
+                            data-bs-target="#modalequipos"
                             onClick={() =>
                               openModal(
                                 2,
-                                jugadora.id,
-                                jugadora.name,
-                                jugadora.rut,
-                                jugadora.birthdate
+                                equipo.id,
+                                equipo.division,
+                                equipo.club,
+                                equipo.coach
                               )
                             }
                           >
@@ -208,7 +210,7 @@ export function Jugadoras() {
                           </button>
                           <button
                             onClick={() =>
-                              borrarClub(jugadora.id, jugadora.name)
+                              borrarequipo(equipo.id, equipo.coach)
                             }
                             className="btn btn-danger"
                           >
@@ -225,7 +227,7 @@ export function Jugadoras() {
         </div>
       </div>
 
-      <div id="modaljugadoras" className="modal fade" aria-hidden="true">
+      <div id="modalequipos" className="modal fade" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div
@@ -243,46 +245,56 @@ export function Jugadoras() {
             <div className="modal-body">
               <input type="hidden" id="id" />
               <div className="mb-3">
-                <label htmlFor="nombre" className="form-label">
-                  Nombre de la jugadora
+                <label htmlFor="club" className="form-label">
+                  Club
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
                     <i className="fa-solid fa-user"></i>
                   </span>
-                  <input
-                    type="text"
-                    id="nombre"
+                  <select
+                    id="club"
                     className="form-control"
-                    placeholder="Nombre de la jugadora"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                  />
+                    value={club}
+                    onChange={handleClubChange}
+                  >
+                    <option value="">Selecciona un club</option>
+                    {clubes.map((club) => (
+                      <option key={club.id} value={club.id}>
+                        {club.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div className="mb-3">
-                <label htmlFor="rut" className="form-label">
-                  Rut de la jugadora
+                <label htmlFor="categoria" className="form-label">
+                  División
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
-                    <i className="fa-solid fa-envelope"></i>
+                    <i className="fa-solid fa-user"></i>
                   </span>
-                  <input
-                    type="text"
-                    id="rut"
+                  <select
+                    id="categoria"
                     className="form-control"
-                    placeholder="Ej: 21369852-1"
-                    value={rut}
-                    onChange={(e) => setrut(e.target.value)}
-                  />
+                    value={categoria}
+                    onChange={(e) => setcategoria(e.target.value)}
+                  >
+                    <option value="">Seleccionar división</option>
+                    {divisiones.map((division) => (
+                      <option key={division.id} value={division.id}>
+                        {division.category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div className="mb-3">
-                <label htmlFor="cumpleanos" className="form-label">
-                  Fecha de nacimiento de la jugadora
+                <label htmlFor="entrenador" className="form-label">
+                  Entrenador
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
@@ -290,47 +302,18 @@ export function Jugadoras() {
                   </span>
                   <input
                     type="text"
-                    id="cumpleanos"
+                    id="entrenador"
                     className="form-control"
-                    placeholder="Ej: 1999-03-25"
-                    value={cumpleanos}
-                    onChange={(e) => setcumpleanos(e.target.value)}
+                    placeholder="Ingrese el nombre del entrenador"
+                    value={entrenador}
+                    onChange={(e) => setentrenador(e.target.value)}
                   />
-                </div>
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="equipo" className="form-label">
-                  Equipo
-                </label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <i className="fa-solid fa-user"></i>
-                  </span>
-                  <select
-                    id="equipo"
-                    className="form-control"
-                    value={equipo}
-                    onChange={(e) => setequipo(e.target.value)}
-                  >
-                    {" "}
-                    <option value="">Seleccionar Equipo</option>
-                    {equipos.map((equipoo) => (
-                      <option
-                        key={equipoo.id}
-                        value={equipoo.id}
-                        selected={equipoo.id === idEquipo && "selected"}
-                      >
-                        {equipoo.coach}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </div>
 
               <div className="d-grid col-6 mx-auto">
                 <button className="btn btn-success" onClick={() => validar()}>
-                  <i className="fa-solid fa-floppy-disk"></i> Guardar Club
+                  <i className="fa-solid fa-floppy-disk"></i> Guardar club
                 </button>
               </div>
             </div>

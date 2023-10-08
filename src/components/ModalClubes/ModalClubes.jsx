@@ -1,15 +1,14 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useClubStore } from "../../hooks";
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useClubStore } from "hooks/useClubStore";
+
+const newClub = {
+  id: "",
+  name: "",
+  email: "",
+  password: "",
+};
 
 export const ModalClubes = () => {
-  const newClub = {
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-  };
   const { activeEvent, startSavingEvent } = useClubStore();
   const [formValues, setFormValues] = useState(newClub);
 
