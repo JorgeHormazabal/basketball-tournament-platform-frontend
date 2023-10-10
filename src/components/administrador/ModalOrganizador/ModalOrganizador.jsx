@@ -1,29 +1,31 @@
 import { useEffect, useState, useMemo } from "react";
-import { useClubStore } from "hooks/useClubStore";
+import { useOrganizadorStore } from "hooks/useOrganizadorStore";
+import "./ModalOrganizador.scss";
 
-const newClub = {
+const organizadorVacio = {
   id: "",
   name: "",
   email: "",
   password: "",
 };
 
-export const ModalClubes = () => {
-  const { activeEvent, startSavingEvent } = useClubStore();
-  const [formValues, setFormValues] = useState(newClub);
+export const ModalOrganizador = () => {
+  const { organizadorActivo, guardarOganizador } = useOrganizadorStore();
+  const [formValues, setFormValues] = useState(organizadorVacio);
 
   const titulo = useMemo(
-    () => (activeEvent === null ? "Nuevo Club" : "Editar Club"),
-    [activeEvent]
+    () =>
+      organizadorActivo === null ? "Nuevo organizador" : "Editar organizador",
+    [organizadorActivo]
   );
 
   useEffect(() => {
-    if (activeEvent !== null) {
-      setFormValues({ ...activeEvent });
+    if (organizadorActivo !== null) {
+      setFormValues({ ...organizadorActivo });
     } else {
-      setFormValues(newClub);
+      setFormValues(organizadorVacio);
     }
-  }, [activeEvent]);
+  }, [organizadorActivo]);
 
   const onInputChanged = ({ target }) => {
     setFormValues({
@@ -34,17 +36,14 @@ export const ModalClubes = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await startSavingEvent(formValues);
+    await guardarOganizador(formValues);
   };
 
   return (
-    <div id="modalClubes" className="modal fade" aria-hidden="true">
+    <div id="modalOrganizador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div
-            className="modal-header"
-            style={{ backgroundColor: "#EC661B", color: "#000" }}
-          >
+          <div className="modal-header">
             <h5 className="modal-title">{titulo}</h5>
             <button
               type="button"
@@ -57,7 +56,7 @@ export const ModalClubes = () => {
             <input type="hidden" id="id" />
             <div className="mb-3">
               <label htmlFor="nombre" className="form-label">
-                Nombre del club
+                Nombre del organizador
               </label>
               <div className="input-group">
                 <span className="input-group-text">
@@ -67,7 +66,7 @@ export const ModalClubes = () => {
                   type="text"
                   id="nombre"
                   className="form-control"
-                  placeholder="Nombre del club"
+                  placeholder="Nombre del organizador"
                   value={formValues.name}
                   name="name" // Corrected name attribute
                   onChange={onInputChanged}
@@ -77,7 +76,7 @@ export const ModalClubes = () => {
             {!formValues.id && ( // Check if formValues.id is falsy
               <div className="mb-3">
                 <label htmlFor="correo" className="form-label">
-                  Correo del club
+                  Correo del organizador
                 </label>
                 <div className="input-group">
                   <span className="input-group-text">
@@ -88,7 +87,7 @@ export const ModalClubes = () => {
                     id="correo"
                     name="email" // Corrected name attribute
                     className="form-control"
-                    placeholder="Correo del club"
+                    placeholder="Correo del organizador"
                     value={formValues.email}
                     onChange={onInputChanged}
                   />
@@ -117,8 +116,8 @@ export const ModalClubes = () => {
             </div>
 
             <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-success">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar Club
+              <button type="submit" className="btn btn-secondary">
+                <i className="fa-solid fa-floppy-disk"></i> Guardar organizador
               </button>
             </div>
           </form>

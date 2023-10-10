@@ -1,11 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { uiSlice } from "./ui/uiSlice";
-import { authSlice, clubSlice } from "./";
+import {
+  authSlice,
+  clubSlice,
+  divisionSlice,
+  organizadorSlice,
+  jugadorSlice,
+  equipoSlice,
+} from "./";
 export const store = configureStore({
   reducer: {
     club: clubSlice.reducer,
-    ui: uiSlice.reducer,
+    organizador: organizadorSlice.reducer,
     auth: authSlice.reducer,
+    division: divisionSlice.reducer,
+    jugador: jugadorSlice.reducer,
+    equipo: equipoSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

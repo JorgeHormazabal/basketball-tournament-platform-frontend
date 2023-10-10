@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { sliceBase } from "helpers";
 
-export const clubSlice = createSlice(sliceBase("club"));
+export const divisionSlice = createSlice(sliceBase("division"));
 
 export const {
   onAddNewEvent,
@@ -10,4 +10,4 @@ export const {
   onLogoutEvent,
   onSetActiveEvent,
   onUpdateEvent,
-} = clubSlice.actions;
+} = divisionSlice.actions;

@@ -1,4 +1,4 @@
-export default function BotonAgregar({ titulo, boton, abrir }) {
+export default function BotonAgregar({ titulo, boton, abrir, modalId }) {
   return (
     <div className="row mt-3">
       <div className="col d-flex justify-content-between align-items-start">
@@ -8,7 +8,7 @@ export default function BotonAgregar({ titulo, boton, abrir }) {
             onClick={abrir}
             className="btn btn-primary"
             data-bs-toggle="modal"
-            data-bs-target="#modalClubes"
+            data-bs-target={`#${modalId}`}
           >
             <i className="fa-solid fa-plus"></i>
             {boton}

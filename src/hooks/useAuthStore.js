@@ -15,15 +15,30 @@ export const useAuthStore = () => {
       });
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      dispatch(onLogin({ name: data.name, role: data.role }));
+      await dispatch(onLogin({ name: data.name, role: data.role }));
+      return data.role;
     } catch (error) {
       dispatch(onLogout("Credenciales incorrectas"));
       setTimeout(() => {
         dispatch(clearErrorMessage());
       }, 10);
+      return null;
     }
   };
 
+  //TODO: hacer end-point en backend
+  const checkAuthToken = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const { data } = await backendApi.get("auth/profile");
+      return data.role;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  /*
   //TODO: hacer end-point en backend
   const checkAuthToken = async () => {
     const token = localStorage.getItem("token");
@@ -39,6 +54,7 @@ export const useAuthStore = () => {
       dispatch(onLogout());
     }
   };
+  */
 
   const startLogout = () => {
     localStorage.clear();

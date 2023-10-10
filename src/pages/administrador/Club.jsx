@@ -1,62 +1,52 @@
 import { useEffect } from "react";
 
 import "./Dashboard.scss";
-import { useClubStore, useUiClub } from "../../hooks";
-import { TailSpin } from "react-loader-spinner";
 import BotonAgregar from "components/BotonAgregar/BotonAgregar";
-import { ModalClubes } from "components/ModalClubes/ModalClubes";
+import { ModalClubes } from "components/administrador/ModalClubes/ModalClubes";
 import Tabla from "components/Tabla/Tabla";
+import Spinner from "components/Spinner/Spinner";
+import { useClubStore } from "hooks";
 
 export function Club() {
-  const {
-    events: clubes,
-    setActiveEvent,
-    startDeletingEvent,
-    startLoadingEvents,
-  } = useClubStore();
-  const { openDateModal } = useUiClub();
+  const { clubes, setActiveClub, startDeletingEvent, startLoadingClubs } =
+    useClubStore();
 
   const borrar = (club) => {
-    setActiveEvent(club);
+    setActiveClub(club);
     startDeletingEvent();
   };
 
   const editarModal = (club) => {
-    setActiveEvent(club);
-    openDateModal();
+    setActiveClub(club);
   };
   const abrirModal = () => {
-    setActiveEvent(null);
-    openDateModal();
+    setActiveClub(null);
   };
 
   useEffect(() => {
-    startLoadingEvents();
+    startLoadingClubs();
   });
 
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
-        <BotonAgregar titulo="Clubes" boton="Agregar Club" abrir={abrirModal} />
+        <BotonAgregar
+          titulo="Clubes"
+          boton="Agregar Club"
+          abrir={abrirModal}
+          modalId={"modalClub"}
+        />
         {clubes.length > 0 ? (
           <Tabla
-            cabeceras={["id", "Nombre", "Correo", "Contraseña", "Acciones"]}
-            filas={["id", "name", "email", "password"]}
+            cabeceras={["id", "Nombre", "Correo", "Contraseña"]}
+            filas={["name", "email", "password"]}
             data={clubes}
             editar={editarModal}
             borrar={borrar}
+            modalId={"modalClub"}
           />
         ) : (
-          <TailSpin
-            height="80"
-            width="80"
-            color="#4fa94d"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+          <Spinner />
         )}
       </div>
       <ModalClubes />

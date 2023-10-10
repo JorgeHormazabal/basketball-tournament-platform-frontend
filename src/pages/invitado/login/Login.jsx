@@ -2,28 +2,37 @@ import { useEffect } from "react";
 import { useAuthStore, useForm } from "../../../hooks";
 import "./login.css";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 const loginFormFields = {
   loginEmail: "",
   loginPassword: "",
 };
 
 export function Login() {
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin, errorMessage, checkAuthToken } = useAuthStore();
   const {
     loginEmail,
     loginPassword,
     onInputChange: onLoginInputChange,
   } = useForm(loginFormFields);
+  const navigate = useNavigate();
 
-  const loginSubmit = (event) => {
+  const loginSubmit = async (event) => {
     event.preventDefault();
-    startLogin({ email: loginEmail, password: loginPassword });
+    const role = await startLogin({
+      email: loginEmail,
+      password: loginPassword,
+    });
+    redireccionar(role);
   };
+
+  const redireccionar = (role) => role && navigate(`/${role}`);
 
   useEffect(() => {
     if (errorMessage !== undefined) {
       Swal.fire("Error en la autenticación", errorMessage, "error");
     }
+    checkAuthToken().then((role) => redireccionar(role));
   }, [errorMessage]);
 
   return (

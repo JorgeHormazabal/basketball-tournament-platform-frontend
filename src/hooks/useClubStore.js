@@ -1,25 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { backendApi } from "../api";
+import { backendApi } from "api";
 import {
   onAddNewEvent,
   onDeleteEvent,
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
-} from "../store";
+} from "store/club/clubSlice";
 
 export const useClubStore = () => {
   const dispatch = useDispatch();
-  const { events, activeEvent } = useSelector((state) => state.club);
-  //const { user } = useSelector((state) => state.auth);
-  const { user } = { name: 2 };
+  const { events: clubes, activeEvent: activeClub } = useSelector(
+    (state) => state.club
+  );
+  const { user } = useSelector((state) => state.auth);
 
-  const setActiveEvent = async (clubEvent) => {
+  const setActiveClub = async (clubEvent) => {
     await dispatch(onSetActiveEvent(clubEvent));
   };
 
-  const startSavingEvent = async (clubEvent) => {
+  const startSavingClub = async (clubEvent) => {
     try {
       if (clubEvent.id.length !== 0) {
         const { id, name, password } = clubEvent;
@@ -28,7 +29,7 @@ export const useClubStore = () => {
       } else {
         const { id, ...club } = clubEvent;
         const { data } = await backendApi.post("/clubs", club);
-        dispatch(onAddNewEvent({ ...clubEvent, id: data.id }));
+        dispatch(onAddNewEvent({ ...data, id: id }));
       }
 
       Swal.fire({
@@ -46,8 +47,7 @@ export const useClubStore = () => {
 
   const startDeletingEvent = async () => {
     try {
-      console.log(activeEvent, activeEvent.id);
-      await backendApi.delete(`/clubs/${activeEvent.id}`);
+      await backendApi.delete(`/clubs/${activeClub.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ export const useClubStore = () => {
     }
   };
 
-  const startLoadingEvents = async () => {
+  const startLoadingClubs = async () => {
     try {
       const { data } = await backendApi.get("/clubs");
       dispatch(onLoadEvents(data));
@@ -67,14 +67,14 @@ export const useClubStore = () => {
 
   return {
     //* Propiedades
-    activeEvent,
-    events,
-    hasEventSelected: !!activeEvent,
+    activeClub,
+    clubes,
+    hayClubSeleccionado: !!activeClub,
 
     //* Métodos
-    setActiveEvent,
+    setActiveClub,
     startDeletingEvent,
-    startLoadingEvents,
-    startSavingEvent,
+    startLoadingClubs,
+    startSavingClub,
   };
 };

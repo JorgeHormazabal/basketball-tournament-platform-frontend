@@ -8,10 +8,11 @@ const backendApi = axios.create({
 
 // Todo: configurar interceptores
 backendApi.interceptors.request.use((config) => {
-  config.headers = {
-    ...config.headers,
-    "x-token": localStorage.getItem("token"),
-  };
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
   return config;
 });

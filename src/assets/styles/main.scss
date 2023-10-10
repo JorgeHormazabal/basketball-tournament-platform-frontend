@@ -21,10 +21,22 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 */
 @import "./_variables";
 $primary: $primary_button;
+$secondary: #ffcc00;
+$danger: #ff0000;
 $body-bg: $primary_background;
 $body-color: $primary_headline;
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 
 .btn-primary {
   --bs-btn-color: #fffffe;
+}
+.btn-danger {
+  --bs-btn-color: #fffffe;
+}
+
+.table-light {
+  --bs-table-bg: #eff0f3;
+  th {
+    color: #0d0d0d;
+  }
 }

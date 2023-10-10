@@ -1,1 +1,2 @@
-export * from './getEnvVariables';
+export * from "./sliceBase";
+export * from "./getEnvVariables";

@@ -3,7 +3,7 @@ import Sidebar from "components/Sidebar/Sidebar";
 import { Club } from "pages/administrador/Club";
 import { Divisiones } from "pages/administrador/Divisiones";
 import { Equipo } from "pages/administrador/";
-import { Jugadoras } from "pages/administrador/Jugadoras";
+import { Jugadores } from "pages/administrador/Jugadores";
 import { Organizador } from "pages/administrador/Organizador";
 import { Clubes } from "pages/invitado/Clubes";
 import { Home } from "pages/invitado/Home";
@@ -53,7 +53,7 @@ const router = createBrowserRouter(
             },
             {
               path: "jugadoras",
-              element: <Jugadoras />,
+              element: <Jugadores />,
             },
             {
               path: "divisiones",
