@@ -5,19 +5,24 @@ import { Divisiones } from "pages/administrador/Divisiones";
 import { Equipo } from "pages/administrador/";
 import { Jugadores } from "pages/administrador/Jugadores";
 import { Organizador } from "pages/administrador/Organizador";
-import { Clubes } from "pages/invitado/Clubes";
-import { Home } from "pages/invitado/Home";
-import { Ligas } from "pages/invitado/Ligas";
-import { Pasados } from "pages/invitado/Pasados";
-import { Proximos } from "pages/invitado/Proximos";
+import { Clubes } from "pages/invitado/clubes/Clubes";
+import { Home } from "pages/Home/Home";
+import { Ligas } from "pages/invitado/Ligas/Ligas";
+import { Pasados } from "pages/invitado/Pasados/Pasados";
+import { Proximos } from "pages/invitado/Proximos/Proximos";
 import { Login } from "pages/invitado/login/Login";
+import { Footer } from "components/Footer/Footer";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import "./app.css"
 
 const PublicLayout = () => {
   return (
     <>
+    <div className="App">
       <Navbar />
       <Outlet />
+      <Footer />
+      </div>
     </>
   );
 };

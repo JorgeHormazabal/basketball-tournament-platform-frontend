@@ -1,0 +1,56 @@
+  .encuentros-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .encuentro-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    width: 85%;
+    margin: 10px;
+    transition: transform 0.2s ease-in-out;
+    height: 250px;
+  }
+  
+  .encuentro-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .equipo-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .equipo-info h3 {
+    font-size: 25px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .vs {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0 10px;
+  }
+  
+  .equipo-info img {
+    max-width: 125px;
+    max-height: 125px;
+    margin: 25px;
+  }
+  
+  .fila2 {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  span {
+    font-size: 18px;
+  }
+  

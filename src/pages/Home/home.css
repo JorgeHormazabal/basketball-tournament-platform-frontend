@@ -1,0 +1,72 @@
+.tituloHome{
+    background: linear-gradient(to bottom, #ff8e3c, #d9376e);
+    height: 100%;
+    height: 225px;
+    padding: 5px 10%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  #Primero{
+    margin-top: 25px;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  #Segundo{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+  #tercero{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+.ProximoYPasado{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.Ligass{
+  margin: 3rem;
+  max-width: 100%;
+}
+
+#actualizacionligauno{
+  margin-bottom: 2rem;
+}
+
+.botonesConoce{
+  background: #ff8e3c;
+  height: 100%;
+  height: 225px;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.botonesConoce button{
+  display: inline-block;
+  background-color: #d9376e;
+  color: black;
+  padding: 15px 30px;
+  font-size: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botonesConoce button:hover {
+  background-color: #eff0f3;
+  cursor: pointer;
+}
+.botonesConoceDentro{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+
+
+
