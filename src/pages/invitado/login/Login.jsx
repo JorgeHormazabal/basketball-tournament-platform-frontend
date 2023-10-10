@@ -27,10 +27,11 @@ export function Login() {
   }, [errorMessage]);
 
   return (
-    <>
+    <div className="login-background">
       <div className="login-box">
         <img src="/src/assets/img/icon.png" className="avatar" />
-        <h1>Iniciar Sesión</h1>
+        <h1 id="uno">¡Bienvenido a Tromü!</h1>
+        <h1 id="dos">Iniciar Sesión</h1>
         <form onSubmit={loginSubmit}>
           <label>Correo</label>
           <input
@@ -50,7 +51,10 @@ export function Login() {
           />
           <input type="submit" value="Ingresar" />
         </form>
+        <p>
+          Si olvidaste tu contraseña o quieres solicitar una cuenta, contáctanos a correo@correo.cl
+        </p>
       </div>
-    </>
+    </div>
   );
 }

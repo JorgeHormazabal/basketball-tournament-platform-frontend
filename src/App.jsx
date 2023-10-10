@@ -6,7 +6,7 @@ import { Equipo } from "pages/administrador/";
 import { Jugadoras } from "pages/administrador/Jugadoras";
 import { Organizador } from "pages/administrador/Organizador";
 import { Clubes } from "pages/invitado/clubes/Clubes";
-import { Home } from "pages/invitado/Home";
+import { Home } from "pages/Home/Home";
 import { Ligas } from "pages/invitado/Ligas/Ligas";
 import { Pasados } from "pages/invitado/Pasados/Pasados";
 import { Proximos } from "pages/invitado/Proximos/Proximos";

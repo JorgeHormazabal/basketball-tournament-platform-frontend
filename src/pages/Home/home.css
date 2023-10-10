@@ -1,0 +1,52 @@
+.tituloHome{
+    background: linear-gradient(to bottom, #ff8e3c, #d9376e);
+    height: 100%;
+    height: 225px;
+    padding: 5px 10%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .tituloHome #Primero{
+    margin-top: 25px;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  .tituloHome #Segundo{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+.ProximoYPasado{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.Ligass{
+  margin: 5rem;
+  max-width: 100%;
+}
+
+#actualizacionligauno{
+  margin-bottom: 2rem;
+}
+.LigasAPP button{
+  display: inline-block;
+  background-color: #ff8e3c;
+  color: black;
+  padding: 15px 30px;
+  font-size: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.LigasAPP button:hover {
+  background-color: #d9376e;
+  cursor: pointer;
+}
+
+
+
+

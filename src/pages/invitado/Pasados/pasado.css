@@ -9,11 +9,11 @@
   width: 85%;
   margin: 20px auto;
   transition: transform 0.2s ease-in-out;
+  height: 250px;
 }
 
 .tarjeta-partido:hover {
   transform: scale(1.05);
-  cursor: pointer;
 }
 
 .tarjeta-partido img {

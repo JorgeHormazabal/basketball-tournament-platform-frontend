@@ -8,16 +8,16 @@
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 10px;
     text-align: center;
-    width: 75%;
-    margin: 20px;
+    width: 85%;
+    margin: 10px;
     transition: transform 0.2s ease-in-out;
+    height: 250px;
   }
   
   .encuentro-card:hover {
     transform: scale(1.05);
-    cursor: pointer;
   }
   
   .equipo-info {
@@ -42,7 +42,7 @@
   .equipo-info img {
     max-width: 125px;
     max-height: 125px;
-    margin: 0 50px;
+    margin: 25px;
   }
   
   .fila2 {
