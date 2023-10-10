@@ -7,32 +7,48 @@
     justify-content: center;
     margin-bottom: 2rem;
   }
-  .tituloHome #Primero{
+  #Primero{
     margin-top: 25px;
     text-align: center;
     font-size: 3rem;
     font-weight: bold;
   }
-  .tituloHome #Segundo{
+  #Segundo{
     text-align: center;
     font-size: 1.5rem;
     font-weight: lighter;
+  }
+  #tercero{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
   }
 .ProximoYPasado{
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 .Ligass{
-  margin: 5rem;
+  margin: 3rem;
   max-width: 100%;
 }
 
 #actualizacionligauno{
   margin-bottom: 2rem;
 }
-.LigasAPP button{
+
+.botonesConoce{
+  background: #ff8e3c;
+  height: 100%;
+  height: 225px;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.botonesConoce button{
   display: inline-block;
-  background-color: #ff8e3c;
+  background-color: #d9376e;
   color: black;
   padding: 15px 30px;
   font-size: 30px;
@@ -42,9 +58,13 @@
   transition: background-color 0.3s ease;
 }
 
-.LigasAPP button:hover {
-  background-color: #d9376e;
+.botonesConoce button:hover {
+  background-color: #eff0f3;
   cursor: pointer;
+}
+.botonesConoceDentro{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 

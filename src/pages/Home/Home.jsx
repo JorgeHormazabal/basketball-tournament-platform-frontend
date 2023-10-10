@@ -138,11 +138,17 @@ export function Home(){
       <div className="contenedorDeLiga">
         <EquiposTabla equipos={liga1.equipos} />
       </div>
+    </div>
+      </div>
+
       <div className="botonesConoce">
+        <div>
+        <h1 id="tercero">¡Conoce más de Tromü!</h1>
+        </div>
+      <div className="botonesConoceDentro">
       <Link to="/ligas"><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Todas las Ligas</button></Link>
       <Link to="/clubes"><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Todos los Clubes</button></Link>
       </div>
-    </div>
       </div>
     </div>
     </>
