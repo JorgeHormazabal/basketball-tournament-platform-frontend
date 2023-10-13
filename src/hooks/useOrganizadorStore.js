@@ -29,7 +29,7 @@ export const useOrganizadorStore = () => {
       } else {
         const { id, ...organizadorResto } = organizador;
         const { data } = await backendApi.post("/organizers", organizadorResto);
-        dispatch(onAddNewEvent({ ...data, id: id }));
+        dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({

@@ -50,6 +50,12 @@ dependencies:
   react-router-dom:
     specifier: ^6.15.0
     version: 6.16.0(react-dom@18.2.0)(react@18.2.0)
+  redux-devtools-extension:
+    specifier: ^2.13.9
+    version: 2.13.9(redux@4.2.1)
+  redux-thunk:
+    specifier: ^2.4.2
+    version: 2.4.2(redux@4.2.1)
   sass:
     specifier: ^1.66.1
     version: 1.68.0
@@ -2336,6 +2342,15 @@ packages:
       sucrase: 3.34.0
       tslib: 1.14.1
     dev: true
+
+  /redux-devtools-extension@2.13.9(redux@4.2.1):
+    resolution: {integrity: sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==}
+    deprecated: Package moved to @redux-devtools/extension.
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0
+    dependencies:
+      redux: 4.2.1
+    dev: false
 
   /redux-thunk@2.4.2(redux@4.2.1):
     resolution: {integrity: sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==}

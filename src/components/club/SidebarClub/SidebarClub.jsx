@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Sidebar.scss";
 import { useAuthStore } from "hooks";
 
-export default function Sidebar() {
+export default function SidebarClub() {
   const navigate = useNavigate();
   const { startLogout, user } = useAuthStore();
   return (

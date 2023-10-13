@@ -23,13 +23,17 @@ export const useEquipoStore = () => {
   const guardarEquipo = async (equipo) => {
     try {
       if (equipo.id.length !== 0) {
-        const { id, coach } = equipo;
-        await backendApi.patch(`/teams/${id}`, { coach });
+        const { id, coachId } = equipo;
+        await backendApi.patch(`/teams/${id}`, { coachId });
         dispatch(onUpdateEvent({ ...equipo, user }));
       } else {
         const { id, ...equipoResto } = equipo;
-        const { data } = await backendApi.post("/teams", equipoResto);
-        dispatch(onAddNewEvent({ ...data, id: id }));
+        const { data } = await backendApi.post("/teams", {
+          ...equipoResto,
+          clubId: Number(equipoResto.clubId),
+          divisionId: Number(equipoResto.divisionId),
+        });
+        dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({
@@ -73,7 +77,7 @@ export const useEquipoStore = () => {
     //* Propiedades
     equipoActivo,
     equipos,
-    hayDivisionActiva: !!equipoActivo,
+    hayEquipoActivo: !!equipoActivo,
 
     //* Métodos
     setEquipoActivo,

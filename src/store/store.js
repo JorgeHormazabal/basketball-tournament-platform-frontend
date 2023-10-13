@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
 import {
   authSlice,
   clubSlice,
@@ -7,6 +7,10 @@ import {
   jugadorSlice,
   equipoSlice,
 } from "./";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 export const store = configureStore({
   reducer: {
     club: clubSlice.reducer,
@@ -16,8 +20,5 @@ export const store = configureStore({
     jugador: jugadorSlice.reducer,
     equipo: equipoSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+  composedEnhancer,
 });

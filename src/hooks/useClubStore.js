@@ -16,11 +16,11 @@ export const useClubStore = () => {
   );
   const { user } = useSelector((state) => state.auth);
 
-  const setActiveClub = async (clubEvent) => {
+  const setClubActivo = async (clubEvent) => {
     await dispatch(onSetActiveEvent(clubEvent));
   };
 
-  const startSavingClub = async (clubEvent) => {
+  const guardarClub = async (clubEvent) => {
     try {
       if (clubEvent.id.length !== 0) {
         const { id, name, password } = clubEvent;
@@ -29,7 +29,7 @@ export const useClubStore = () => {
       } else {
         const { id, ...club } = clubEvent;
         const { data } = await backendApi.post("/clubs", club);
-        dispatch(onAddNewEvent({ ...data, id: id }));
+        dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({
@@ -45,7 +45,7 @@ export const useClubStore = () => {
     }
   };
 
-  const startDeletingEvent = async () => {
+  const borrarClub = async () => {
     try {
       await backendApi.delete(`/clubs/${activeClub.id}`);
       await dispatch(onDeleteEvent());
@@ -55,7 +55,7 @@ export const useClubStore = () => {
     }
   };
 
-  const startLoadingClubs = async () => {
+  const cargarClubes = async () => {
     try {
       const { data } = await backendApi.get("/clubs");
       dispatch(onLoadEvents(data));
@@ -72,9 +72,9 @@ export const useClubStore = () => {
     hayClubSeleccionado: !!activeClub,
 
     //* Métodos
-    setActiveClub,
-    startDeletingEvent,
-    startLoadingClubs,
-    startSavingClub,
+    setClubActivo,
+    borrarClub,
+    cargarClubes,
+    guardarClub,
   };
 };

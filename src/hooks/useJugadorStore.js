@@ -32,7 +32,7 @@ export const useJugadorStore = () => {
           ...jugadorResto,
           teamId: Number(jugadorResto.teamId),
         });
-        dispatch(onAddNewEvent({ ...data, id: id }));
+        dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({

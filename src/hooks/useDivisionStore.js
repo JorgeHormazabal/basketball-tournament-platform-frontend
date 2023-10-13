@@ -29,7 +29,7 @@ export const useDivisionStore = () => {
       } else {
         const { id, ...divisionResto } = division;
         const { data } = await backendApi.post("/divisions", divisionResto);
-        dispatch(onAddNewEvent({ ...data, id: id }));
+        dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({

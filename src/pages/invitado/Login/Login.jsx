@@ -26,7 +26,7 @@ export function Login() {
     redireccionar(role);
   };
 
-  const redireccionar = (role) => role && navigate(`/${role}`);
+  const redireccionar = (role) => role && navigate(`/${role.toLowerCase()}`);
 
   useEffect(() => {
     if (errorMessage !== undefined) {
@@ -61,7 +61,8 @@ export function Login() {
           <input type="submit" value="Ingresar" />
         </form>
         <p>
-          Si olvidaste tu contraseña o quieres solicitar una cuenta, contáctanos a correo@correo.cl
+          Si olvidaste tu contraseña o quieres solicitar una cuenta, contáctanos
+          a correo@correo.cl
         </p>
       </div>
     </div>

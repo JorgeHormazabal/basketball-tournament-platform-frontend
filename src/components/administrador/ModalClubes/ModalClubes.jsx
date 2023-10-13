@@ -10,7 +10,7 @@ const newClub = {
 };
 
 export const ModalClubes = () => {
-  const { activeClub, startSavingClub } = useClubStore();
+  const { activeClub, guardarClub } = useClubStore();
   const [formValues, setFormValues] = useState(newClub);
 
   const titulo = useMemo(
@@ -35,7 +35,7 @@ export const ModalClubes = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await startSavingClub(formValues);
+    await guardarClub(formValues);
   };
 
   return (

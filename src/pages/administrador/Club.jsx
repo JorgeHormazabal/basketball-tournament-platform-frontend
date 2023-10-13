@@ -8,23 +8,22 @@ import Spinner from "components/Spinner/Spinner";
 import { useClubStore } from "hooks";
 
 export function Club() {
-  const { clubes, setActiveClub, startDeletingEvent, startLoadingClubs } =
-    useClubStore();
+  const { clubes, setClubActivo, borrarClub, cargarClubes } = useClubStore();
 
-  const borrar = (club) => {
-    setActiveClub(club);
-    startDeletingEvent();
+  const borrar = async (club) => {
+    await setClubActivo(club);
+    await borrarClub();
   };
 
   const editarModal = (club) => {
-    setActiveClub(club);
+    setClubActivo(club);
   };
   const abrirModal = () => {
-    setActiveClub(null);
+    setClubActivo(null);
   };
 
   useEffect(() => {
-    startLoadingClubs();
+    cargarClubes();
   });
 
   return (
