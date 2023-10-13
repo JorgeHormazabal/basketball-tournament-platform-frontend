@@ -14,6 +14,7 @@ import { Footer } from "components/Footer/Footer";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./app.css";
 import SidebarAdminitrador from "components/administrador/SidebarAdministrador/SidebarAdministrador";
+import SidebarClub from "components/club/SidebarClub/SidebarClub";
 
 const PublicLayout = () => {
   return (
@@ -30,7 +31,7 @@ const PublicLayout = () => {
 const ClubLayout = () => {
   return (
     <>
-      <SidebarAdminitrador />
+      <SidebarClub />
       <Outlet />
     </>
   );
