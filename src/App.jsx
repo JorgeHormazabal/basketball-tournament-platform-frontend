@@ -11,6 +11,9 @@ import { Pasados } from "pages/invitado/Pasados/Pasados";
 import { Proximos } from "pages/invitado/Proximos/Proximos";
 import { Login } from "pages/invitado/Login/Login";
 import { Footer } from "components/Footer/Footer";
+import { MiClub } from "pages/clubes/Club"
+import { EquiposDeMiClub } from "pages/clubes/Equipos"
+import { JugadorasDeMisEquipos } from "pages/clubes/Jugadoras"
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./app.css";
 import SidebarAdminitrador from "components/administrador/SidebarAdministrador/SidebarAdministrador";
@@ -79,7 +82,20 @@ const router = createBrowserRouter(
         {
           path: "club",
           element: <ClubLayout />,
-          children: [],
+          children: [
+            {
+              path: "club",
+              element: <MiClub />,
+            },
+            {
+              path: "equipos",
+              element: <EquiposDeMiClub />,
+            },
+            {
+              path: "jugadoras",
+              element: <JugadorasDeMisEquipos />,
+            },
+          ],
         },
         {
           path: "/",
