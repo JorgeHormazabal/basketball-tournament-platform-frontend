@@ -23,8 +23,8 @@ export const useEquipoStore = () => {
   const guardarEquipo = async (equipo) => {
     try {
       if (equipo.id.length !== 0) {
-        const { id, coachId } = equipo;
-        await backendApi.patch(`/teams/${id}`, { coachId });
+        const { id, coach } = equipo;
+        await backendApi.patch(`/teams/${id}`, { coach });
         dispatch(onUpdateEvent({ ...equipo, user }));
       } else {
         const { id, ...equipoResto } = equipo;
