@@ -84,15 +84,15 @@ const router = createBrowserRouter(
           element: <ClubLayout />,
           children: [
             {
-              path: "club",
+              path: "miclub",
               element: <MiClub />,
             },
             {
-              path: "equipos",
+              path: "misequipos",
               element: <EquiposDeMiClub />,
             },
             {
-              path: "jugadoras",
+              path: "misjugadores",
               element: <JugadorasDeMisEquipos />,
             },
           ],

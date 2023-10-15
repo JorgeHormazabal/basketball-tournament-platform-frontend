@@ -6,19 +6,19 @@ import { FiLogOut } from "react-icons/fi";
 export const SidebarData = [
   {
     title: "Club",
-    path: "/club/club",
+    path: "/club/miclub",
     icon: <FaHouseChimney style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
   {
     title: "Equipos",
-    path: "/club/equipos",
+    path: "/club/misequipos",
     icon: <FaPeopleGroup style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
   {
     title: "Jugadoras",
-    path: "/club/jugadoras",
+    path: "/club/misjugadores",
     icon: <FaPerson style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
