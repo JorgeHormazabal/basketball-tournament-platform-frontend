@@ -15,7 +15,10 @@ export const useAuthStore = () => {
       });
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      await dispatch(onLogin({ name: data.name, role: data.role }));
+      //TODO: guardar imagen
+      await dispatch(
+        onLogin({ name: data.name, role: data.role, email: data.email })
+      );
       return data.role;
     } catch (error) {
       dispatch(onLogout("Credenciales incorrectas"));
