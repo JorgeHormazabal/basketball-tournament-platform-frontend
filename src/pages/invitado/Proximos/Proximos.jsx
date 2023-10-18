@@ -14,6 +14,7 @@ export function CardsProximos({ encuentros }) {
             <img src={encuentro.visitante.imagen} />
           </div>
           <div className="fila2">
+          <span>{encuentro.liga}</span>&emsp;-&emsp;
             <span>{encuentro.lugar}</span>&emsp;-&emsp;
             <span>{encuentro.fecha}</span>&emsp;-&emsp;
             <span>{encuentro.hora} hrs.</span>

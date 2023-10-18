@@ -4,7 +4,7 @@ import { liga1, EquiposTabla } from "../Ligas/Ligas"
 import { encuentros, TablaPasados } from "../Pasados/Pasados";
 import { CardsProximos } from "../Proximos/Proximos";
 const encuentrosproximos = encuentros.slice(0, 2);
-const encuentrospasados = encuentros.slice(2, 4);
+const encuentrospasados = encuentros.slice(2, 6);
 
 export function Home(){
   return (
@@ -17,21 +17,26 @@ export function Home(){
         <h1 id="Primero">¡Bienvenido a Tromü!</h1>
         <h1 id="Segundo">Ligas de Baloncesto</h1>
       </div>
+      </div>
     
       {/* PROXIMOS PARTIDOS  */}  
 
       <div className="Proximos">
       <h2 id="cuarto">Próximos Enfrentamientos</h2> 
       <CardsProximos encuentros={encuentrosproximos} />
+      <br />
       </div>
 
 
       {/* PARTIDOS PASADOS  */} 
+      <div className="contenedorpasado">
       <div className="Pasados">
       <h2 id="cuarto">Últimos Enfrentamientos</h2> 
       <TablaPasados encuentros={encuentrospasados} />
       </div>
       </div>
+      <br />
+      
 
       {/* DIV LIGAS  */}  
 
