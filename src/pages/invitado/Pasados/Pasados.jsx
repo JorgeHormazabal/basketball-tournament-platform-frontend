@@ -1,57 +1,52 @@
 import "./pasado.css"
+import { equipo1, equipo2, equipo3, equipo4, equipo5 } from "../Ligas/Ligas.jsx"
 
-function Equipos(nombre, imagen) {
-  this.nombre = nombre;
-  this.imagen = imagen;
-}
-const equipo1 = new Equipos("U de Concepcion", "https://se-img.dcd-production.i.geniussports.com/a2e492021ddddce8795dd6a049f18813S1.png");
-const equipo2 = new Equipos("Universidad Catolica", "https://se-img.dcd-production.i.geniussports.com/61d00770c9a99ac2421fdd79ce3a3683S1.png");
-const equipo3 = new Equipos("Colegio Los Leones", "https://se-img.dcd-production.i.geniussports.com/27a7c79cf64a63ca0085c7931be4b003S1.png");
-const equipo4 = new Equipos("Club Puente Alto", "https://se-img.dcd-production.i.geniussports.com/062c5a10a8cad084ee863a185ee4b6cdS1.png");
-const equipo5 = new Equipos("CD Valdivia", "https://se-img.dcd-production.i.geniussports.com/2246313fd55a1f793965cfb238766b40S1.png");
-const equipo6 = new Equipos("CD Ancud", "https://se-img.dcd-production.i.geniussports.com/413a902ce3c00525f482b85fe961d1c3S1.png");
-
-function Encuentro(equipoLocal, equipoVisitante, puntosLocal, puntosVisitantes, Fecha) {
-  this.equipoLocal = equipoLocal;
-  this.equipoVisitante = equipoVisitante;
+function Encuentro(local, visitante, puntosLocal, puntosVisitantes, fecha, liga, lugar, hora) {
+  this.local = local;
+  this.visitante = visitante;
   this.puntosLocal = puntosLocal;
   this.puntosVisitantes = puntosVisitantes;
-  this.Fecha = Fecha;
+  this.fecha = fecha;
+  this.liga = liga;
+  this.lugar = lugar;
+  this.hora = hora;
 }
 
-const partido1 = new Encuentro(equipo1, equipo2, 105, 92, "5 de Noviembre");
-const partido2 = new Encuentro(equipo3, equipo4,71, 90, "10 de Noviembre");
-const partido3 = new Encuentro(equipo5, equipo6, 68, 58, "15 de Noviembre");
+const partido1 = new Encuentro(equipo1, equipo2, 105, 92, "5 de Noviembre","Femi-BioMaule","Casa del deporte, Chillán", "15:00");
+const partido2 = new Encuentro(equipo3, equipo4, 62, 80, "6 de Noviembre","Femi-BioMaule","Cancha Municipal, Chillán Viejo", "13:00");
+const partido3 = new Encuentro(equipo5, equipo1, 77, 58, "7 de Noviembre","Femi-BioMaule","UDEC, Chillán", "15:00");
+const partido4 = new Encuentro(equipo4, equipo2, 90, 107, "8 de Noviembre","Femi-BioMaule","UBB sede Fernando May, Chillán", "14:00");
+export const encuentros = [partido1, partido2, partido3, partido4,partido1, partido2, partido3, partido4];
 
-const partidos = [partido1, partido2, partido3];
 
-function TarjetaPartido({ partido }) {
-  const puntosLocalMayor = partido.puntosLocal > partido.puntosVisitantes;
-  const puntosVisitantesMayor = partido.puntosVisitantes > partido.puntosLocal;
-
+export function TablaPasados({ encuentros }) {
   return (
-    <div className="tarjeta-partido">
-      <div className="equipo-local">
-        <img src={partido.equipoLocal.imagen} alt={partido.equipoLocal.nombre} />
-        <p className={puntosLocalMayor ? 'puntos-verde' : 'puntos-rojo'}>
-          {partido.equipoLocal.nombre} - {partido.puntosLocal} puntos
-        </p>
-      </div>
-      <div className="versus">
-        <span>{partido.Fecha}</span>
-        <p className="vs">VS</p>
-      </div>
-      <div className="equipo-visitante">
-        <img src={partido.equipoVisitante.imagen} alt={partido.equipoVisitante.nombre} />
-        <p className={puntosVisitantesMayor ? 'puntos-verde' : 'puntos-rojo'}>
-          {partido.equipoVisitante.nombre} - {partido.puntosVisitantes} puntos
-        </p>
-      </div>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th >&nbsp;Liga</th>
+          <th className="text-start">Local</th>
+          <th className="text-center">Resultado</th>
+          <th className="text-end">Visita</th>
+          <th>Lugar</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {encuentros.map((encuentro, index) => (
+          <tr key={index}>
+            <td className="text-start">{encuentro.liga}</td>
+            <td className="text-start"><img src={encuentro.local.imagen}/> &nbsp; {encuentro.local.nombre}</td>
+            <td className="text-center">{encuentro.puntosLocal} - {encuentro.puntosVisitantes}</td>
+            <td className="text-end">{encuentro.visitante.nombre}&nbsp;<img src={encuentro.visitante.imagen}/></td>
+            <td className="text-start">{encuentro.lugar}</td>
+            <td className="text-start">{encuentro.fecha}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
-
-
 
 export function Pasados() {
   return (
@@ -59,10 +54,8 @@ export function Pasados() {
       <div className="titulos">
         <h1>Partidos Pasados</h1>
       </div>
-      <div className="lista-partidos">
-        {partidos.map((partido, index) => (
-          <TarjetaPartido key={index} partido={partido} />
-        ))}
+      <div className="contenedorDeLiga">
+      <TablaPasados encuentros={encuentros} />
       </div>
     </div>
   );

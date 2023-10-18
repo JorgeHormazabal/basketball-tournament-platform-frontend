@@ -8,7 +8,7 @@
     margin-bottom: 2rem;
   }
   #Primero{
-    margin-top: 25px;
+    margin-top: 35px;
     text-align: center;
     font-size: 3rem;
     font-weight: bold;
@@ -23,13 +23,12 @@
     font-size: 3rem;
     font-weight: bold;
   }
-.ProximoYPasado{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.Ligass{
-  margin: 3rem;
-  max-width: 100%;
+  #cuarto{
+    margin: 2rem;
+  }
+
+.Pasados {
+  margin: 2rem;
 }
 
 #actualizacionligauno{
