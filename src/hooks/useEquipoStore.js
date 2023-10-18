@@ -17,15 +17,20 @@ export const useEquipoStore = () => {
   const { user } = useSelector((state) => state.auth);
 
   const setEquipoActivo = async (equipo) => {
-    await dispatch(onSetActiveEvent(equipo));
+    await dispatch(await onSetActiveEvent(equipo));
   };
 
   const guardarEquipo = async (equipo) => {
     try {
       if (equipo.id.length !== 0) {
-        const { id, coach } = equipo;
-        await backendApi.patch(`/teams/${id}`, { coach });
-        dispatch(onUpdateEvent({ ...equipo, user }));
+        console.log(equipo);
+        const { id, coach, divisionId } = equipo;
+        const { data } = await backendApi.patch(`/teams/${id}`, {
+          coach,
+          divisionId: Number(divisionId),
+        });
+        if (data.division) data.displayDivision = data.division.category;
+        dispatch(onUpdateEvent({ ...equipo, ...data }));
       } else {
         const { id, ...equipoResto } = equipo;
         const { data } = await backendApi.post("/teams", {
@@ -33,6 +38,7 @@ export const useEquipoStore = () => {
           clubId: Number(equipoResto.clubId),
           divisionId: Number(equipoResto.divisionId),
         });
+        data.displayDivision = data.division.category;
         dispatch(onAddNewEvent(data));
       }
 
@@ -49,9 +55,9 @@ export const useEquipoStore = () => {
     }
   };
 
-  const borrarEquipo = async () => {
+  const borrarEquipo = async (equipo) => {
     try {
-      await backendApi.delete(`/teams/${equipoActivo.id}`);
+      await backendApi.delete(`/teams/${equipo.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);
@@ -73,6 +79,29 @@ export const useEquipoStore = () => {
     }
   };
 
+  const cargarEquiposDelClub = async () => {
+    try {
+      const { data } = await backendApi.get("/teams/owned/");
+      data.forEach((team) => {
+        team.displayDivision = team.division.category;
+      });
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando equipos");
+      console.log(error);
+    }
+  };
+
+  const cargarTotalDelClub = async () => {
+    try {
+      const { data } = await backendApi.get("/teams/count/");
+      return data;
+    } catch (error) {
+      console.log("Error cargando equipos");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     equipoActivo,
@@ -83,6 +112,8 @@ export const useEquipoStore = () => {
     setEquipoActivo,
     borrarEquipo,
     cargarEquipos,
+    cargarEquiposDelClub,
     guardarEquipo,
+    cargarTotalDelClub,
   };
 };

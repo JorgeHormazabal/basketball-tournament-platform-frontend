@@ -45,9 +45,9 @@ export const useDivisionStore = () => {
     }
   };
 
-  const borrarDivision = async () => {
+  const borrarDivision = async (division) => {
     try {
-      await backendApi.delete(`/divisions/${divisionActiva.id}`);
+      await backendApi.delete(`/divisions/${division.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);

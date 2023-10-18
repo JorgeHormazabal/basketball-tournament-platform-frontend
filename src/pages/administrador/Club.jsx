@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import "./Dashboard.scss";
+import "../Dashboard.scss";
 import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import { ModalClubes } from "components/administrador/ModalClubes/ModalClubes";
 import Tabla from "components/Tabla/Tabla";
@@ -10,9 +10,9 @@ import { useClubStore } from "hooks";
 export function Club() {
   const { clubes, setClubActivo, borrarClub, cargarClubes } = useClubStore();
 
-  const borrar = async (club) => {
-    await setClubActivo(club);
-    await borrarClub();
+  const borrar = (club) => {
+    setClubActivo(club);
+    borrarClub(club);
   };
 
   const editarModal = (club) => {
@@ -37,7 +37,7 @@ export function Club() {
         />
         {clubes.length > 0 ? (
           <Tabla
-            cabeceras={["id", "Nombre", "Correo", "Contraseña"]}
+            cabeceras={["Nombre", "Correo", "Contraseña"]}
             filas={["name", "email", "password"]}
             data={clubes}
             editar={editarModal}

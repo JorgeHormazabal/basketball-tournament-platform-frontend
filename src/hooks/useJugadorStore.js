@@ -8,6 +8,7 @@ import {
   onSetActiveEvent,
   onUpdateEvent,
 } from "store/jugador/jugadorSlice";
+import formatDate from "helpers/formatDate";
 
 export const useJugadorStore = () => {
   const dispatch = useDispatch();
@@ -16,23 +17,37 @@ export const useJugadorStore = () => {
   );
   const { user } = useSelector((state) => state.auth);
 
-  const setJugadorActivo = async (jugador) => {
-    await dispatch(onSetActiveEvent(jugador));
+  const setJugadorActivo = (jugador) => {
+    dispatch(onSetActiveEvent(jugador));
   };
 
   const guardarJugador = async (jugador) => {
     try {
       if (jugador.id.length !== 0) {
         const { id, teamId } = jugador;
-        await backendApi.patch(`/players/${id}`, { teamId: Number(teamId) });
-        dispatch(onUpdateEvent({ ...jugador, user }));
+        const { data } = await backendApi.patch(`/players/${id}`, {
+          teamId: Number(teamId),
+        });
+        dispatch(
+          onUpdateEvent({
+            ...jugador,
+            displayDivision: data.team.division.category,
+            user,
+          })
+        );
       } else {
         const { id, ...jugadorResto } = jugador;
         const { data } = await backendApi.post("/players", {
           ...jugadorResto,
           teamId: Number(jugadorResto.teamId),
         });
-        dispatch(onAddNewEvent(data));
+        dispatch(
+          onAddNewEvent({
+            ...data,
+            displayDivision: data.team.division.category,
+            displayBirthdate: formatDate(data.birthdate),
+          })
+        );
       }
 
       Swal.fire({
@@ -48,9 +63,9 @@ export const useJugadorStore = () => {
     }
   };
 
-  const borrarJugador = async () => {
+  const borrarJugador = async (jugador) => {
     try {
-      await backendApi.delete(`/players/${jugadorActivo.id}`);
+      await backendApi.delete(`/players/${jugador.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);
@@ -64,10 +79,31 @@ export const useJugadorStore = () => {
       data.forEach((player) => {
         player.displayTeam = player.team.club.name;
         player.displayDivision = player.team.division.category;
+        player.displayBirthdate = formatDate(player.birthdate);
       });
       dispatch(onLoadEvents(data));
     } catch (error) {
       console.log("Error cargando jugadoras");
+      console.log(error);
+    }
+  };
+
+  const cargarJugadoresDelClub = async () => {
+    try {
+      const { data } = await backendApi.get("/teams/owned");
+      const players = data
+        .map((team) => {
+          team.players.forEach((player) => {
+            player.displayDivision = team.division.category;
+            player.team = { id: team.id };
+            player.displayBirthdate = formatDate(player.birthdate);
+          });
+          return team.players;
+        })
+        .flat();
+      dispatch(onLoadEvents(players));
+    } catch (error) {
+      console.log("Error cargando jugadores");
       console.log(error);
     }
   };
@@ -83,5 +119,6 @@ export const useJugadorStore = () => {
     borrarJugador,
     cargarJugadores,
     guardarJugador,
+    cargarJugadoresDelClub,
   };
 };

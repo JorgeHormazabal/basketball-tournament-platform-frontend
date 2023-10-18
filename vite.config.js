@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-export default defineConfig(({ command }) => {
+export default defineConfig(() => {
   const config = {
     plugins: [react(), jsconfigPaths()],
     base: "/",
@@ -18,10 +18,5 @@ export default defineConfig(({ command }) => {
       },
     },
   };
-
-  if (command !== "serve") {
-    config.base = "/basketball-tournament-platform-frontend/";
-  }
-
   return config;
 });

@@ -45,9 +45,9 @@ export const useOrganizadorStore = () => {
     }
   };
 
-  const borrarOrganizador = async () => {
+  const borrarOrganizador = async (organizador) => {
     try {
-      await backendApi.delete(`/organizers/${organizadorActivo.id}`);
+      await backendApi.delete(`/organizers/${organizador.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);

@@ -45,9 +45,9 @@ export const useClubStore = () => {
     }
   };
 
-  const borrarClub = async () => {
+  const borrarClub = async (club) => {
     try {
-      await backendApi.delete(`/clubs/${activeClub.id}`);
+      await backendApi.delete(`/clubs/${club.id}`);
       await dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import "./Dashboard.scss";
+import "../Dashboard.scss";
 import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
@@ -14,7 +14,7 @@ export function Divisiones() {
 
   const borrar = (club) => {
     setDivisionActivo(club);
-    borrarDivision();
+    borrarDivision(club);
   };
 
   const editarModal = (club) => {
@@ -39,7 +39,7 @@ export function Divisiones() {
         />
         {divisiones.length > 0 ? (
           <Tabla
-            cabeceras={["id", "Categorías"]}
+            cabeceras={["Categorías"]}
             filas={["category"]}
             data={divisiones}
             editar={editarModal}

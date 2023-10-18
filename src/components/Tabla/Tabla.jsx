@@ -10,9 +10,12 @@ export default function Tabla({
     <div className="row mt-4">
       <div className="col-12">
         <div className="table-responsive">
-          <table className="table">
+          <table className="table table-sm">
             <thead className="table-light">
               <tr>
+                <th className="text-end" scope="col">
+                  #
+                </th>
                 {cabeceras.map((cabecera) => (
                   <th scope="col" key={cabecera}>
                     {cabecera}
@@ -26,9 +29,13 @@ export default function Tabla({
             <tbody>
               {data.map((objeto, index) => (
                 <tr key={index}>
-                  <th scope="row">{objeto.id}</th>
+                  <th className="text-end" scope="row">
+                    {index}
+                  </th>
                   {filas.map((propiedad) => (
-                    <td key={propiedad}>{objeto[propiedad]}</td>
+                    <td key={propiedad} className="text-start">
+                      {objeto[propiedad]}
+                    </td>
                   ))}
                   <td className="d-flex align-items-center justify-content-center">
                     <div className="btn-group" role="group">

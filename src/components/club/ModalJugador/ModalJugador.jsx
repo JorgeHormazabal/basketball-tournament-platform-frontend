@@ -7,13 +7,13 @@ const jugadorVacio = {
   id: "",
   rut: "",
   name: "",
-  birthdate: "",
+  birthdate: new Date(),
   teamId: 0,
 };
 
 export const ModalJugador = () => {
   const { jugadorActivo, guardarJugador } = useJugadorStore();
-  const { equipos, cargarEquipos } = useEquipoStore();
+  const { equipos, cargarEquiposDelClub } = useEquipoStore();
   const [formValues, setFormValues] = useState(jugadorVacio);
 
   const titulo = useMemo(
@@ -22,7 +22,7 @@ export const ModalJugador = () => {
   );
 
   useEffect(() => {
-    cargarEquipos();
+    cargarEquiposDelClub();
     if (jugadorActivo !== null) {
       setFormValues({ ...jugadorActivo, teamId: jugadorActivo.team.id });
     } else {
@@ -136,7 +136,7 @@ export const ModalJugador = () => {
                   <option value="">Seleccionar Equipo</option>
                   {equipos.map((equipo) => (
                     <option key={equipo.id} value={equipo.id}>
-                      {equipo.displayClub} - {equipo.displayDivision}
+                      {equipo.division.category}
                     </option>
                   ))}
                 </select>

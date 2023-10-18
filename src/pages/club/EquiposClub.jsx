@@ -5,10 +5,10 @@ import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
 import { useEquipoStore } from "hooks/useEquipoStore";
-import { ModalEquipo } from "components/administrador/ModalEquipo/ModalEquipo";
+import { ModalEquipo } from "components/club/ModalEquipo/ModalEquipo";
 
-export function Equipos() {
-  const { equipos, setEquipoActivo, borrarEquipo, cargarEquipos } =
+export function EquiposClub() {
+  const { equipos, setEquipoActivo, borrarEquipo, cargarEquiposDelClub } =
     useEquipoStore();
 
   const borrar = (club) => {
@@ -24,7 +24,7 @@ export function Equipos() {
   };
 
   useEffect(() => {
-    cargarEquipos();
+    cargarEquiposDelClub();
   });
 
   return (
@@ -38,8 +38,8 @@ export function Equipos() {
         />
         {equipos.length > 0 ? (
           <Tabla
-            cabeceras={["Club", "Division", "Entrenador"]}
-            filas={["displayClub", "displayDivision", "coach"]}
+            cabeceras={["Division", "Entrenador"]}
+            filas={["displayDivision", "coach"]}
             data={equipos}
             editar={editarModal}
             borrar={borrar}

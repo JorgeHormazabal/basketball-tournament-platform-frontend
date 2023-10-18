@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import "./Dashboard.scss";
+import "../Dashboard.scss";
 import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
@@ -18,7 +18,7 @@ export function Organizador() {
 
   const borrar = (club) => {
     setOrganizadorActivo(club);
-    borrarOrganizador();
+    borrarOrganizador(club);
   };
 
   const editarModal = (club) => {
@@ -43,7 +43,7 @@ export function Organizador() {
         />
         {organizadores.length > 0 ? (
           <Tabla
-            cabeceras={["id", "Nombre", "Correo", "Contraseña"]}
+            cabeceras={["Nombre", "Correo", "Contraseña"]}
             filas={["name", "email", "password"]}
             data={organizadores}
             editar={editarModal}

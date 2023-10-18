@@ -11,13 +11,14 @@ import { Pasados } from "pages/invitado/Pasados/Pasados";
 import { Proximos } from "pages/invitado/Proximos/Proximos";
 import { Login } from "pages/invitado/Login/Login";
 import { Footer } from "components/Footer/Footer";
-import { MiClub } from "pages/clubes/Club"
-import { EquiposDeMiClub } from "pages/clubes/Equipos"
-import { JugadorasDeMisEquipos } from "pages/clubes/Jugadoras"
+import { PerfilClub } from "pages/club/PerfilClub";
+import { JugadoresClub } from "pages/club/JugadoresClub";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./app.css";
 import SidebarAdminitrador from "components/administrador/SidebarAdministrador/SidebarAdministrador";
 import SidebarClub from "components/club/SidebarClub/SidebarClub";
+import { EquiposClub } from "pages/club/EquiposClub";
+import { LigasClub } from "pages/club/LigasClub";
 
 const PublicLayout = () => {
   return (
@@ -84,16 +85,20 @@ const router = createBrowserRouter(
           element: <ClubLayout />,
           children: [
             {
-              path: "miclub",
-              element: <MiClub />,
+              path: "",
+              element: <PerfilClub />,
             },
             {
-              path: "misequipos",
-              element: <EquiposDeMiClub />,
+              path: "equipos",
+              element: <EquiposClub />,
             },
             {
-              path: "misjugadores",
-              element: <JugadorasDeMisEquipos />,
+              path: "jugadores",
+              element: <JugadoresClub />,
+            },
+            {
+              path: "ligas",
+              element: <LigasClub />,
             },
           ],
         },

@@ -1,16 +1,17 @@
-import { useEffect } from "react";
-
+import React from "react";
 import "../Dashboard.scss";
+import { useJugadorStore } from "hooks";
+import { useEffect } from "react";
 import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
-import { useJugadorStore } from "hooks";
-import { ModalJugador } from "components/administrador/ModalJugador/ModalJugador";
+import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
 
-export function Jugadores() {
-  const { jugadores, setJugadorActivo, borrarJugador, cargarJugadores } =
+export function JugadoresClub() {
+  const { jugadores, setJugadorActivo, borrarJugador, cargarJugadoresDelClub } =
     useJugadorStore();
-  const borrar = (jugador) => {
+
+  const borrar = async (jugador) => {
     setJugadorActivo(jugador);
     borrarJugador(jugador);
   };
@@ -21,9 +22,8 @@ export function Jugadores() {
   const abrirModal = () => {
     setJugadorActivo(null);
   };
-
   useEffect(() => {
-    cargarJugadores();
+    cargarJugadoresDelClub();
   });
 
   return (
@@ -37,20 +37,8 @@ export function Jugadores() {
         />
         {jugadores.length > 0 ? (
           <Tabla
-            cabeceras={[
-              "Nombre",
-              "Rut",
-              "Fecha nacimiento",
-              "Club",
-              "Division",
-            ]}
-            filas={[
-              "name",
-              "rut",
-              "displayBirthdate",
-              "displayTeam",
-              "displayDivision",
-            ]}
+            cabeceras={["Nombre", "Rut", "Fecha nacimiento", "Division"]}
+            filas={["name", "rut", "displayBirthdate", "displayDivision"]}
             data={jugadores}
             editar={editarModal}
             borrar={borrar}
