@@ -2,6 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { backendApi } from "../api";
 import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store";
 
+import { onLogout as onLogoutAuth } from "store/auth/authSlice";
+import { onLogoutEvent as onLogoutClub } from "store/club/clubSlice";
+import { onLogoutEvent as onLogoutDivision } from "store/division/divisionSlice";
+import { onLogoutEvent as onLogoutEquipo } from "store/equipo/equipoSlice";
+import { onLogoutEvent as onLogoutEstadisticaLigaEquipo } from "store/estadisticaLigaEquipo/estadisticaLigaEquipoSlice";
+import { onLogoutEvent as onLogoutJugador } from "store/jugador/jugadorSlice";
+import { onLogoutEvent as onLogoutLiga } from "store/liga/ligaSlice";
+import { onLogoutEvent as onLogoutOrganizador } from "store/organizador/organizadorSlice";
+
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -21,7 +30,7 @@ export const useAuthStore = () => {
       );
       return data.role;
     } catch (error) {
-      dispatch(onLogout("Credenciales incorrectas"));
+      dispatch(startLogout("Credenciales incorrectas"));
       setTimeout(() => {
         dispatch(clearErrorMessage());
       }, 10);
@@ -59,9 +68,16 @@ export const useAuthStore = () => {
   };
   */
 
-  const startLogout = () => {
+  const startLogout = (msg) => {
     localStorage.clear();
-    dispatch(onLogout());
+    dispatch(msg ? onLogoutAuth(msg) : onLogoutAuth());
+    dispatch(onLogoutClub());
+    dispatch(onLogoutDivision());
+    dispatch(onLogoutEquipo());
+    dispatch(onLogoutEstadisticaLigaEquipo());
+    dispatch(onLogoutJugador());
+    dispatch(onLogoutLiga());
+    dispatch(onLogoutOrganizador());
   };
 
   return {
