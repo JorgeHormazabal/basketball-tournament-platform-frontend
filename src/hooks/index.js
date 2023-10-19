@@ -7,4 +7,5 @@ export * from './useForm';
 export * from './useJugadorStore';
 export * from './useLigaStore';
 export * from './useOrganizadorStore';
+export * from './usePartidoStore';
 export * from './useUiClub';

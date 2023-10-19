@@ -8,6 +8,7 @@ import {
   equipoSlice,
   ligaSlice,
   estadisticaLigaEquipoSlice,
+  partidoSlice,
 } from "./";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -23,6 +24,7 @@ export const store = configureStore({
     equipo: equipoSlice.reducer,
     liga: ligaSlice.reducer,
     estadisticaLigaEquipo: estadisticaLigaEquipoSlice.reducer,
+    partido: partidoSlice.reducer,
   },
   composedEnhancer,
 });

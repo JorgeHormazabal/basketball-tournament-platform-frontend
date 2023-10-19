@@ -1,3 +1,4 @@
+import TablaPartidos from "components/TablaPartidos/TablaPartidos";
 import React from "react";
 
 export default function EstadisticaLigaTab({
@@ -12,6 +13,7 @@ export default function EstadisticaLigaTab({
   rules,
   startDate,
   endDate,
+  teamId
 }) {
   return (
     <div>
@@ -43,6 +45,7 @@ export default function EstadisticaLigaTab({
             </tr>
           </tbody>
         </table>
+        <TablaPartidos teamId={teamId}/>
       </div>
     </div>
   );

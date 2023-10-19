@@ -21,7 +21,12 @@ export function LigasClub() {
         <div className="mt-5">
           {estadisticasLigaEquipo.length > 0 ? (
             estadisticasLigaEquipo.map((liga) => (
-              <EstadisticaLigaTab key={liga.id} {...liga} {...liga.league} />
+              <EstadisticaLigaTab
+                key={liga.id}
+                {...liga}
+                {...liga.league}
+                teamId={liga.team.id}
+              />
             ))
           ) : (
             <Spinner />
