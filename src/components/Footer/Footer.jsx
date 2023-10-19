@@ -17,7 +17,7 @@ export function Footer() {
           © 2023 Derechos reservados: Tromü
         </div>
         <div>
-          <img src="/img/ubb.png" style={{ width: "50px", height: "75px" }} />
+          <img src="img/ubb.png" style={{ width: "50px", height: "75px" }} />
         </div>
       </footer>
     </>
