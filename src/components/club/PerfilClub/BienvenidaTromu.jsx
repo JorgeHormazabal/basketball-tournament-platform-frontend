@@ -7,13 +7,13 @@ export function BienvenidaTromu() {
     <div className="bienvenida">
         <div className='row'>
         <div className='col-1'>
-        <img src="/src/assets/img/icon.png" alt="" />
+        <img src="img/icon.png" alt="" />
         </div>
         <div className='col-10'>
       <h1>¡Bienvenido a Tromü!</h1>
       </div>
       <div className='col-1'>
-      <img id='ubb' src="/src/assets/img/ubb.png" alt="" />
+      <img id='ubb' src="img/ubb.png" alt="" />
       </div>
       </div>
       <div className='row'>

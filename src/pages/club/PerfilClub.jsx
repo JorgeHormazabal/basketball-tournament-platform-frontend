@@ -16,11 +16,13 @@ export function PerfilClub() {
     cargarTotalDelClub().then((data) => setTotal(data));
   });
 
+
+
   return (
     <div className="dashboard-page">
+      <BienvenidaTromu/>
       <div className="perfil">
-        <BienvenidaTromu/>
-        <h2>Detalles del Club</h2>
+        
         <div className="d-flex flex-row m-5">
           <div>
             <img
