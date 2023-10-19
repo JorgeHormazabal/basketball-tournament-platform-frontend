@@ -19,6 +19,7 @@ import SidebarAdminitrador from "components/administrador/SidebarAdministrador/S
 import SidebarClub from "components/club/SidebarClub/SidebarClub";
 import { EquiposClub } from "pages/club/EquiposClub";
 import { LigasClub } from "pages/club/LigasClub";
+import { PerfilAdmin } from "pages/administrador/PerfilAdmin";
 
 const PublicLayout = () => {
   return (
@@ -58,6 +59,10 @@ const router = createBrowserRouter(
           path: "administrador",
           element: <AdminLayout />,
           children: [
+            {
+              path: "",
+              element: <PerfilAdmin />,
+            },
             {
               path: "organizadores",
               element: <Organizador />,

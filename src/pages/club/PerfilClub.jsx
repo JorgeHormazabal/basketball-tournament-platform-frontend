@@ -5,8 +5,6 @@ import { useEquipoStore } from "hooks/useEquipoStore";
 import { useState } from "react";
 import { BienvenidaTromu } from "components/club/PerfilClub/BienvenidaTromu";
 
-export const CLUBID = 4;
-
 export function PerfilClub() {
   const { user } = useAuthStore();
   const { cargarTotalDelClub } = useEquipoStore();
@@ -26,7 +24,7 @@ export function PerfilClub() {
         <div className="row shadow p-3 rounded">
           <div className="col-sm-4 bg-primary text-black rounded-left fondo">
             <div className="card-body text-center">
-              <img className="w-75 mt-4" src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Golden_State_Warriors_logo.svg/800px-Golden_State_Warriors_logo.svg.png" alt="User Logo" />
+              <img className="w-75 mt-4" src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Golden_State_Warriors_logo.svg/800px-Golden_State_Warriors_logo.svg.png"/>
               <h2 className="font-weight-bold mt-4">{user.name}</h2>
               <p className="rol">{user.role}</p>
             </div>
