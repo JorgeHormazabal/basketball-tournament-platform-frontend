@@ -38,7 +38,7 @@ export function Login() {
   return (
     <div className="login-background">
       <div className="login-box">
-        <img src="/img/icon.png" className="avatar" />
+        <img src="img/icon.png" className="avatar" />
         <h1 id="uno">¡Bienvenido a Tromü!</h1>
         <h1 id="dos">Iniciar Sesión</h1>
         <form onSubmit={loginSubmit}>
