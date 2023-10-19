@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig(() => {
   const config = {
     plugins: [react(), jsconfigPaths()],
-    base: "./",
+    base: "/",
     resolve: {
       alias: {
         "~bootstrap": path.resolve(__dirname, "node_modules/bootstrap"),

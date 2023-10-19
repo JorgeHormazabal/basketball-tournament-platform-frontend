@@ -11,19 +11,13 @@ export function Footer() {
         }}
       >
         <div>
-          <img
-            src="public/img/icon.png"
-            style={{ width: "75px", height: "75px" }}
-          />
+          <img src="/img/icon.png" style={{ width: "75px", height: "75px" }} />
         </div>
         <div className="text-center text-white">
           © 2023 Derechos reservados: Tromü
         </div>
         <div>
-          <img
-            src="public/img/ubb.png"
-            style={{ width: "50px", height: "75px" }}
-          />
+          <img src="/img/ubb.png" style={{ width: "50px", height: "75px" }} />
         </div>
       </footer>
     </>
