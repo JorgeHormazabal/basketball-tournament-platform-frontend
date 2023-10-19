@@ -17,7 +17,7 @@ export function BienvenidaTromu() {
       </div>
       </div>
       <div className='row'>
-      <h2>Ligas de Baloncesto</h2>
+      <h2>Página de Administración</h2>
       </div>
     </div>
     </div>

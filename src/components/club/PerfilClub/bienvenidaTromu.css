@@ -1,14 +1,14 @@
 .bienvenida{
     background: linear-gradient(to bottom, #ff8e3c, #d9376e);
     width: 100%;
-    height: 225px;
+    height: 175px;
     padding: 5px 10%;
-    margin-top: -30px;
+    margin-top: -64px;
     align-items: center;
     justify-content: center;
   }
   .bienvenida img{
-    margin-top: 30px;
+    margin-top: 20px;
     width: 100px;
     height: 100px;
   }
@@ -17,7 +17,7 @@
     height: 100px;
   }
   .bienvenida h1{
-    margin-top: 35px;
+    margin-top: 20px;
     text-align: center;
     font-size: 3rem;
     font-weight: bold;
@@ -26,5 +26,14 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: lighter;
+    margin-top: -20px;
   }
-  
+  .fondo{
+    background: linear-gradient(to bottom, #ff8e3c, #d9376e);
+  }
+  .container{
+    margin-top: -30px;
+  }
+  .rol{
+    margin-top: -10px;
+  }
