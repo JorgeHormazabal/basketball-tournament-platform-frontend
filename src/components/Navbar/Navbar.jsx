@@ -6,7 +6,7 @@ export const Navbar = () => {
     <header className="header">
       <div className="logo">
         <Link to="/" className="titulo">
-          <img src="/src/assets/img/icon.png" />
+          <img src="img/icon.png" />
           Tromü
         </Link>
       </div>
