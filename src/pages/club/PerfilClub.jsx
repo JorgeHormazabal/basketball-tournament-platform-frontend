@@ -3,6 +3,7 @@ import { useAuthStore } from "hooks";
 import "../Dashboard.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
 import { useState } from "react";
+import { BienvenidaTromu } from "components/club/PerfilClub/BienvenidaTromu"
 
 export const CLUBID = 4;
 
@@ -18,12 +19,12 @@ export function PerfilClub() {
   return (
     <div className="dashboard-page">
       <div className="perfil">
+        <BienvenidaTromu/>
         <h2>Detalles del Club</h2>
         <div className="d-flex flex-row m-5">
           <div>
             <img
               src="https://seeklogo.com/images/L/leo-clubs-logo-8B01BF9C26-seeklogo.com.png"
-              alt=""
             />
           </div>
           <div className="m-5">

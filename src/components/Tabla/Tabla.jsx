@@ -30,7 +30,7 @@ export default function Tabla({
               {data.map((objeto, index) => (
                 <tr key={index}>
                   <th className="text-end" scope="row">
-                    {index}
+                    {index+1}
                   </th>
                   {filas.map((propiedad) => (
                     <td key={propiedad} className="text-start">
