@@ -17,7 +17,7 @@ export default function SidebarClub() {
       }}
     >
       <SideNav.Toggle id="sidenav--toggle" />
-      <SideNav.Nav defaultSelected="/club/">
+      <SideNav.Nav defaultSelected="/club">
         <NavItem className="unclickeable">
           <NavIcon>
             <span className="sidenav--icon"></span>

@@ -6,7 +6,7 @@ import { FiLogOut } from "react-icons/fi";
 export const SidebarData = [
   {
     title: "Club",
-    path: "/club/",
+    path: "/club",
     icon: <FaHouseChimney style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },

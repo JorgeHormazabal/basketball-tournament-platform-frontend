@@ -1,11 +1,17 @@
 import { FaPeopleGroup, FaPowerOff } from "react-icons/fa6";
-import { FaHouseUser, FaPeopleRoof, FaPerson, FaTableList, FaUserLarge } from "react-icons/fa6";
+import {
+  FaHouseUser,
+  FaPeopleRoof,
+  FaPerson,
+  FaTableList,
+  FaUserLarge,
+} from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 
 export const SidebarData = [
   {
     title: "Administrador",
-    path: "/administrador/",
+    path: "/administrador",
     icon: <FaUserLarge style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },

@@ -17,7 +17,7 @@ export default function SidebarAdminitrador() {
       }}
     >
       <SideNav.Toggle id="sidenav--toggle" />
-      <SideNav.Nav defaultSelected="/">
+      <SideNav.Nav defaultSelected="/administrador">
         <NavItem className="unclickeable">
           <NavIcon>
             <span className="sidenav--icon"></span>
