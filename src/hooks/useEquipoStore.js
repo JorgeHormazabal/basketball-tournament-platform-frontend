@@ -94,7 +94,7 @@ export const useEquipoStore = () => {
 
   const cargarTotalDelClub = async () => {
     try {
-      const { data } = await backendApi.get("/teams/count/");
+      const { data } = await backendApi.get("/teams/club/count/");
       return data;
     } catch (error) {
       console.log("Error cargando equipos");

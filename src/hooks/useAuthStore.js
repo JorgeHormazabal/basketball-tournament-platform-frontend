@@ -50,6 +50,42 @@ export const useAuthStore = () => {
     }
   };
 
+  const cargarTotal = async () => {
+    try {
+      const endpoints = [
+        "clubs/count",
+        "organizers/count",
+        "players/count",
+        "matches/count",
+        "leagues/count",
+        "teams/count",
+      ];
+      const requests = endpoints.map((endpoint) => backendApi.get(endpoint));
+      const responses = await Promise.all(requests);
+      const totals = responses.map((response) => response.data);
+      const [
+        totalClubes,
+        totalOrganizadores,
+        totalJugadores,
+        totalPartidos,
+        totalLigas,
+        totalEquipos,
+      ] = totals;
+
+      return {
+        totalOrganizadores,
+        totalClubes,
+        totalEquipos,
+        totalLigas,
+        totalPartidos,
+        totalJugadores,
+      };
+    } catch (error) {
+      console.error("Error al cargar los totales:", error);
+      return {};
+    }
+  };
+
   /*
   //TODO: hacer end-point en backend
   const checkAuthToken = async () => {
@@ -90,5 +126,6 @@ export const useAuthStore = () => {
     checkAuthToken,
     startLogin,
     startLogout,
+    cargarTotal,
   };
 };
