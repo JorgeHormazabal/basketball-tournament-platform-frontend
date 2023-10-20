@@ -1,25 +1,23 @@
-import { Navbar } from "components/Navbar/Navbar";
-import { Club } from "pages/administrador/Club";
-import { Divisiones } from "pages/administrador/Divisiones";
-import { Equipos } from "pages/administrador/";
-import { Jugadores } from "pages/administrador/Jugadores";
-import { Organizador } from "pages/administrador/Organizador";
-import { Clubes } from "pages/invitado/Clubes/Clubes";
-import { Home } from "pages/invitado/Home/Home";
-import { Ligas } from "pages/invitado/Ligas/Ligas";
-import { Pasados } from "pages/invitado/Pasados/Pasados";
-import { Proximos } from "pages/invitado/Proximos/Proximos";
-import { Login } from "pages/invitado/Login/Login";
-import { Footer } from "components/Footer/Footer";
-import { PerfilClub } from "pages/club/PerfilClub";
-import { JugadoresClub } from "pages/club/JugadoresClub";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./app.css";
-import SidebarAdminitrador from "components/administrador/SidebarAdministrador/SidebarAdministrador";
-import SidebarClub from "components/club/SidebarClub/SidebarClub";
-import { EquiposClub } from "pages/club/EquiposClub";
-import { LigasClub } from "pages/club/LigasClub";
-import { PerfilAdmin } from "pages/administrador/PerfilAdmin";
+import {
+  Navbar,
+  Footer,
+  SidebarAdministrador,
+  SidebarClub,
+  SidebarOrganizador,
+} from "components/";
+import {
+  PerfilAdmin,
+  Equipos,
+  Jugadores,
+  Divisiones,
+  Club,
+  Organizador,
+} from "pages/administrador/";
+import { PerfilClub, JugadoresClub, EquiposClub, LigasClub } from "pages/club/";
+import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
+import { PerfilOrganizador, LigasOrganizador } from "pages/organizador/";
 
 const PublicLayout = () => {
   return (
@@ -42,10 +40,19 @@ const ClubLayout = () => {
   );
 };
 
+const OrganizadorLayout = () => {
+  return (
+    <>
+      <SidebarOrganizador />
+      <Outlet />
+    </>
+  );
+};
+
 const AdminLayout = () => {
   return (
     <>
-      <SidebarAdminitrador />
+      <SidebarAdministrador />
       <Outlet />
     </>
   );
@@ -105,6 +112,14 @@ const router = createBrowserRouter(
               path: "ligas",
               element: <LigasClub />,
             },
+          ],
+        },
+        {
+          path: "organizador",
+          element: <OrganizadorLayout />,
+          children: [
+            { path: "", element: <PerfilOrganizador /> },
+            { path: "ligas", element: <LigasOrganizador /> },
           ],
         },
         {
