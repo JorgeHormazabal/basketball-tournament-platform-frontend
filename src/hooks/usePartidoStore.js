@@ -15,7 +15,6 @@ export const usePartidoStore = () => {
     (state) => state.partido
   );
   const { user } = useSelector((state) => state.auth);
-
   const setPartidoActivo = async (partido) => {
     await dispatch(await onSetActiveEvent(partido));
   };
@@ -40,6 +39,17 @@ export const usePartidoStore = () => {
     }
   };
 
+  const cargarPartidosDeLaLiga = async (ligaId) => {
+    try {
+      const { data } = await backendApi.get(`/leagues/${ligaId}/matches`);
+      console.log(data.matches);
+      dispatch(onLoadEvents(data.matches));
+    } catch (error) {
+      console.log("Error cargando partidos");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     partidoActivo,
@@ -50,5 +60,6 @@ export const usePartidoStore = () => {
     setPartidoActivo,
     cargarPartidos,
     cargarPartidosDelEquipo,
+    cargarPartidosDeLaLiga,
   };
 };
