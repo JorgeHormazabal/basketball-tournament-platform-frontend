@@ -16,6 +16,7 @@ import {
   Organizador,
 } from "pages/administrador/";
 import { PerfilClub, JugadoresClub, EquiposClub, LigasClub } from "pages/club/";
+import { Estadisticas } from "pages/club/Estadisticas"
 import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
 import { PerfilOrganizador, LigasOrganizador } from "pages/organizador/";
 
@@ -111,6 +112,10 @@ const router = createBrowserRouter(
             {
               path: "ligas",
               element: <LigasClub />,
+            },
+            {
+              path: "estadisticas",
+              element: <Estadisticas />,
             },
           ],
         },

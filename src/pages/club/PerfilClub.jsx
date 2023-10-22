@@ -22,10 +22,10 @@ export function PerfilClub() {
     <div className="row justify-content-center">
       <div className="col-md-10 pt-5">
         <div className="row shadow p-3 rounded">
-          <div className="col-sm-4 bg-primary text-black rounded-left fondo">
+          <div className="col-sm-4 bg-primary text-white rounded-left fondo">
             <div className="card-body text-center">
               <img className="w-75 mt-4" src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Golden_State_Warriors_logo.svg/800px-Golden_State_Warriors_logo.svg.png"/>
-              <h2 className="font-weight-bold mt-4">{user.name}</h2>
+              <h2 className="fw-bold mt-4">{user.name}</h2>
               <p className="rol">{user.role}</p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export function PerfilClub() {
                 <h6 className="text-muted">{user.email}</h6>
               </div>
               <div className="col-sm-6">
-                <p className="font-weight-bold">Correo:</p>
+                <p className="font-weight-bold">Celular:</p>
                 <h6 className="text-muted">{user.email}</h6>
               </div>
             </div>

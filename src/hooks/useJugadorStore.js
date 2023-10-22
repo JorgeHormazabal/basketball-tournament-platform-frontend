@@ -24,9 +24,9 @@ export const useJugadorStore = () => {
   const guardarJugador = async (jugador) => {
     try {
       if (jugador.id.length !== 0) {
-        const { id, teamId } = jugador;
+        const { id, teamId, height, weight, shirtNumber, name, rut, birthdate, displayBirthdate, displayDivision, displayTeam, team, ...jugadorResto} = jugador;
         const { data } = await backendApi.patch(`/players/${id}`, {
-          teamId: Number(teamId),
+          teamId: Number(teamId), height: Number(height), weight: Number(weight), shirtNumber: Number(shirtNumber), ...jugadorResto
         });
         dispatch(
           onUpdateEvent({
@@ -36,9 +36,10 @@ export const useJugadorStore = () => {
           })
         );
       } else {
-        const { id, ...jugadorResto } = jugador;
+        const { id, height, weight, shirtNumber, ...jugadorResto } = jugador;
+        console.log(jugador);
         const { data } = await backendApi.post("/players", {
-          ...jugadorResto,
+          height: Number(height), weight: Number(weight), shirtNumber: Number(shirtNumber),...jugadorResto,
           teamId: Number(jugadorResto.teamId),
         });
         dispatch(

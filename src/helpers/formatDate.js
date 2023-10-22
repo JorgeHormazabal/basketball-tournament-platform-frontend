@@ -9,7 +9,7 @@ function formattedDateTime(dateTimeString) {
   const minutes = dateTime.getMinutes();
 
   // Formatea la fecha y hora en un formato legible para los humanos
-  const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
+  const formattedDateTime = `${day}/${month}/${year}`; //${hours}:${minutes}
 
   return formattedDateTime;
 }

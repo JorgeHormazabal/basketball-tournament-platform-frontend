@@ -19,10 +19,10 @@ export function PerfilAdmin() {
         <div className="row justify-content-center">
           <div className="col-md-10 pt-5">
             <div className="row shadow p-3 rounded">
-              <div className="col-sm-4 bg-primary text-black rounded-left fondo">
+              <div className="col-sm-4 bg-primary text-white rounded-left fondo">
                 <div className="card-body text-center">
                   <img className="w-75 mt-4" src="img/icon.png" />
-                  <h2 className="font-weight-bold mt-4">{user.name}</h2>
+                  <h2 className="fw-bold mt-4">{user.name}</h2>
                   <p className="rol">{user.role}</p>
                 </div>
               </div>
@@ -31,7 +31,7 @@ export function PerfilAdmin() {
                 <hr className="mt-0 w-100"></hr>
                 <div className="row">
                   <div className="col-sm-12">
-                    <p className="font-weight-bold d-inline">Correo: </p>
+                    <p className="font-weight-bold d-inline">Celular: </p>
                     <h6 className="text-muted d-inline">{user.email}</h6>
                   </div>
                 </div>

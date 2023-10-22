@@ -6,6 +6,7 @@ import BotonAgregar from "components/BotonAgregar/BotonAgregar";
 import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
 import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
+import { ModalDetallesJugador } from "components/club/ModalDetallesJugador/ModalDetallesJugador";
 
 export function JugadoresClub() {
   const { jugadores, setJugadorActivo, borrarJugador, cargarJugadoresDelClub } =
@@ -19,6 +20,11 @@ export function JugadoresClub() {
   const editarModal = (jugador) => {
     setJugadorActivo(jugador);
   };
+
+  const mostrarJugador = (jugador) => {
+    setJugadorActivo(jugador);
+  };
+
   const abrirModal = () => {
     setJugadorActivo(null);
   };
@@ -43,12 +49,17 @@ export function JugadoresClub() {
             editar={editarModal}
             borrar={borrar}
             modalId={"modalJugador"}
+            modalId2={"ModalDetallesJugador"}
+            mostrarDetalles={true}
+            mostrarEditar={false}
+            mostrarJugador={mostrarJugador}
           />
         ) : (
           <Spinner />
         )}
       </div>
       <ModalJugador />
+      <ModalDetallesJugador/>
     </div>
   );
 }

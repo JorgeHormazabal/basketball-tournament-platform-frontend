@@ -5,6 +5,10 @@ export default function Tabla({
   editar,
   borrar,
   modalId,
+  modalId2,
+  mostrarJugador,
+  mostrarEditar = true,
+  mostrarDetalles = false,
 }) {
   return (
     <div className="row mt-4">
@@ -39,6 +43,17 @@ export default function Tabla({
                   ))}
                   <td className="d-flex align-items-center justify-content-center">
                     <div className="btn-group" role="group">
+                      {mostrarDetalles && (
+                        <button
+                          className="btn btn-secondary"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#${modalId2}`}
+                          onClick={() => mostrarJugador(objeto)}
+                        >
+                          <i className="fa-solid fa-eye"></i> Ver más
+                        </button>
+                      )}
+                      {mostrarEditar && (
                       <button
                         className="btn btn-secondary"
                         data-bs-toggle="modal"
@@ -47,6 +62,7 @@ export default function Tabla({
                       >
                         <i className="fa-solid fa-edit"></i> Editar
                       </button>
+                      )}
                       <button
                         onClick={() => borrar(objeto)}
                         className="btn btn-danger"
