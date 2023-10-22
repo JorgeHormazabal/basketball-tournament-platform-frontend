@@ -19,6 +19,35 @@ export const usePartidoStore = () => {
     await dispatch(await onSetActiveEvent(partido));
   };
 
+  const guardarPartido = async (partido) => {
+    try {
+      if (partido.id.length !== 0) {
+        //TODO: update
+        const data = "";
+        dispatch(onUpdateEvent({ ...partido, ...data }));
+      } else {
+        const { id, ...partidoResto } = partido;
+        const { data } = await backendApi.post("/matches", {
+          ...partidoResto,
+          homeId: Number(partidoResto.homeId),
+          awayId: Number(partidoResto.awayId),
+        });
+        dispatch(onAddNewEvent(data));
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Partido guardado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error(error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
+    }
+  };
+
   const cargarPartidos = async () => {
     try {
       const { data } = await backendApi.get("/matches");
@@ -58,6 +87,7 @@ export const usePartidoStore = () => {
 
     //* Métodos
     setPartidoActivo,
+    guardarPartido,
     cargarPartidos,
     cargarPartidosDelEquipo,
     cargarPartidosDeLaLiga,

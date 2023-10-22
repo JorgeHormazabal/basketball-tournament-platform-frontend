@@ -92,6 +92,16 @@ export const useEquipoStore = () => {
     }
   };
 
+  const cargarEquiposDeLiga = async (ligaId) => {
+    try {
+      const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando equipos");
+      console.log(error);
+    }
+  };
+
   const cargarTotalDelClub = async () => {
     try {
       const { data } = await backendApi.get("/teams/club/count/");
@@ -113,6 +123,7 @@ export const useEquipoStore = () => {
     borrarEquipo,
     cargarEquipos,
     cargarEquiposDelClub,
+    cargarEquiposDeLiga,
     guardarEquipo,
     cargarTotalDelClub,
   };

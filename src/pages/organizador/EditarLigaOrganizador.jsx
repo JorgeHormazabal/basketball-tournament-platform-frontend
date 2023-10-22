@@ -1,6 +1,9 @@
 import { useLigaStore, usePartidoStore } from "hooks";
 import "../Dashboard.scss";
 import { useEffect } from "react";
+import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
+import { BotonAgregar } from "components";
+import { ModalPartido } from "components/organizador/ModalPartido/ModalPartido";
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva } = useLigaStore();
@@ -17,14 +20,18 @@ export default function EditarLigaOrganizador() {
           <h3>Informacion</h3>
         </div>
         <div className="ps-4 pt-4">
-          <h3>Partidos</h3>
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h3 className="m-0">Partidos</h3>
+            <BotonAgregar modalId="modalPartido" />
+          </div>
           {partidos.length > 0 ? (
-            partidos.map((partido) => <h1 key={partido.id}>{partido.id}</h1>)
+            <TablaPartidosOrganizador partidos={partidos} />
           ) : (
             <span>Cargando</span>
           )}
         </div>
       </div>
+      <ModalPartido />
     </div>
   );
 }

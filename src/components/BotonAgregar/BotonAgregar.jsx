@@ -1,6 +1,6 @@
 export default function BotonAgregar({ titulo, boton, abrir, modalId }) {
   return (
-    <div className="row mt-3">
+    <div className="row">
       <div className="col d-flex justify-content-between align-items-start">
         <h1>{titulo}</h1>
         <div className="">
