@@ -1,5 +1,5 @@
 import Spinner from "components/Spinner/Spinner";
-import { formatDate } from "helpers";
+import { formatDateTime } from "helpers";
 import { usePartidoStore } from "hooks";
 import React from "react";
 import { useEffect } from "react";
@@ -29,7 +29,9 @@ export default function TablaPartidos({ teamId }) {
           <tbody>
             {partidos.map((objeto, index) => (
               <tr key={index}>
-                <td className="text-start">{formatDate(objeto.dateTime)}</td>
+                <td className="text-start">
+                  {formatDateTime(objeto.dateTime)}
+                </td>
                 <td className="text-start">{objeto.place}</td>
                 <td className="text-start">{objeto.home.club.name}</td>
                 <td className="text-start">{objeto.away.club.name}</td>

@@ -20,22 +20,17 @@ export const useLigaStore = () => {
     await dispatch(onSetActiveEvent(liga));
   };
 
-  const guardarLiga = async (liga) => {
+  const guardarLigaOrganizador = async (liga) => {
     try {
       //TODO:
       if (liga.id.length !== 0) {
-        const { id, teamId } = liga;
-        const { data } = await backendApi.patch(`/players/${id}`, {
-          teamId: Number(teamId),
-        });
-        if (data.team) data.displayDivision = data.team.division.category;
-        console.log(data);
+        const { id, organizerId, ...restoLiga } = liga;
+        const { data } = await backendApi.patch(`/league/${id}`, restoLiga);
         dispatch(onUpdateEvent({ ...liga, ...data, user }));
       } else {
-        const { id, ...jugadorResto } = liga;
-        const { data } = await backendApi.post("/players", {
-          ...jugadorResto,
-          teamId: Number(jugadorResto.teamId),
+        const { id, ...restoLiga } = liga;
+        const { data } = await backendApi.post("/league/organizer", {
+          ...restoLiga,
         });
         dispatch(onAddNewEvent(data));
       }
@@ -83,6 +78,16 @@ export const useLigaStore = () => {
     }
   };
 
+  const cargarLigasDelOrganizador = async () => {
+    try {
+      const { data } = await backendApi.get("/leagues/organizer");
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando ligas");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     ligaActiva,
@@ -93,7 +98,8 @@ export const useLigaStore = () => {
     setLigaActiva,
     borrarLiga,
     cargarLigas,
-    guardarLiga,
+    guardarLigaOrganizador,
     cargarLigasDelClub,
+    cargarLigasDelOrganizador,
   };
 };
