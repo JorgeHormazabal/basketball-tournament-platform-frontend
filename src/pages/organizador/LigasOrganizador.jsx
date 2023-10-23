@@ -1,6 +1,6 @@
 import { Spinner } from "components";
 import CardLiga from "components/organizador/CardLiga/CardLiga";
-import { useEstadisticaLigaEquipoStore, useLigaStore } from "hooks";
+import { useLigaStore } from "hooks";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { BotonAgregar } from "components";

@@ -69,7 +69,7 @@ export function Jugadores() {
         )}
       </div>
       <ModalJugador />
-      <ModalDetallesJugador/>
+      <ModalDetallesJugador />
     </div>
   );
 }

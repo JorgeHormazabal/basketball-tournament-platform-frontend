@@ -1,4 +1,8 @@
-import { useLigaStore, usePartidoStore } from "hooks";
+import {
+  useEstadisticaLigaEquipoStore,
+  useLigaStore,
+  usePartidoStore,
+} from "hooks";
 import "../Dashboard.scss";
 import { useEffect } from "react";
 import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
@@ -9,6 +13,8 @@ export default function EditarLigaOrganizador() {
   const { ligaActiva } = useLigaStore();
   const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } =
     usePartidoStore();
+  const { cargarEstadisticasDeLiga, estadisticasLigaEquipo } =
+    useEstadisticaLigaEquipoStore();
 
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
@@ -24,6 +30,7 @@ export default function EditarLigaOrganizador() {
 
   useEffect(() => {
     cargarPartidosDeLaLiga(ligaActiva.id);
+    cargarEstadisticasDeLiga(ligaActiva.id);
   });
 
   return (

@@ -75,12 +75,24 @@ export const useEstadisticaLigaEquipoStore = () => {
   };
   */
 
-  const cargarLigasDelClub = async () => {
+  const cargarEstadisticasYLigasDelClub = async () => {
     try {
       const { data } = await backendApi.get("/team-league-statistics/club");
       dispatch(onLoadEvents(data));
     } catch (error) {
-      console.log("Error cargando ligas");
+      console.log("Error cargando estadisticas");
+      console.log(error);
+    }
+  };
+
+  const cargarEstadisticasDeLiga = async (ligaId) => {
+    try {
+      const { data } = await backendApi.get(
+        `/team-league-statistics/league/${ligaId}`
+      );
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando estadisticas");
       console.log(error);
     }
   };
@@ -98,6 +110,7 @@ export const useEstadisticaLigaEquipoStore = () => {
     cargarLigas,
     guardarLiga,
     */
-    cargarLigasDelClub,
+    cargarEstadisticasYLigasDelClub,
+    cargarEstadisticasDeLiga,
   };
 };
