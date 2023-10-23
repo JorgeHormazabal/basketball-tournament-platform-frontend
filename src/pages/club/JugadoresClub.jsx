@@ -43,7 +43,7 @@ export function JugadoresClub() {
         />
         {jugadores.length > 0 ? (
           <Tabla
-            cabeceras={["Nombre", "Rut", "Fecha nacimiento", "Division"]}
+            cabeceras={["Nombre", "Rut", "Fecha nacimiento", "División"]}
             filas={["name", "rut", "displayBirthdate", "displayDivision"]}
             data={jugadores}
             editar={editarModal}

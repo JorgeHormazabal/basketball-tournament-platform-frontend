@@ -38,7 +38,7 @@ export function Equipos() {
         />
         {equipos.length > 0 ? (
           <Tabla
-            cabeceras={["Club", "Division", "Entrenador"]}
+            cabeceras={["Club", "División", "Entrenador"]}
             filas={["displayClub", "displayDivision", "coach"]}
             data={equipos}
             editar={editarModal}

@@ -33,15 +33,15 @@ export default function Tabla({
             <tbody>
               {data.map((objeto, index) => (
                 <tr key={index}>
-                  <th className="text-end" scope="row">
+                  <th className="pt-2 text-end" scope="row">
                     {index+1}
                   </th>
                   {filas.map((propiedad) => (
-                    <td key={propiedad} className="text-start">
+                    <td key={propiedad} className="pt-2 text-start">
                       {objeto[propiedad]}
                     </td>
                   ))}
-                  <td className="d-flex align-items-center justify-content-center">
+                  <td className="align-items-center justify-content-center">
                     <div className="btn-group" role="group">
                       {mostrarDetalles && (
                         <button

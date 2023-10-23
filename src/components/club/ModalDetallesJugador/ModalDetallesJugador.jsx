@@ -4,16 +4,11 @@ import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
 
 export const ModalDetallesJugador = () => { 
 
-  const { jugadorActivo, setJugadorActivo } = useJugadorStore();
-  const [modalAbierto, setModalAbierto] = useState(false);
+  const { jugadorActivo, cargarJugadores } = useJugadorStore();
 
   useEffect(() => {
+    cargarJugadores
   }, [jugadorActivo]);
-
-  const editarModal = (jugador) => {
-    setJugadorActivo(jugador);
-    setModalAbierto(true);
-  };
 
   return (
     <div id="ModalDetallesJugador" className="modal fade" aria-hidden="true">
