@@ -2,12 +2,11 @@ import { useJugadorStore } from "hooks";
 import { useEffect, useState } from "react";
 import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
 
-export const ModalDetallesJugador = () => { 
-
+export const ModalDetallesJugador = () => {
   const { jugadorActivo, cargarJugadores } = useJugadorStore();
 
   useEffect(() => {
-    cargarJugadores
+    cargarJugadores;
   }, [jugadorActivo]);
 
   return (
@@ -24,49 +23,48 @@ export const ModalDetallesJugador = () => {
             ></button>
           </div>
           <div className="modal-body">
-          <p className="fw-bold">Nombre</p>
-          <p>{jugadorActivo?.name}</p>
-          <p className="fw-bold">Rut</p>
-          <p>{jugadorActivo?.rut}</p>
-          <p className="fw-bold">Fecha de Nacimiento</p>
-          <p>{jugadorActivo?.displayBirthdate}</p>
-          <p className="fw-bold">Equipo</p>
-          <p>{jugadorActivo?.displayDivision}</p>
-          <p className="fw-bold">Telefono</p>
-          <p>{jugadorActivo?.phone}</p>
-          <p className="fw-bold">Correo</p>
-          <p>{jugadorActivo?.email}</p>
-          <p className="fw-bold">Nombre de Contacto de Emergencia</p>
-          <p>{jugadorActivo?.emergencyName}</p>
-          <p className="fw-bold">Número de Contacto de Emergencia</p>
-          <p>{jugadorActivo?.emergencyPhone}</p>
-          <p className="fw-bold">Altura</p>
-          <p>{jugadorActivo?.height+" CM"}</p>
-          <p className="fw-bold">Peso</p>
-          <p>{jugadorActivo?.weight+" KG"}</p>
-          <p className="fw-bold">Posición</p>
-          <p>{jugadorActivo?.position}</p>
-          <p className="fw-bold">Numero de Camiseta</p>
-          <p>{jugadorActivo?.shirtNumber}</p>
-          <p className="fw-bold">Talla de Camiseta</p>
-          <p>{jugadorActivo?.shirtSize}</p>
-          <p className="fw-bold">Talla de Short</p>
-          <p>{jugadorActivo?.shortsSize}</p>
-          <p className="fw-bold">Talla de Zapatillas</p>
-          <p>{jugadorActivo?.shoeSize}</p>
-          <p className="fw-bold">Detalles Clinicos</p>
-          <p>{jugadorActivo?.clinicalDetail}</p>
+            <p className="fw-bold">Nombre</p>
+            <p>{jugadorActivo?.name}</p>
+            <p className="fw-bold">Rut</p>
+            <p>{jugadorActivo?.rut}</p>
+            <p className="fw-bold">Fecha de Nacimiento</p>
+            <p>{jugadorActivo?.displayBirthdate}</p>
+            <p className="fw-bold">Equipo</p>
+            <p>{jugadorActivo?.displayDivision}</p>
+            <p className="fw-bold">Telefono</p>
+            <p>{jugadorActivo?.phone}</p>
+            <p className="fw-bold">Correo</p>
+            <p>{jugadorActivo?.email}</p>
+            <p className="fw-bold">Nombre de Contacto de Emergencia</p>
+            <p>{jugadorActivo?.emergencyName}</p>
+            <p className="fw-bold">Número de Contacto de Emergencia</p>
+            <p>{jugadorActivo?.emergencyPhone}</p>
+            <p className="fw-bold">Altura</p>
+            <p>{jugadorActivo?.height + " CM"}</p>
+            <p className="fw-bold">Peso</p>
+            <p>{jugadorActivo?.weight + " KG"}</p>
+            <p className="fw-bold">Posición</p>
+            <p>{jugadorActivo?.position}</p>
+            <p className="fw-bold">Numero de Camiseta</p>
+            <p>{jugadorActivo?.shirtNumber}</p>
+            <p className="fw-bold">Talla de Camiseta</p>
+            <p>{jugadorActivo?.shirtSize}</p>
+            <p className="fw-bold">Talla de Short</p>
+            <p>{jugadorActivo?.shortsSize}</p>
+            <p className="fw-bold">Talla de Zapatillas</p>
+            <p>{jugadorActivo?.shoeSize}</p>
+            <p className="fw-bold">Detalles Clinicos</p>
+            <p>{jugadorActivo?.clinicalDetail}</p>
 
-          <div className="d-grid col-6 mx-auto">
-            <button
-              className="btn btn-secondary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalJugador"
-            >
-            <i className="fa-solid fa-edit"></i> Editar Jugador
-            </button>
-          </div>
-          
+            <div className="d-grid col-6 mx-auto">
+              <button
+                className="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalJugador"
+              >
+                <i className="fa-solid fa-edit"></i> Editar Jugador
+              </button>
+            </div>
           </div>
           <div className="modal-footer">
             <button
@@ -80,7 +78,6 @@ export const ModalDetallesJugador = () => {
           </div>
         </div>
       </div>
-      <ModalJugador />
     </div>
   );
 };

@@ -34,6 +34,7 @@ export const ModalJugador = () => {
   );
 
   useEffect(() => {
+    console.log("laconchatumadre");
     cargarEquiposDelClub();
     if (jugadorActivo !== null) {
       setFormValues({ ...jugadorActivo, teamId: jugadorActivo.team.id });
@@ -55,7 +56,6 @@ export const ModalJugador = () => {
   };
 
   return (
-    
     <div id="modalJugador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
