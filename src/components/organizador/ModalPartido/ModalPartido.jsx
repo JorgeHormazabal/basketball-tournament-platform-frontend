@@ -166,7 +166,7 @@ export const ModalPartido = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-envelope"></i>
+                  <i className="fa-solid fa-calendar-days"></i>
                 </span>
                 <input
                   type="datetime-local"
@@ -184,7 +184,7 @@ export const ModalPartido = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
+                  <i className="fa-solid fa-map-pin"></i>
                 </span>
                 <input
                   type="text"

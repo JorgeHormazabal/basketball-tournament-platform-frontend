@@ -31,12 +31,12 @@ export default function EditarLigaOrganizador() {
       <div className="container-fluid">
         <h1>{ligaActiva.name}</h1>
         <div className="ps-4 pt-4">
-          <h3>Informacion</h3>
+          <h3>Información</h3>
         </div>
         <div className="ps-4 pt-4">
           <div className="d-flex flex-row justify-content-between align-items-center">
             <h3 className="m-0">Partidos</h3>
-            <BotonAgregar modalId="modalPartido" abrir={abrirModal} />
+            <BotonAgregar modalId="modalPartido" abrir={abrirModal} boton=" Crear Partido" />
           </div>
           {partidos.length > 0 ? (
             <TablaPartidosOrganizador

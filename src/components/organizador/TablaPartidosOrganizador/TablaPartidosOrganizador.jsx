@@ -11,13 +11,13 @@ export default function TablaPartidosOrganizador({
       <table className="table table-sm ">
         <thead className="table-light">
           <tr>
-            <th scope="col">Fecha</th>
+            <th className="text-center" scope="col">Fecha</th>
             <th scope="col">Lugar</th>
             <th scope="col">Local</th>
             <th scope="col">Visitante</th>
             <th scope="col">Puntos Local</th>
             <th scope="col">Puntos Visitantes</th>
-            <th scope="col">Acciones</th>
+            <th className="text-center" scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -27,9 +27,9 @@ export default function TablaPartidosOrganizador({
               <td className="text-start">{objeto.place}</td>
               <td className="text-start">{objeto.home.club.name}</td>
               <td className="text-start">{objeto.away.club.name}</td>
-              <td className="text-start">{objeto.homePoints}</td>
-              <td className="text-start">{objeto.awayPoints}</td>
-              <td className="d-flex align-items-center justify-content-center">
+              <td className="text-center">{objeto.homePoints}</td>
+              <td className="text-center">{objeto.awayPoints}</td>
+              <td className="align-items-center justify-content-center">
                 <div className="btn-group" role="group">
                   <button
                     className="btn btn-secondary"
