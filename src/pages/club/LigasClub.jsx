@@ -7,11 +7,11 @@ import EstadisticaLigaTab from "components/club/EstadisticaLigaTab/EstadisticaLi
 import { useEstadisticaLigaEquipoStore } from "hooks";
 
 export function LigasClub() {
-  const { estadisticasLigaEquipo, cargarLigasDelClub } =
+  const { estadisticasLigaEquipo, cargarEstadisticasYLigasDelClub } =
     useEstadisticaLigaEquipoStore();
 
   useEffect(() => {
-    cargarLigasDelClub();
+    cargarEstadisticasYLigasDelClub();
   });
 
   return (
