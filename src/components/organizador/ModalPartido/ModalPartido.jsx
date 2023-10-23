@@ -3,7 +3,7 @@ import { useJugadorStore, useLigaStore, usePartidoStore } from "hooks";
 import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
 
-const partidoVacio = {
+const nuevoPartidoVacio = {
   id: "",
   dateTime: new Date(),
   leagueId: "",
@@ -16,7 +16,7 @@ export const ModalPartido = () => {
   const { partidoActivo, guardarPartido } = usePartidoStore();
   const { ligaActiva } = useLigaStore();
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
-  const [formValues, setFormValues] = useState(partidoVacio);
+  const [formValues, setFormValues] = useState(nuevoPartidoVacio);
 
   const titulo = useMemo(
     () => (partidoActivo === null ? "Nuevo Partido" : "Editar Partido"),
@@ -25,12 +25,18 @@ export const ModalPartido = () => {
 
   useEffect(() => {
     cargarEquiposDeLiga(ligaActiva.id);
+    console.log(partidoActivo?.dateTime);
     if (partidoActivo !== null) {
-      //TODO: update partido
+      setFormValues({
+        id: partidoActivo.id,
+        dateTime: partidoActivo.dateTime.slice(0, -8),
+        place: partidoActivo.place,
+        homePoints: partidoActivo.homePoints,
+        awayPoints: partidoActivo.awayPoints,
+      });
     } else {
-      setFormValues(partidoVacio);
+      setFormValues({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
     }
-    setFormValues({ ...formValues, leagueId: ligaActiva.id });
   }, [partidoActivo]);
 
   const onInputChanged = ({ target }) => {
@@ -60,60 +66,100 @@ export const ModalPartido = () => {
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
             <input type="hidden" id="id" />
-            {!formValues.id && ( // Check if formValues.id is falsy
-              <></>
+            {!formValues.id ? (
+              <>
+                <div className="mb-3">
+                  <label htmlFor="homeId" className="form-label">
+                    Equipo Local
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                    <select
+                      id="homeId"
+                      name="homeId"
+                      className="form-control"
+                      value={formValues.homeId}
+                      onChange={onInputChanged}
+                    >
+                      <option value="">Seleccionar Club</option>
+                      {equipos.map((equipo) => (
+                        <option key={equipo.id} value={equipo.id}>
+                          {equipo.club.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="awayId" className="form-label">
+                    Equipo Visitante
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                    <select
+                      id="awayId"
+                      name="awayId"
+                      className="form-control"
+                      value={formValues.awayId}
+                      onChange={onInputChanged}
+                    >
+                      <option value="">Seleccionar Club</option>
+                      {equipos.map((equipo) => (
+                        <option key={equipo.id} value={equipo.id}>
+                          {equipo.club.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mb-3">
+                  <label htmlFor="homePoints" className="form-label">
+                    Puntaje Local
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                    <input
+                      type="number"
+                      id="homePoints"
+                      name="homePoints"
+                      placeholder=""
+                      className="form-control"
+                      value={formValues.homePoints}
+                      onChange={onInputChanged}
+                    />
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="awayPoints" className="form-label">
+                    Puntaje Visita
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                    <input
+                      type="number"
+                      id="awayPoints"
+                      name="awayPoints"
+                      placeholder=""
+                      className="form-control"
+                      value={formValues.awayPoints}
+                      onChange={onInputChanged}
+                    />
+                  </div>
+                </div>
+              </>
             )}
-
-            <div className="mb-3">
-              <label htmlFor="homeId" className="form-label">
-                Equipo Local
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <select
-                  id="homeId"
-                  name="homeId"
-                  className="form-control"
-                  value={formValues.homeId}
-                  onChange={onInputChanged}
-                >
-                  <option value="">Seleccionar Club</option>
-                  {equipos.map((equipo) => (
-                    <option key={equipo.id} value={equipo.id}>
-                      {equipo.club.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="awayId" className="form-label">
-                Equipo Visitante
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <select
-                  id="awayId"
-                  name="awayId"
-                  className="form-control"
-                  value={formValues.awayId}
-                  onChange={onInputChanged}
-                >
-                  <option value="">Seleccionar Club</option>
-                  {equipos.map((equipo) => (
-                    <option key={equipo.id} value={equipo.id}>
-                      {equipo.club.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
             <div className="mb-3">
               <label htmlFor="fechaHora" className="form-label">
                 Fecha y hora del partido
@@ -132,9 +178,8 @@ export const ModalPartido = () => {
                 />
               </div>
             </div>
-
             <div className="mb-3">
-              <label htmlFor="lugar" className="form-label">
+              <label htmlFor="place" className="form-label">
                 Lugar
               </label>
               <div className="input-group">
@@ -143,7 +188,7 @@ export const ModalPartido = () => {
                 </span>
                 <input
                   type="text"
-                  id="lugar"
+                  id="place"
                   name="place"
                   placeholder=""
                   className="form-control"

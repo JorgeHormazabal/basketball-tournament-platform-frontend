@@ -2,12 +2,26 @@ import { useLigaStore, usePartidoStore } from "hooks";
 import "../Dashboard.scss";
 import { useEffect } from "react";
 import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
-import { BotonAgregar } from "components";
+import { BotonAgregar, Spinner } from "components";
 import { ModalPartido } from "components/organizador/ModalPartido/ModalPartido";
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga } = usePartidoStore();
+  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } =
+    usePartidoStore();
+
+  const borrar = (jugador) => {
+    setPartidoActivo(jugador);
+    borrarPartido(jugador);
+  };
+
+  const editarModal = (jugador) => {
+    setPartidoActivo(jugador);
+  };
+  const abrirModal = () => {
+    setPartidoActivo(null);
+  };
+
   useEffect(() => {
     cargarPartidosDeLaLiga(ligaActiva.id);
   });
@@ -22,12 +36,17 @@ export default function EditarLigaOrganizador() {
         <div className="ps-4 pt-4">
           <div className="d-flex flex-row justify-content-between align-items-center">
             <h3 className="m-0">Partidos</h3>
-            <BotonAgregar modalId="modalPartido" />
+            <BotonAgregar modalId="modalPartido" abrir={abrirModal} />
           </div>
           {partidos.length > 0 ? (
-            <TablaPartidosOrganizador partidos={partidos} />
+            <TablaPartidosOrganizador
+              partidos={partidos}
+              editar={editarModal}
+              borrar={borrar}
+              modalId="modalPartido"
+            />
           ) : (
-            <span>Cargando</span>
+            <Spinner />
           )}
         </div>
       </div>

@@ -23,8 +23,21 @@ export const usePartidoStore = () => {
     try {
       if (partido.id.length !== 0) {
         //TODO: update
-        const data = "";
-        dispatch(onUpdateEvent({ ...partido, ...data }));
+        const { id, homePoints, awayPoints, ...restoPartido } = partido;
+        const { data } = await backendApi.patch(`/matches/${id}`, {
+          homePoints: Number(homePoints),
+          awayPoints: Number(awayPoints),
+          ...restoPartido,
+        });
+        dispatch(
+          onUpdateEvent({
+            ...partidoActivo,
+            ...restoPartido,
+            ...data,
+            dateTime: `${data.dateTime}:00.000Z`,
+            user,
+          })
+        );
       } else {
         const { id, ...partidoResto } = partido;
         const { data } = await backendApi.post("/matches", {
@@ -32,7 +45,9 @@ export const usePartidoStore = () => {
           homeId: Number(partidoResto.homeId),
           awayId: Number(partidoResto.awayId),
         });
-        dispatch(onAddNewEvent(data));
+        dispatch(
+          onAddNewEvent({ ...data, dateTime: `${data.dateTime}:00.000Z` })
+        );
       }
 
       Swal.fire({
@@ -71,11 +86,20 @@ export const usePartidoStore = () => {
   const cargarPartidosDeLaLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(`/leagues/${ligaId}/matches`);
-      console.log(data.matches);
       dispatch(onLoadEvents(data.matches));
     } catch (error) {
       console.log("Error cargando partidos");
       console.log(error);
+    }
+  };
+
+  const borrarPartido = async (partido) => {
+    try {
+      await backendApi.delete(`/matches/${partido.id}`);
+      await dispatch(onDeleteEvent());
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error al eliminar", error.response.data.msg, "error");
     }
   };
 
@@ -91,5 +115,6 @@ export const usePartidoStore = () => {
     cargarPartidos,
     cargarPartidosDelEquipo,
     cargarPartidosDeLaLiga,
+    borrarPartido,
   };
 };
