@@ -30,10 +30,10 @@ export const ModalLiga = () => {
         endDate: ligaActiva.endDate,
         winnerId: ligaActiva.winnerId,
       });
+      cargarEquiposDeLiga(ligaActiva.id);
     } else {
       setFormValues(nuevaLigaVacia);
     }
-    cargarEquiposDeLiga();
   }, [ligaActiva]);
 
   const onInputChanged = ({ target }) => {
