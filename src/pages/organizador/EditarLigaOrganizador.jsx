@@ -20,7 +20,9 @@ export default function EditarLigaOrganizador() {
     usePartidoStore();
   const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } =
     useEstadisticaLigaEquipoStore();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {}, [ligaActiva]);
 
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
@@ -54,11 +56,21 @@ export default function EditarLigaOrganizador() {
         <div className="d-flex flex-row justify-content-between align-items-center">
           <h1>{ligaActiva.name}</h1>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button className="btn btn-warning me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#modalLiga" onClick={() => editarModalLiga(ligaActiva)}>
-            <i className="fa-solid fa-edit"></i> Editar
+            <button
+              className="btn btn-warning me-md-2"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#modalLiga"
+              onClick={() => editarModalLiga(ligaActiva)}
+            >
+              <i className="fa-solid fa-edit"></i> Editar
             </button>
-            <button className="btn btn-danger" type="button" onClick={() => borrarEstaLiga(ligaActiva)}>
-            <i className="fa-solid fa-trash"></i> Borrar
+            <button
+              className="btn btn-danger"
+              type="button"
+              onClick={() => borrarEstaLiga(ligaActiva)}
+            >
+              <i className="fa-solid fa-trash"></i> Borrar
             </button>
           </div>
         </div>
@@ -72,7 +84,9 @@ export default function EditarLigaOrganizador() {
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
                         <span className="subheadings">
-                          {ligaActiva.winnerId}
+                          {ligaActiva.winner.name
+                            ? ligaActiva.winner.name
+                            : "Sin ganador"}
                         </span>
                       </div>
                     </td>
@@ -104,13 +118,13 @@ export default function EditarLigaOrganizador() {
             </div>
           </div>
         </div>
-        <div className="ps-4"> 
-            <h3 className="m-0">Tabla de puntuaciones</h3>
-            {partidos.length > 0 ? (
-            <TablaPosiciones equipos={estadisticasLigaEquipo}/>
-            ) : (
-              <Spinner />
-            )}
+        <div className="ps-4">
+          <h3 className="m-0">Tabla de puntuaciones</h3>
+          {partidos.length > 0 ? (
+            <TablaPosiciones equipos={estadisticasLigaEquipo} />
+          ) : (
+            <Spinner />
+          )}
         </div>
         <div className="ps-4 pt-4">
           <div className="d-flex flex-row justify-content-between align-items-center">
@@ -134,7 +148,7 @@ export default function EditarLigaOrganizador() {
         </div>
       </div>
       <ModalPartido />
-      <ModalLiga/>
+      <ModalLiga />
     </div>
   );
 }

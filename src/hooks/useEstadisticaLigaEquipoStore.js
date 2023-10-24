@@ -20,6 +20,27 @@ export const useEstadisticaLigaEquipoStore = () => {
   const setEstadisticaLigaEquipoActiva = async (estadistica) => {
     await dispatch(onSetActiveEvent(estadistica));
   };
+
+  const agregarLiga = async (ligaId, equipoId) => {
+    try {
+      const { data } = await backendApi.post(`/team-league-statistics`, {
+        teamId: Number(equipoId),
+        leagueId: Number(ligaId),
+      });
+      dispatch(onAddNewEvent(data));
+      Swal.fire({
+        icon: "success",
+        title: "Liga guardada",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error(error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
+    }
+  };
+
   /*
   const guardarLiga = async (liga) => {
     try {
@@ -112,5 +133,6 @@ export const useEstadisticaLigaEquipoStore = () => {
     */
     cargarEstadisticasYLigasDelClub,
     cargarEstadisticasDeLiga,
+    agregarLiga,
   };
 };
