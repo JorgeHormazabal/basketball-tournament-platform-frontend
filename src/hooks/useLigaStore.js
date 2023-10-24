@@ -96,6 +96,16 @@ export const useLigaStore = () => {
     }
   };
 
+  const cargarTotalLigasDelOrganizador = async () => {
+    try {
+      const { data } = await backendApi.get("/leagues/organizer/count");
+      return data;
+    } catch (error) {
+      console.log("Error cargando equipos");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     ligaActiva,
@@ -109,5 +119,6 @@ export const useLigaStore = () => {
     guardarLigaOrganizador,
     cargarLigasDelClub,
     cargarLigasDelOrganizador,
+    cargarTotalLigasDelOrganizador,
   };
 };
