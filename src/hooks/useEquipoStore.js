@@ -23,7 +23,6 @@ export const useEquipoStore = () => {
   const guardarEquipo = async (equipo) => {
     try {
       if (equipo.id.length !== 0) {
-        console.log(equipo);
         const { id, coach, divisionId } = equipo;
         const { data } = await backendApi.patch(`/teams/${id}`, {
           coach,
@@ -97,11 +96,28 @@ export const useEquipoStore = () => {
       const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
       console.log(data);
       dispatch(onLoadEvents(data));
+      console.log(data);
     } catch (error) {
       console.log("Error cargando equipos");
       console.log(error);
     }
   };
+
+  const cargarEquiposFueraDeLiga = async (ligaId) => {
+    try {
+      const { data: equiposTotales } = await backendApi.get("/teams");
+      const { data: equiposDeLiga } = await backendApi.get(`/leagues/${ligaId}/clubs`);
+
+      const equiposFueraDeLiga = equiposTotales.filter((equipo) => {
+        return !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id);
+      });
+      return equiposFueraDeLiga;
+    } catch (error) {
+      console.log("Error cargando equipos fuera de la liga");
+      console.log(error);
+    }
+  };
+  
 
   const cargarTotalDelClub = async () => {
     try {
@@ -127,5 +143,6 @@ export const useEquipoStore = () => {
     cargarEquiposDeLiga,
     guardarEquipo,
     cargarTotalDelClub,
+    cargarEquiposFueraDeLiga,
   };
 };

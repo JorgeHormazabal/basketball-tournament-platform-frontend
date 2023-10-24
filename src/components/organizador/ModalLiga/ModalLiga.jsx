@@ -124,7 +124,7 @@ export const ModalLiga = () => {
                       <option value="">Seleccionar Equipo</option>
                       {equipos.map((equipo) => (
                         <option key={equipo.id} value={equipo.club.id}>
-                          {equipo.club.name}
+                          {equipo.club.name} - {equipo.id}
                         </option>
                       ))}
                     </select>
