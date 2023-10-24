@@ -124,7 +124,17 @@ export default function EditarLigaOrganizador() {
           </div>
         </div>
         <div className="ps-4">
+        <div className="d-flex flex-row justify-content-between align-items-center">
           <h3 className="m-0">Tabla de puntuaciones</h3>
+          <button
+              className="btn btn-primary me-md-2"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#modalAgregarEquipo"
+            >
+              <i className="fa-solid fa-plus"></i> Agregar Equipo
+            </button>
+            </div>
           {partidos.length > 0 ? (
             <TablaPosiciones equipos={estadisticasLigaEquipo} />
           ) : (
