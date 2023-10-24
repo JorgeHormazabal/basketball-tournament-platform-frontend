@@ -190,7 +190,7 @@ export const ModalPartido = () => {
                   type="text"
                   id="place"
                   name="place"
-                  placeholder=""
+                  placeholder="Casa del deporte, Chillán"
                   className="form-control"
                   value={formValues.place}
                   onChange={onInputChanged}
@@ -203,6 +203,7 @@ export const ModalPartido = () => {
                 <i className="fa-solid fa-floppy-disk"></i> Guardar partido
               </button>
             </div>
+
           </form>
           <div className="modal-footer">
             <button

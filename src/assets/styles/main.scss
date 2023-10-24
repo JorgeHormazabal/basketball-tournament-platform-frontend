@@ -33,6 +33,9 @@ $body-color: $primary_headline;
 .btn-danger {
   --bs-btn-color: #fffffe;
 }
+.modal-header {
+  color: #000000;
+}
 
 .table-light {
   --bs-table-bg: #eff0f3;
