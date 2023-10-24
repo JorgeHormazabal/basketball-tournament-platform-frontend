@@ -2,6 +2,7 @@ import {
   useEstadisticaLigaEquipoStore,
   useLigaStore,
   usePartidoStore,
+  useEquipoStore,
 } from "hooks";
 import "../Dashboard.scss";
 import { useEffect } from "react";
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router";
 import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
 import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones";
 import { formatDate } from "helpers";
+import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/ModalAgregarEquipo";
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
@@ -20,6 +22,7 @@ export default function EditarLigaOrganizador() {
     usePartidoStore();
   const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } =
     useEstadisticaLigaEquipoStore();
+    const { equipos, cargarEquiposFueraDeLiga } = useEquipoStore();
     const navigate = useNavigate();
 
   const borrar = (jugador) => {
@@ -47,7 +50,9 @@ export default function EditarLigaOrganizador() {
   useEffect(() => {
     cargarPartidosDeLaLiga(ligaActiva.id);
     cargarEstadisticasDeLiga(ligaActiva.id);
+    cargarEquiposFueraDeLiga(ligaActiva.id)
   });
+
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
@@ -105,7 +110,12 @@ export default function EditarLigaOrganizador() {
           </div>
         </div>
         <div className="ps-4"> 
+        <div className="d-flex flex-row justify-content-between align-items-center">
             <h3 className="m-0">Tabla de puntuaciones</h3>
+            <button className="btn btn-primary me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarEquipo">
+            <i className="fa-solid fa-plus"></i> Agregar Equipo
+            </button>
+             </div>
             {partidos.length > 0 ? (
             <TablaPosiciones equipos={estadisticasLigaEquipo}/>
             ) : (
@@ -135,6 +145,7 @@ export default function EditarLigaOrganizador() {
       </div>
       <ModalPartido />
       <ModalLiga/>
+      <ModalAgregarEquipo/>
     </div>
   );
 }
