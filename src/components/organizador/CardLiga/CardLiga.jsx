@@ -20,7 +20,7 @@ export default function CardLiga({ liga, editar }) {
       <div className="card-body">
         <h5 className="card-title mb-4">{liga.name}</h5>
         <p className="card-text">
-          {liga.winnerId ? liga?.winner : "Sin ganador"}
+          {liga.winner ? liga?.winner?.name : "Sin ganador"}
         </p>
         <p className="card-text">
           Fecha de inicio: {formatDate(liga.startDate)}

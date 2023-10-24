@@ -13,7 +13,7 @@ const nuevaLigaVacia = {
 export const ModalLiga = () => {
   const { ligaActiva, guardarLigaOrganizador } = useLigaStore();
   const [formValues, setFormValues] = useState(nuevaLigaVacia);
-  const {equipos, cargarEquiposDeLiga} = useEquipoStore();
+  const { equipos, cargarEquiposDeLiga } = useEquipoStore();
 
   const titulo = useMemo(
     () => (ligaActiva === null ? "Nueva Liga" : "Editar Liga"),
@@ -28,6 +28,7 @@ export const ModalLiga = () => {
         rules: ligaActiva.rules,
         startDate: ligaActiva.startDate,
         endDate: ligaActiva.endDate,
+        winnerId: ligaActiva.winnerId,
       });
     } else {
       setFormValues(nuevaLigaVacia);
@@ -102,7 +103,6 @@ export const ModalLiga = () => {
                     />
                   </div>
                 </div>
-                
               </>
             ) : (
               <>
@@ -123,8 +123,8 @@ export const ModalLiga = () => {
                     >
                       <option value="">Seleccionar Equipo</option>
                       {equipos.map((equipo) => (
-                        <option key={equipo.id} value={equipo.id}>
-                          {equipo.club.name} - {equipo.id}
+                        <option key={equipo.id} value={equipo.club.id}>
+                          {equipo.club.name}
                         </option>
                       ))}
                     </select>
@@ -133,42 +133,42 @@ export const ModalLiga = () => {
               </>
             )}
             <div className="mb-3">
-                  <label htmlFor="startDate" className="form-label">
-                    Fecha de Inicio
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-calendar-days"></i>
-                    </span>
-                    <input
-                      type="date"
-                      id="startDate"
-                      name="startDate"
-                      className="form-control"
-                      value={formValues.startDate}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
+              <label htmlFor="startDate" className="form-label">
+                Fecha de Inicio
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-calendar-days"></i>
+                </span>
+                <input
+                  type="date"
+                  id="startDate"
+                  name="startDate"
+                  className="form-control"
+                  value={formValues.startDate}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
 
-             <div className="mb-3">
-                  <label htmlFor="endDate" className="form-label">
-                    Fecha de Fin
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-calendar-days"></i>
-                    </span>
-                    <input
-                      type="date"
-                      id="endDate"
-                      name="endDate"
-                      className="form-control"
-                      value={formValues.endDate}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
+            <div className="mb-3">
+              <label htmlFor="endDate" className="form-label">
+                Fecha de Fin
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-calendar-days"></i>
+                </span>
+                <input
+                  type="date"
+                  id="endDate"
+                  name="endDate"
+                  className="form-control"
+                  value={formValues.endDate}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">

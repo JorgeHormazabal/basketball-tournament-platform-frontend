@@ -22,6 +22,9 @@ export function sliceBase(name) {
 
           return event;
         });
+        if (state.activeEvent?.id === payload.id) {
+          state.activeEvent = { ...state.activeEvent, ...payload };
+        }
       },
       onDeleteEvent: (state) => {
         if (state.activeEvent) {

@@ -94,6 +94,7 @@ export const useEquipoStore = () => {
   const cargarEquiposDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
+      console.log(data);
       dispatch(onLoadEvents(data));
       console.log(data);
     } catch (error) {
