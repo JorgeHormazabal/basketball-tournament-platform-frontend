@@ -24,7 +24,6 @@ export default function EditarLigaOrganizador() {
     useEstadisticaLigaEquipoStore();
   const navigate = useNavigate();
     const { equipos, cargarEquiposFueraDeLiga } = useEquipoStore();
-    const navigate = useNavigate();
 
   useEffect(() => {}, [ligaActiva]);
 
