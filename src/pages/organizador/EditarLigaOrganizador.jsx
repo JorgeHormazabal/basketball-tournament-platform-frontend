@@ -53,7 +53,7 @@ export default function EditarLigaOrganizador() {
     cargarPartidosDeLaLiga(ligaActiva.id);
     cargarEstadisticasDeLiga(ligaActiva.id);
     cargarEquiposFueraDeLiga(ligaActiva.id)
-  });
+  }), [equipos];
 
   return (
     <div className="dashboard-page">
