@@ -23,13 +23,14 @@ export const useLigaStore = () => {
   const guardarLigaOrganizador = async (liga) => {
     try {
       //TODO:
+      console.log(liga);
       if (liga.id.length !== 0) {
         const { id, organizerId, ...restoLiga } = liga;
-        const { data } = await backendApi.patch(`/league/${id}`, restoLiga);
+        const { data } = await backendApi.patch(`/leagues/${id}`, restoLiga);
         dispatch(onUpdateEvent({ ...liga, ...data, user }));
       } else {
         const { id, ...restoLiga } = liga;
-        const { data } = await backendApi.post("/league/organizer", {
+        const { data } = await backendApi.post("/leagues/organizer", {
           ...restoLiga,
         });
         dispatch(onAddNewEvent(data));

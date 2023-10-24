@@ -23,7 +23,7 @@ export default function TablaPartidosOrganizador({
         <tbody>
           {partidos.map((objeto, index) => (
             <tr key={index}>
-              <td className="text-start">{formatDateTime(objeto.dateTime)}</td>
+              <td className="text-start">&nbsp;&nbsp;&nbsp;{formatDateTime(objeto.dateTime)}</td>
               <td className="text-start">{objeto.place}</td>
               <td className="text-start">{objeto.home.club.name}</td>
               <td className="text-start">{objeto.away.club.name}</td>
