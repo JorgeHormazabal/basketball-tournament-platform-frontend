@@ -1,9 +1,14 @@
 import { useEquipoStore, useLigaStore} from "hooks";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 
-export function ModalAgregarEquipo({
-  equipos,
-}) {
+export function ModalAgregarEquipo() {
+  const { ligaActiva } = useLigaStore();
+  const { cargarEquiposFueraDeLiga } = useEquipoStore();
+  const [equipos, setEquipos] = useState([]);
+  
+  useEffect(() => {
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setEquipos(data));
+  });
   return (
     <div id="modalAgregarEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -20,16 +25,16 @@ export function ModalAgregarEquipo({
           <form className="modal-body" >
             <input type="hidden" id="id" />
             <div className="mb-3">
-                  <label htmlFor="winnerId" className="form-label">
-                    Ganador
+                  <label htmlFor="equipo" className="form-label">
+                    Equipo
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-trophy"></i>
+                      <i className="fa-solid fa-user"></i>
                     </span>
                     <select
-                      id="winnerId"
-                      name="winnerId"
+                      id="equipo"
+                      name="equipo"
                       className="form-control"
                       value
                       onChange
