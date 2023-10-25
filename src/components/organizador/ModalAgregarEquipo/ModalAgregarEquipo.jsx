@@ -1,15 +1,9 @@
 import { useEquipoStore, useLigaStore} from "hooks";
 import { useEffect} from "react";
 
-export function ModalAgregarEquipo() {
-    const { ligaActiva } = useLigaStore();
-    const {equipos, cargarEquiposFueraDeLiga} = useEquipoStore();
-
-    useEffect(() => {
-        cargarEquiposFueraDeLiga(ligaActiva.id);
-      });
-    
-
+export function ModalAgregarEquipo({
+  equipos,
+}) {
   return (
     <div id="modalAgregarEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">

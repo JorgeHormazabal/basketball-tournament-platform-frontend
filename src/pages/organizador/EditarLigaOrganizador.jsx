@@ -5,7 +5,7 @@ import {
   useEquipoStore,
 } from "hooks";
 import "../Dashboard.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
 import { BotonAgregar, Spinner } from "components";
 import { ModalPartido } from "components/organizador/ModalPartido/ModalPartido";
@@ -18,15 +18,12 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } =
-    usePartidoStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } =
-    useEstadisticaLigaEquipoStore();
+  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } = usePartidoStore();
+  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  
   const navigate = useNavigate();
-    const { equipos, cargarEquiposFueraDeLiga } = useEquipoStore();
 
   useEffect(() => {}, [ligaActiva]);
-
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
     borrarPartido(jugador);
@@ -44,17 +41,17 @@ export default function EditarLigaOrganizador() {
   const editarModalLiga = (ligaActiva) => {
     setLigaActiva(ligaActiva);
   };
-
   const abrirModal = () => {
     setPartidoActivo(null);
   };
-
+  const { equipos, cargarEquiposFueraDeLiga } = useEquipoStore();
   useEffect(() => {
     cargarPartidosDeLaLiga(ligaActiva.id);
     cargarEstadisticasDeLiga(ligaActiva.id);
-    cargarEquiposFueraDeLiga(ligaActiva.id)
-  }), [equipos];
-
+    cargarEquiposFueraDeLiga(ligaActiva.id);
+  });
+  console.log(equipos)
+  
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
@@ -164,7 +161,7 @@ export default function EditarLigaOrganizador() {
       </div>
       <ModalPartido />
       <ModalLiga />
-      <ModalAgregarEquipo/>
+      <ModalAgregarEquipo equipos={equipos}/>
     </div>
   );
 }

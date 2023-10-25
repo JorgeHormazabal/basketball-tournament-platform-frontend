@@ -94,9 +94,7 @@ export const useEquipoStore = () => {
   const cargarEquiposDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
-      console.log(data);
       dispatch(onLoadEvents(data));
-      console.log(data);
     } catch (error) {
       console.log("Error cargando equipos");
       console.log(error);
@@ -107,10 +105,10 @@ export const useEquipoStore = () => {
     try {
       const { data: equiposTotales } = await backendApi.get("/teams");
       const { data: equiposDeLiga } = await backendApi.get(`/leagues/${ligaId}/clubs`);
-
-      const equiposFueraDeLiga = equiposTotales.filter((equipo) => {
+      var equiposFueraDeLiga = equiposTotales.filter((equipo) => {
         return !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id);
       });
+      console.log(equiposFueraDeLiga);
       return equiposFueraDeLiga;
     } catch (error) {
       console.log("Error cargando equipos fuera de la liga");
