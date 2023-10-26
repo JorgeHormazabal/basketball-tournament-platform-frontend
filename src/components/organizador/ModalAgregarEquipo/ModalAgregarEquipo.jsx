@@ -1,14 +1,26 @@
-import { useEquipoStore, useLigaStore} from "hooks";
+import { useEquipoStore, useLigaStore, useEstadisticaLigaEquipoStore} from "hooks";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export function ModalAgregarEquipo() {
   const { ligaActiva } = useLigaStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
+  const { agregarLiga } = useEstadisticaLigaEquipoStore();
   const [equipos, setEquipos] = useState([]);
+  const [equipoId, setEquipoId] = useState("");
   
+
+  const onInputChanged = (event) => {
+    setEquipoId(event.target.value);
+  };
+
   useEffect(() => {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setEquipos(data));
-  });
+  }, [ligaActiva]);
+  
+  console.log(ligaActiva.id)
+  console.log(equipoId)
+  
   return (
     <div id="modalAgregarEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -36,8 +48,8 @@ export function ModalAgregarEquipo() {
                       id="equipo"
                       name="equipo"
                       className="form-control"
-                      value
-                      onChange
+                      value={equipoId}
+                      onChange={onInputChanged}
                     >
                       <option value="">Seleccionar Equipo</option>
                       {equipos.map((equipo) => (
@@ -49,7 +61,7 @@ export function ModalAgregarEquipo() {
                   </div>
                 </div>
                 <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
+              <button className="btn btn-secondary" type="button" onClick={() => agregarLiga(ligaActiva.id,equipoId)}>
                 <i className="fa-solid fa-floppy-disk"></i> Agregar Equipo
               </button>
             </div>

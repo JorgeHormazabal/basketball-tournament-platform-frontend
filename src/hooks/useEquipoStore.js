@@ -108,7 +108,7 @@ export const useEquipoStore = () => {
       var equiposFueraDeLiga = equiposTotales.filter((equipo) => {
         return !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id);
       });
-      console.log(equiposFueraDeLiga);
+      console.log(equiposFueraDeLiga)
       return equiposFueraDeLiga;
     } catch (error) {
       console.log("Error cargando equipos fuera de la liga");
