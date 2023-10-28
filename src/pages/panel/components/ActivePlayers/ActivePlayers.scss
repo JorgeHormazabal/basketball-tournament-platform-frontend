@@ -1,0 +1,26 @@
+.controlpanel_active-players {
+  padding: 1em;
+  .controlpanel_active-players__points,
+  .controlpanel_active-players__fouls {
+    padding: 0;
+    button {
+      display: inline;
+    }
+  }
+  table {
+    thead {
+      tr {
+        th {
+          padding: 0em;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          padding: 0.6em;
+        }
+      }
+    }
+  }
+}

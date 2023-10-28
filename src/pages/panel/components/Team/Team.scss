@@ -1,0 +1,12 @@
+.controlpanel__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .controlpanel__team__role {
+    font-size: 2.5em;
+  }
+  .controlpanel__team__name {
+    font-size: 2.8em;
+  }
+}

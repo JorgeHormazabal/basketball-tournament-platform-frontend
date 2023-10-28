@@ -1,0 +1,18 @@
+#scoreboard__home-players,
+#scoreboard__away-players {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 2em;
+  .scoreboard__players__player {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2em;
+    #scoreboard__players__name {
+    }
+    #scoreboard__players__faults {
+    }
+  }
+}

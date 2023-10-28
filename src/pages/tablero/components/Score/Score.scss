@@ -1,0 +1,20 @@
+#scoreboard__home,
+#scoreboard__away {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .scoreboard__name-info {
+    text-align: center;
+    .scoreboard__role {
+      font-size: 2.5em;
+    }
+    .scoreboard__name {
+      font-size: 2.8em;
+      white-space: nowrap;
+    }
+  }
+  .scoreboard__points {
+    line-height: 80%;
+    font-size: 16.5em;
+  }
+}

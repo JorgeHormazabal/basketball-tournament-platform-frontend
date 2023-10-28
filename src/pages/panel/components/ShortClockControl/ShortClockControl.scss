@@ -1,0 +1,32 @@
+#control__short-clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  #control__short-clock__title {
+    font-size: 3.3em;
+  }
+  #control_short-clock__timer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5em;
+    #control_short-clock__time {
+      font-size: 6em;
+    }
+    button {
+      font-size: 5em;
+    }
+  }
+  #control_short-clock__buttons {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    button {
+      font-size: 1.8em;
+    }
+  }
+}

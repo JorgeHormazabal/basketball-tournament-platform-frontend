@@ -20,6 +20,8 @@ import { Estadisticas } from "pages/club/Estadisticas";
 import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
 import { PerfilOrganizador, LigasOrganizador } from "pages/organizador/";
 import EditarLigaOrganizador from "pages/organizador/EditarLigaOrganizador";
+import Scoreboard from "pages/tablero/Scoreboard/Scoreboard";
+import ControlPanel from "pages/panel/ControlPanel/ControlPanel";
 
 const PublicLayout = () => {
   return (
@@ -155,6 +157,8 @@ const router = createBrowserRouter(
             },
           ],
         },
+        { path: "tablero/:matchId", element: <Scoreboard /> },
+        { path: "panel/:matchId", element: <ControlPanel /> },
         {
           path: "login",
           element: <Login />,

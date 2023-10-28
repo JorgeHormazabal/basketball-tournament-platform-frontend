@@ -1,0 +1,14 @@
+#scoreboard__short-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  #scoreboard__short-clock__description {
+    font-size: 2.5em;
+  }
+
+  #scoreboard__short-clock__time {
+    line-height: 0.8em;
+    font-size: 16em;
+  }
+}

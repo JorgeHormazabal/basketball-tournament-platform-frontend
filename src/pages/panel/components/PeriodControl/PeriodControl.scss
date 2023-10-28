@@ -1,0 +1,20 @@
+#controlpanel__period-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4em;
+  #control__panel_period-control__text {
+    font-size: 4em;
+  }
+  #controlpanel__period-control__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4em;
+    button {
+      font-size: 4em;
+    }
+  }
+}
