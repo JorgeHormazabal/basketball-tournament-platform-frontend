@@ -16,9 +16,11 @@ import {
   Organizador,
 } from "pages/administrador/";
 import { PerfilClub, JugadoresClub, EquiposClub, LigasClub } from "pages/club/";
-import { Estadisticas } from "pages/club/Estadisticas";
 import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
 import { PerfilOrganizador, LigasOrganizador } from "pages/organizador/";
+import { Estadisticas } from "pages/club/Estadisticas";
+import { LigasAdministrador } from "pages/administrador/LigasAdministrador/LigasAdministrador";
+import { EditarLigaAdministrador } from "pages/administrador/LigasAdministrador/EditarLigaAdministrador";
 import EditarLigaOrganizador from "pages/organizador/EditarLigaOrganizador";
 
 const PublicLayout = () => {
@@ -91,6 +93,14 @@ const router = createBrowserRouter(
             {
               path: "divisiones",
               element: <Divisiones />,
+            },
+            {
+              path: "ligas",
+              element: <LigasAdministrador />,
+            },
+            {
+              path: "liga",
+              element: <EditarLigaAdministrador />,
             },
           ],
         },

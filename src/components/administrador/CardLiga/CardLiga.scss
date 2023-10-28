@@ -1,0 +1,42 @@
+.card-header {
+  font-weight: bold;
+}
+.card-footer {
+  background-color: white;
+}
+
+.card {
+  width: 18rem;
+  height: 18rem;
+  margin: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.btn--details {
+  font-size: large;
+  font-weight: 500;
+  width: 35%;
+  background-color: #ff5722;
+  border: none;
+}
+
+.btn--details:hover {
+  background-color: #d45805;
+}
+
+.modal-header {
+  background-color: #e33f06;
+  color: white;
+  font-weight: bold;
+}
+.modal-footer {
+  background-color: white;
+}
+
+.modal {
+  border-color: #e36e5c;
+}

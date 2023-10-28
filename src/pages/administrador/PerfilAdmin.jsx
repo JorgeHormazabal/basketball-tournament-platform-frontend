@@ -35,7 +35,7 @@ export function PerfilAdmin() {
                     <h6 className="text-muted d-inline">{user.email}</h6>
                   </div>
                   <div className="col-sm-6">
-                    <p className="font-weight-bold d-inline">Celular: </p>
+                    <p className="font-weight-bold d-inline">Celular:</p><br />
                     <h6 className="text-muted d-inline">998989898</h6>
                   </div>
                 </div>

@@ -1,10 +1,11 @@
-import { FaPeopleGroup, FaPowerOff } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 import {
   FaHouseUser,
   FaPeopleRoof,
   FaPerson,
   FaTableList,
   FaUserLarge,
+  FaBasketball,
 } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 
@@ -43,6 +44,12 @@ export const SidebarData = [
     title: "Divisiones",
     path: "/administrador/divisiones",
     icon: <FaTableList style={{ fontSize: "1.75em" }} />,
+    cName: "nav-text",
+  },
+  {
+    title: "Ligas",
+    path: "/administrador/ligas",
+    icon: <FaBasketball style={{ fontSize: "1.75em" }} />,
     cName: "nav-text",
   },
   {

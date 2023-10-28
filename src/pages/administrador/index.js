@@ -4,3 +4,5 @@ export * from './Equipos';
 export * from './Jugadores';
 export * from './Organizador';
 export * from './PerfilAdmin';
+export * from './LigasAdministrador/LigasAdministrador';
+export * from './LigasAdministrador/EditarLigaAdministrador';
