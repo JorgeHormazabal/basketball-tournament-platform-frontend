@@ -38,7 +38,7 @@ export default function Tabla({
                   </th>
                   {filas.map((propiedad) => (
                     <td key={propiedad} className="pt-2 text-start">
-                      {objeto[propiedad]}
+                      {propiedad === 'password' ? '* * * * * * * *' : objeto[propiedad]}
                     </td>
                   ))}
                   <td className="align-items-center justify-content-center">

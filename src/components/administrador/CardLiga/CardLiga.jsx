@@ -13,12 +13,11 @@ export default function CardLiga({ liga, editar }) {
   } else {
     header = "Finalizado";
   }
-  console.log(liga)
   return (
     <div className="card text-center">
       <div className="card-header">
-        {liga.organizerId}
-        {header}
+        {liga.organizer.name}
+        <h6>{header}</h6>
         </div>
       <div className="card-body">
         <h5 className="card-title mb-4">{liga.name}</h5>

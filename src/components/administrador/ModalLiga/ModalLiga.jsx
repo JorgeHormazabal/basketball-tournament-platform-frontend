@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useEquipoStore, useLigaStore, useOrganizadorStore } from "hooks";
-import "./ModalLiga.scss";
+import "./ModalLiga.scss"
 
 const nuevaLigaVacia = {
   id: "",

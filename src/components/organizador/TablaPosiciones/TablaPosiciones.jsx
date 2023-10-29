@@ -17,8 +17,8 @@ export function TablaPosiciones({equipos} ) {
         
           {equipos.map((objeto, index) => (
             <tr key={index}>
-              <td className="text-start">&nbsp;&nbsp;&nbsp;{index}</td>
-              <td className="text-start"><img src="https://assets.stickpng.com/images/58419b70a6515b1e0ad75a50.png" />&nbsp;&nbsp;&nbsp;
+              <td className="text-start">&nbsp;&nbsp;&nbsp;{index+1}</td>
+              <td className="text-start"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Oklahoma_City_Thunder.svg/800px-Oklahoma_City_Thunder.svg.png" />&nbsp;&nbsp;&nbsp;
               {objeto.team.club.name}
               </td>
               <td className="text-center">{objeto.matchesWon}</td>

@@ -22,7 +22,7 @@ export function LigasAdministrador() {
   useEffect(() => {
     cargarTodasLasLigas();
   });
-
+  console.log(ligas)
   return (
     <div className="dashboard-page">
       <div className="container-fluid">

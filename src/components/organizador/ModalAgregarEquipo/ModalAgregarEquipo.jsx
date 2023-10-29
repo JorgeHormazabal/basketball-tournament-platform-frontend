@@ -18,9 +18,6 @@ export function ModalAgregarEquipo() {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setEquipos(data));
   }, [ligaActiva]);
   
-  console.log(ligaActiva.id)
-  console.log(equipoId)
-  
   return (
     <div id="modalAgregarEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">

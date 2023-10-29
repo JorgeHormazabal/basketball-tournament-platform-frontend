@@ -22,12 +22,12 @@ export default function EditarLigaOrganizador() {
   const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
+  
   useEffect(() => {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
   
   const navigate = useNavigate();
-
   useEffect(() => {}, [ligaActiva]);
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
@@ -36,7 +36,7 @@ export default function EditarLigaOrganizador() {
   const borrarEstaLiga = (ligaActiva) => {
     setLigaActiva(ligaActiva);
     borrarLiga(ligaActiva);
-    navigate("/organizador/ligas");
+    navigate("/administrador/ligas");
   };
 
   const editarModal = (jugador) => {
@@ -55,8 +55,6 @@ export default function EditarLigaOrganizador() {
     cargarEstadisticasDeLiga(ligaActiva.id);
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
-  
-  console.log(ligaActiva)
 
   return (
     <div className="dashboard-page">
@@ -167,7 +165,7 @@ export default function EditarLigaOrganizador() {
       </div>
       <ModalPartido />
       <ModalLiga/>
-      {totalEquipos.length > 0 && <ModalAgregarEquipo/>}
+      <ModalAgregarEquipo/>
     </div>
   );
 }

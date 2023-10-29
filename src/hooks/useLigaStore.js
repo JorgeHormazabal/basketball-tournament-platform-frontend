@@ -137,7 +137,6 @@ export const useLigaStore = () => {
     try {
       const { data } = await backendApi.get("/leagues");
       dispatch(onLoadEvents(data));
-      console.log(data)
     } catch (error) {
       console.log("Error cargando ligas");
       console.log(error);

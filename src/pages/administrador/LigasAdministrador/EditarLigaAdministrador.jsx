@@ -22,13 +22,17 @@ export function EditarLigaAdministrador() {
   const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
+
   useEffect(() => {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
   
   const navigate = useNavigate();
 
-  useEffect(() => {}, [ligaActiva]);
+  useEffect(() => {
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
+  }, [ligaActiva]);
+  
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
     borrarPartido(jugador);
@@ -55,8 +59,9 @@ export function EditarLigaAdministrador() {
     cargarEstadisticasDeLiga(ligaActiva.id);
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
-  
-  console.log(ligaActiva)
+
+  console.log(ligaActiva.startDate)
+  console.log(formatDate(ligaActiva.startDate))
 
   return (
     <div className="dashboard-page">
@@ -91,11 +96,11 @@ export function EditarLigaAdministrador() {
                     <td>
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
-                        <span className="subheadings">
+                        {/*<span className="subheadings">
                           {ligaActiva.winner.name
                             ? ligaActiva.winner.name
                             : "Sin ganador"}
-                        </span>
+                          </span>*/}
                       </div>
                     </td>
                     <td>
@@ -167,7 +172,7 @@ export function EditarLigaAdministrador() {
       </div>
       <ModalPartido />
       <ModalLiga/>
-      {totalEquipos.length > 0 && <ModalAgregarEquipo/>}
+      <ModalAgregarEquipo/>
     </div>
   );
 }

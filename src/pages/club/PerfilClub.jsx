@@ -39,7 +39,7 @@ export function PerfilClub() {
               </div>
               <div className="col-sm-6">
                 <p className="font-weight-bold">Celular:</p>
-                <h6 className="text-muted">{user.email}</h6>
+                <h6 className="text-muted">976678776</h6>
               </div>
             </div>
             <hr className="bg-primary"/>
