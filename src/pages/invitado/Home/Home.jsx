@@ -10,8 +10,8 @@ export function Home() {
   const navigate = useNavigate();
   return (
     <>
-      <button onClick={() => navigate("/tablero/3")}>TABLERO TEMPORAL</button>
-      <button onClick={() => navigate("/panel/3")}>PANEL TEMPORAL</button>
+      <button onClick={() => navigate("/tablero/3")}>TABLERO-TEMPORAL</button>
+      <button onClick={() => navigate("/panel/3")}>PANEL-TEMPORAL</button>
       {/* HEADER  */}
 
       <div className="Home">
