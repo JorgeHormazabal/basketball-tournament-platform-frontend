@@ -1,22 +1,24 @@
-@use "_reset";
+@use "../_reset";
+@import "../_colors";
 
 #scoreboard {
   height: 100vh;
   width: 100vw;
-  background-color: wheat;
-  padding: 10px;
+  background-color: $primary_background_color;
+  padding: 8px;
   font-size: 0.8vw;
   font-family: monospace !important;
   #scoreboard__content {
     width: 100%;
     height: 100%;
-    border: 1px solid black;
-    padding: 10px;
+    border: 0.2em solid $border_color;
+    border-radius: 3em;
+    padding: 48px;
     display: grid;
     grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr;
     grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    grid-column-gap: 4em;
+    grid-row-gap: 4em;
     #scoreboard__home {
       font-family: monospace;
       grid-area: 1 / 1 / 3 / 2;

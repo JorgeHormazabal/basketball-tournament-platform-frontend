@@ -1,3 +1,5 @@
+@import "../../colors";
+
 #scoreboard__period {
   display: flex;
   flex-direction: column;
@@ -6,8 +8,15 @@
   #scoreboard__period__text {
     font-size: 2em;
   }
-  #scoreboard__period__number {
-    line-height: 0.8;
-    font-size: 8em;
+  #scoreboard__period__box {
+    padding: 1.5em 6em;
+    background-color: $secondary_background_color;
+    border: 1px solid $interior_border_color;
+    border-radius: 1em;
+    color: $period_color;
+    #scoreboard__period__number {
+      line-height: 0.8;
+      font-size: 8em;
+    }
   }
 }

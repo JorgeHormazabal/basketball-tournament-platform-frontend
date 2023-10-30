@@ -9,13 +9,17 @@ export default function Clock({ isRunning, serverTime }) {
     let interval;
     if (isRunning) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
+        if (time < 10) return;
+        setTime((prevTime) => {
+          if (prevTime < 10) return prevTime;
+          return prevTime - 10;
+        });
       }, 10);
     } else if (!isRunning) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, serverTime]);
   return (
     <div id="scoreboard__clock" className="timer">
       <tt>

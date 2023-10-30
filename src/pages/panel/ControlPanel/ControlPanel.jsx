@@ -29,33 +29,110 @@ const emptyMatch = {
   period: 0,
   isEmpty: true,
 };
+let internalState = emptyMatch;
+let internalTimeStamp;
+let timeElapsed = 0;
+let shortTime = 0;
+let internalShortTimeStamp;
 
 export default function ControlPanel() {
   const params = useParams();
   const matchId = params.matchId;
   const [matchInfo, setMatchInfo] = useState(emptyMatch);
-  const [isLoading, setIsLoading] = useState(true);
-  let internalState = emptyMatch;
-  let internalTimeStamp;
-  let time = 0;
-  let shortTime = 0;
-  let internalShortTimeStamp;
+  const [isRunning, setIsRunning] = useState(false);
+  const [isShortRunning, setIsShortRunning] = useState(false);
+  const [time, setTime] = useState(600000);
+  const [short, setShortTime] = useState(24000);
 
   const start = () => {
     internalTimeStamp = performance.now();
-    socket.emit("startClock", { time });
+    setIsRunning(true);
+    socket.emit("startClock", { time: 600000 - timeElapsed });
   };
 
   const stop = () => {
     const temp = performance.now();
-    time = temp - internalTimeStamp + time;
-    socket.emit("stopClock", { time });
+    timeElapsed = temp - internalTimeStamp + timeElapsed;
+    setTime(600000 - timeElapsed);
+    setIsRunning(false);
+    socket.emit("stopClock", { time: 600000 - timeElapsed });
   };
 
   const reset = () => {
     internalTimeStamp = performance.now();
-    time = 0;
-    socket.emit("resetClock", { time });
+    timeElapsed = 0;
+    setTime(600000 - timeElapsed);
+    setIsRunning(false);
+    socket.emit("resetClock", { time: 600000 - timeElapsed });
+  };
+
+  const startShort = () => {
+    internalShortTimeStamp = performance.now();
+    setIsShortRunning(true);
+    socket.emit("startShort", { shortTime: 24000 - shortTime });
+  };
+
+  const stopShort = () => {
+    const temp = performance.now();
+    shortTime = temp - internalShortTimeStamp + shortTime;
+    setShortTime(24000 - shortTime);
+    setIsShortRunning(false);
+    socket.emit("stopShort", { shortTime: 24000 - shortTime });
+  };
+
+  const resetShort = () => {
+    internalShortTimeStamp = performance.now();
+    shortTime = 0;
+    setShortTime(24000 - shortTime);
+    setIsShortRunning(false);
+    socket.emit("resetShort", { shortTime: 24000 - shortTime });
+  };
+
+  const updateAndEmit = (field, value) => {
+    socket.emit("update", {
+      field,
+      value,
+    });
+
+    setMatchInfo((prevInfo) => {
+      return {
+        ...prevInfo,
+        [field]: value,
+      };
+    });
+    internalState[field] = value;
+    console.log(matchInfo);
+  };
+
+  const updateFoulHome = (id, incrementalValue) => {
+    const updatedFouls = { ...matchInfo.homePlayersFaults };
+    updatedFouls[id] += incrementalValue;
+    updateAndEmit("homePlayersFaults", updatedFouls);
+  };
+
+  const updateFoulAway = (id, incrementalValue) => {
+    const updatedFouls = { ...matchInfo.awayPlayersFaults };
+    updatedFouls[id] += incrementalValue;
+    updateAndEmit("awayPlayersFaults", updatedFouls);
+  };
+
+  const updatePointsHome = (id, incrementalValue) => {
+    const updatedPoints = { ...matchInfo.homePlayersPoints };
+    updatedPoints[id] += incrementalValue;
+    updateAndEmit("homePlayersPoints", updatedPoints);
+    updateAndEmit("homePoints", matchInfo.homePoints + incrementalValue);
+  };
+
+  const updatePointsAway = (id, incrementalValue) => {
+    const updatedPoints = { ...matchInfo.awayPlayersPoints };
+    updatedPoints[id] += incrementalValue;
+    updateAndEmit("awayPlayersPoints", updatedPoints);
+    updateAndEmit("awayPoints", matchInfo.awayPoints + incrementalValue);
+  };
+
+  const initMatchInfo = (info) => {
+    setMatchInfo(info);
+    internalState = info;
   };
 
   useEffect(() => {
@@ -66,14 +143,10 @@ export default function ControlPanel() {
         state: matchInfo,
       });
     });
-    socket.on("init-from-server", ({ matchInfo: serverMatchInfo }) => {
-      setMatchInfo(serverMatchInfo);
-      internalState = serverMatchInfo;
-    });
+    socket.on("init-from-server", ({ matchInfo }) => initMatchInfo(matchInfo));
     socket.on("new-spectator", ({ id }) => {
       socket.emit("welcome", {
         id,
-        matchInfo,
         state: { ...internalState },
       });
     });
@@ -98,6 +171,9 @@ export default function ControlPanel() {
           elementId="controlpanel__home-active-players"
           activePlayers={matchInfo.activeHomePlayers}
           players={matchInfo.homePlayers}
+          update={updateAndEmit}
+          updateFouls={updateFoulHome}
+          updatePoints={updatePointsHome}
         />
         <PlayerList
           elementId="control__home-players-list"
@@ -105,19 +181,34 @@ export default function ControlPanel() {
           points={matchInfo.homePlayersPoints}
           fouls={matchInfo.homePlayersFaults}
         />
-        <ClockControl start={start} stop={stop} reset={reset} />
+        <ClockControl
+          start={start}
+          stop={stop}
+          reset={reset}
+          serverTime={time}
+          isRunning={isRunning}
+        />
         <Team
           elementId="controlpanel__team-away"
           role="Visita"
           name={matchInfo.away}
         />
-        <ShortClockControl />
-        <PeriodControl />
+        <ShortClockControl
+          start={startShort}
+          stop={stopShort}
+          reset={resetShort}
+          serverTime={short}
+          isRunning={isShortRunning}
+        />
+        <PeriodControl period={matchInfo.period} update={updateAndEmit} />
         <Alarm />
         <ActivePlayers
           elementId="controlpanel__away-active-players"
           activePlayers={matchInfo.activeAwayPlayers}
           players={matchInfo.awayPlayers}
+          update={updateAndEmit}
+          updateFouls={updateFoulAway}
+          updatePoints={updatePointsAway}
         />
         <PlayerList
           elementId="control__away-players-list"

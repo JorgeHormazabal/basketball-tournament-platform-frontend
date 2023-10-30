@@ -1,18 +1,42 @@
+@import "../../colors";
+
 #scoreboard__home-players,
 #scoreboard__away-players {
+  background-color: $secondary_background_color;
+  border: 1px solid $interior_border_color;
+  border-radius: 1em;
+  color: $player-color;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 2em;
-  .scoreboard__players__player {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 2em;
-    #scoreboard__players__name {
+  padding: 0 0.5em;
+  span {
+    font-size: 1.65em;
+    display: inline-block;
+    font-weight: 500;
+  }
+  #scoreboard__player__header {
+    span {
+      font-weight: 700;
+      font-size: 1.8em;
     }
-    #scoreboard__players__faults {
+    width: 100%;
+    #scoreboard__player__header__player {
+      width: 70%;
+    }
+    #scoreboard__player__header__fouls {
+      text-align: center;
+      width: 30%;
+    }
+  }
+  .scoreboard__players__player {
+    width: 100%;
+    .scoreboard__players__name {
+      width: 70%;
+    }
+    .scoreboard__players__faults {
+      text-align: center;
+      width: 30%;
     }
   }
 }

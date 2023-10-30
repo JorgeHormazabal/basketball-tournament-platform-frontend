@@ -1,5 +1,37 @@
 .controlpanel_active-players {
-  padding: 1em;
+  padding: 0;
+  button {
+    font-size: 1em;
+    height: 2em;
+    width: 2em;
+    margin: 0 0.1em;
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    text-align: center;
+    border: 0;
+    margin-bottom: 12px;
+    color: #ffffff;
+    border-radius: 4px;
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px,
+      rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
+  }
+  .controlpanel_active-players__remove-btn {
+    background: #ff0000;
+  }
+  .controlpanel_active-players__add-btn {
+    background: #008000;
+  }
+  select {
+    width: 100%; /* Set the width to 100% to fill its container */
+    padding: 0 0.3em;
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid #ccc; /* Add a border for a clean look */
+    border-radius: 4px; /* Round the corners */
+    background-color: #fff; /* Set the background color */
+    color: #333; /* Set the text color */
+  }
   .controlpanel_active-players__points,
   .controlpanel_active-players__fouls {
     padding: 0;
@@ -11,7 +43,7 @@
     thead {
       tr {
         th {
-          padding: 0em;
+          padding: 0.6em;
         }
       }
     }

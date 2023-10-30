@@ -1,20 +1,42 @@
+@import "../../colors";
+
 #scoreboard__home,
 #scoreboard__away {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   .scoreboard__name-info {
     text-align: center;
     .scoreboard__role {
-      font-size: 2.5em;
+      font-size: 2.8em;
     }
     .scoreboard__name {
-      font-size: 2.8em;
+      font-size: 2.5em;
       white-space: nowrap;
     }
   }
-  .scoreboard__points {
-    line-height: 80%;
-    font-size: 16.5em;
+  .scoreboard__box {
+    background-color: $secondary_background_color;
+    border: 1px solid $interior_border_color;
+    border-radius: 1.5em;
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+    .scoreboard__points {
+      line-height: 80%;
+      font-size: 16.5em;
+    }
+  }
+}
+
+#scoreboard__home {
+  .scoreboard__role {
+    color: $home_role_color;
+  }
+}
+#scoreboard__away {
+  .scoreboard__role {
+    color: $away_role_color;
   }
 }

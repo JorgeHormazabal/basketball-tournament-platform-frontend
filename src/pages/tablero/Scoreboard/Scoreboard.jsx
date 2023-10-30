@@ -15,10 +15,10 @@ export default function Scoreboard() {
   const params = useParams();
   const matchId = params.matchId;
   const [state, setState] = useState({
-    home: "a",
+    home: "",
     homePoints: 0,
     activeHomePlayers: [],
-    away: "a",
+    away: "",
     awayPoints: 0,
     activeAwayPlayers: [],
     homeFaults: [],
@@ -27,8 +27,8 @@ export default function Scoreboard() {
     awayTotalFouls: 0,
     period: 0,
   });
-  const [clockTime, setClockTime] = useState(0);
-  const [shortTime, setShortTime] = useState(0);
+  const [clockTime, setClockTime] = useState(600000);
+  const [shortTime, setShortTime] = useState(24000);
   const [isClockRunning, setIsClockRunning] = useState(false);
   const [isShortRunning, setIsShortRunning] = useState(false);
 
@@ -44,22 +44,24 @@ export default function Scoreboard() {
       setIsClockRunning(true);
     });
     socket.on("resetClock", ({ time }) => {
-      setClockTime(time);
       setIsClockRunning(false);
+      setClockTime(time);
     });
     //SHORT
-    socket.on("startShort", () => setIsShortRunning(true));
+    socket.on("startShort", ({ shortTime: time }) => {
+      setShortTime(time);
+      setIsShortRunning(true);
+    });
     socket.on("stopShort", ({ shortTime: time }) => {
       setIsShortRunning(false);
       setShortTime(time);
     });
-    socket.on("resumeShort", ({ shortTime: time }) => {
+    socket.on("resetShort", ({ shortTime: time }) => {
+      setIsShortRunning(false);
       setShortTime(time);
-      setIsShortRunning(true);
     });
 
     socket.on("update", ({ field, value }) => {
-      console.log("update", value);
       setState((prevState) => ({
         ...prevState,
         [field]: value,

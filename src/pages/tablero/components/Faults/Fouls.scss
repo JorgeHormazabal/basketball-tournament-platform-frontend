@@ -1,3 +1,5 @@
+@import "../../colors";
+
 #scoreboard__homeFaults,
 #scoreboard__awayFaults {
   display: flex;
@@ -7,7 +9,14 @@
   #scoreboard__fouls__text {
     font-size: 2em;
   }
-  #scoreboard__fouls__number {
-    font-size: 5em;
+  #scoreboard__fouls__box {
+    background-color: $secondary_background_color;
+    border: 1px solid $interior_border_color;
+    border-radius: 0.5em;
+    padding: 0 1em;
+    color: $fouls_color;
+    #scoreboard__fouls__number {
+      font-size: 5em;
+    }
   }
 }
