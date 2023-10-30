@@ -9,6 +9,7 @@ export const ShortClockControl = ({
   serverTime,
 }) => {
   const [time, setTime] = useState(serverTime);
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     setTime(serverTime);
@@ -31,20 +32,43 @@ export const ShortClockControl = ({
     <div id="control__short-clock" className="grid-item">
       <span id="control__short-clock__title">Reloj de posesión</span>
       <div id="control_short-clock__timer">
-        <button>{"<"}</button>
+        <button
+          className={`control_short-clock__selector-btn ${
+            role === "home" ? "control_short-clock__selector-btn--active" : ""
+          }`}
+          onClick={() => setRole("home")}
+        >
+          {"<"}
+        </button>
         <span id="control_short-clock__time">
           {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
         </span>
-        <button>{">"}</button>
+        <button
+          className={`control_short-clock__selector-btn ${
+            role === "away" ? "control_short-clock__selector-btn--active" : ""
+          }`}
+          onClick={() => setRole("away")}
+        >
+          {">"}
+        </button>
       </div>
       <div id="control_short-clock__buttons">
-        <button id="control_short-clock__start-button" onClick={start}>
+        <button
+          id="control_short-clock__start-button"
+          onClick={() => start(role)}
+        >
           Empezar
         </button>
-        <button id="control_short-clock__stop-button" onClick={stop}>
+        <button
+          id="control_short-clock__stop-button"
+          onClick={() => stop(role)}
+        >
           Parar
         </button>
-        <button id="control_short-clock__reset-button" onClick={reset}>
+        <button
+          id="control_short-clock__reset-button"
+          onClick={() => reset(role)}
+        >
           Reset
         </button>
       </div>

@@ -24,6 +24,8 @@ import { EditarLigaAdministrador } from "pages/administrador/LigasAdministrador/
 import EditarLigaOrganizador from "pages/organizador/EditarLigaOrganizador";
 import Scoreboard from "pages/tablero/Scoreboard/Scoreboard";
 import ControlPanel from "pages/panel/ControlPanel/ControlPanel";
+import ShortClock from "pages/relojPosesion/ShortClock/ShortClock";
+import ShortClockContainer from "pages/relojPosesion/ShortClockContainer/ShortClockContainer";
 
 const PublicLayout = () => {
   return (
@@ -169,6 +171,7 @@ const router = createBrowserRouter(
         },
         { path: "tablero/:matchId", element: <Scoreboard /> },
         { path: "panel/:matchId", element: <ControlPanel /> },
+        { path: "reloj/:role/:matchId", element: <ShortClockContainer /> },
         {
           path: "login",
           element: <Login />,

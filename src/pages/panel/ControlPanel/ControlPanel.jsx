@@ -66,26 +66,35 @@ export default function ControlPanel() {
     socket.emit("resetClock", { time: 600000 - timeElapsed });
   };
 
-  const startShort = () => {
+  const startShort = (role) => {
     internalShortTimeStamp = performance.now();
     setIsShortRunning(true);
-    socket.emit("startShort", { shortTime: 24000 - shortTime });
+    socket.emit("startShort", {
+      shortTime: 24000 - shortTime,
+      role,
+    });
   };
 
-  const stopShort = () => {
+  const stopShort = (role) => {
     const temp = performance.now();
     shortTime = temp - internalShortTimeStamp + shortTime;
     setShortTime(24000 - shortTime);
     setIsShortRunning(false);
-    socket.emit("stopShort", { shortTime: 24000 - shortTime });
+    socket.emit("stopShort", {
+      shortTime: 24000 - shortTime,
+      role,
+    });
   };
 
-  const resetShort = () => {
+  const resetShort = (role) => {
     internalShortTimeStamp = performance.now();
     shortTime = 0;
     setShortTime(24000 - shortTime);
     setIsShortRunning(false);
-    socket.emit("resetShort", { shortTime: 24000 - shortTime });
+    socket.emit("resetShort", {
+      shortTime: 24000 - shortTime,
+      role,
+    });
   };
 
   const updateAndEmit = (field, value) => {
