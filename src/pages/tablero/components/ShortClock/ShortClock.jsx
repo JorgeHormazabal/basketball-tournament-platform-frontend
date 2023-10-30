@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import "./ShortClock.scss";
 
-export default function ShortClock({ isRunning, serverTime }) {
+export default function ShortClock({
+  isRunning,
+  serverTime,
+  navigateShortClock,
+}) {
   const [time, setTime] = useState(serverTime);
 
   useEffect(() => {
@@ -22,7 +26,15 @@ export default function ShortClock({ isRunning, serverTime }) {
   }, [isRunning, serverTime]);
   return (
     <div className="timer" id="scoreboard__short-clock">
-      <span id="scoreboard__short-clock__description">Reloj de posesión</span>
+      <div id="scoreboard__short-clock__header">
+        <button onClick={() => navigateShortClock("/reloj/home/")}>
+          {"<"}
+        </button>
+        <span id="scoreboard__short-clock__description">Reloj de posesión</span>
+        <button onClick={() => navigateShortClock("/reloj/away/")}>
+          {">"}
+        </button>
+      </div>
       <div id="scoreboard__short-clock__box">
         <span id="scoreboard__short-clock__time">
           {("0" + Math.floor((time / 1000) % 60)).slice(-2)}

@@ -7,7 +7,7 @@ import {
   ShortClock,
 } from "pages/tablero/components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { socket } from "socket";
 import "./Scoreboard.scss";
 
@@ -31,6 +31,10 @@ export default function Scoreboard() {
   const [shortTime, setShortTime] = useState(24000);
   const [isClockRunning, setIsClockRunning] = useState(false);
   const [isShortRunning, setIsShortRunning] = useState(false);
+  const navigate = useNavigate();
+  const navigateShortClock = (route) => {
+    navigate(`${route}${matchId}`);
+  };
 
   useEffect(() => {
     socket.connect();
@@ -88,7 +92,11 @@ export default function Scoreboard() {
           faults={state.homePlayersFaults}
         />
         <Clock isRunning={isClockRunning} serverTime={clockTime} />
-        <ShortClock isRunning={isShortRunning} serverTime={shortTime} />
+        <ShortClock
+          isRunning={isShortRunning}
+          serverTime={shortTime}
+          navigateShortClock={navigateShortClock}
+        />
         <Faults
           elementId="scoreboard__homeFaults"
           faults={state.homeTotalFouls}
