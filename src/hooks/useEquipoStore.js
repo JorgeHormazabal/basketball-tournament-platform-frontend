@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/equipo/equipoSlice";
 
 export const useEquipoStore = () => {
@@ -126,6 +127,15 @@ export const useEquipoStore = () => {
     }
   };
 
+  const vaciar = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error vaciando equipos");
+      console.log(error);
+    }
+  }
+
   return {
     //* Propiedades
     equipoActivo,
@@ -141,5 +151,6 @@ export const useEquipoStore = () => {
     guardarEquipo,
     cargarTotalDelClub,
     cargarEquiposFueraDeLiga,
+    vaciar,
   };
 };

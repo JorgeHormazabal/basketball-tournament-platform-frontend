@@ -90,9 +90,9 @@ export default function EditarLigaOrganizador() {
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
                         <span className="subheadings">
-                          {ligaActiva.winner.name
+                          {/*ligaActiva.winner.name
                             ? ligaActiva.winner.name
-                            : "Sin ganador"}
+                            : "Sin ganador"*/}
                         </span>
                       </div>
                     </td>

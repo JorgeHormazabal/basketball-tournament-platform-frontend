@@ -17,15 +17,15 @@ export function TablaPosiciones({equipos} ) {
         
           {equipos.map((objeto, index) => (
             <tr key={index}>
-              <td className="text-start">&nbsp;&nbsp;&nbsp;{index+1}</td>
-              <td className="text-start"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Oklahoma_City_Thunder.svg/800px-Oklahoma_City_Thunder.svg.png" />&nbsp;&nbsp;&nbsp;
+              <td className="text-start align-middle">&nbsp;&nbsp;&nbsp;{index+1}</td>
+              <td className="text-start align-middle"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Oklahoma_City_Thunder.svg/800px-Oklahoma_City_Thunder.svg.png" />&nbsp;&nbsp;&nbsp;
               {objeto.team.club.name}
               </td>
-              <td className="text-center">{objeto.matchesWon}</td>
-              <td className="text-center">{objeto.matchesLost}</td>
-              <td className="text-center">{objeto.points}</td>
-              <td className="text-center">{objeto.favorablePoints}</td>
-              <td className="text-center">{objeto.pointsAgainst}</td>
+              <td className="text-center align-middle">{objeto.matchesWon}</td>
+              <td className="text-center align-middle">{objeto.matchesLost}</td>
+              <td className="text-center align-middle">{objeto.points}</td>
+              <td className="text-center align-middle">{objeto.favorablePoints}</td>
+              <td className="text-center align-middle">{objeto.pointsAgainst}</td>
             </tr>
           ))}
         </tbody>
