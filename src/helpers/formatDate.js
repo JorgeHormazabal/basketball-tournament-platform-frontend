@@ -1,19 +1,12 @@
+import moment from 'moment';
+
 function formatDate(dateTimeString) {
-  const dateTime = new Date(dateTimeString);
+  const dateTime = moment(dateTimeString);
 
-  // Obtén los componentes de la fecha y hora
-  const year = dateTime.getFullYear();
-  const month =
-    dateTime.getMonth() + 1 < 10
-      ? "0" + (dateTime.getMonth() + 1)
-      : dateTime.getMonth() + 1;
-  const day =
-    dateTime.getDate() < 10 ? "0" + dateTime.getDate() : dateTime.getDate();
-
-  // Formatea la fecha y hora en un formato legible para los humanos
-  const formattedDateTime = `${day}/${month}/${year}`; //
+  // Formatea la fecha en el formato deseado
+  const formattedDateTime = dateTime.format('DD/MM/YYYY');
 
   return formattedDateTime;
 }
-
 export default formatDate;
+

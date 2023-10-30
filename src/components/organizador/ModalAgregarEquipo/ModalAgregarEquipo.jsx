@@ -1,15 +1,23 @@
-import { useEquipoStore, useLigaStore} from "hooks";
-import { useEffect} from "react";
+import { useEquipoStore, useLigaStore, useEstadisticaLigaEquipoStore} from "hooks";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export function ModalAgregarEquipo() {
-    const { ligaActiva } = useLigaStore();
-    const {equipos, cargarEquiposFueraDeLiga} = useEquipoStore();
+  const { ligaActiva } = useLigaStore();
+  const { cargarEquiposFueraDeLiga } = useEquipoStore();
+  const { agregarLiga } = useEstadisticaLigaEquipoStore();
+  const [equipos, setEquipos] = useState([]);
+  const [equipoId, setEquipoId] = useState("");
+  
 
-    useEffect(() => {
-        cargarEquiposFueraDeLiga(ligaActiva.id);
-      });
-    
+  const onInputChanged = (event) => {
+    setEquipoId(event.target.value);
+  };
 
+  useEffect(() => {
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setEquipos(data));
+  }, [ligaActiva]);
+  
   return (
     <div id="modalAgregarEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -26,19 +34,19 @@ export function ModalAgregarEquipo() {
           <form className="modal-body" >
             <input type="hidden" id="id" />
             <div className="mb-3">
-                  <label htmlFor="winnerId" className="form-label">
-                    Ganador
+                  <label htmlFor="equipo" className="form-label">
+                    Equipo
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-trophy"></i>
+                      <i className="fa-solid fa-user"></i>
                     </span>
                     <select
-                      id="winnerId"
-                      name="winnerId"
+                      id="equipo"
+                      name="equipo"
                       className="form-control"
-                      value
-                      onChange
+                      value={equipoId}
+                      onChange={onInputChanged}
                     >
                       <option value="">Seleccionar Equipo</option>
                       {equipos.map((equipo) => (
@@ -50,7 +58,7 @@ export function ModalAgregarEquipo() {
                   </div>
                 </div>
                 <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
+              <button className="btn btn-secondary" type="button" onClick={() => agregarLiga(ligaActiva.id,equipoId)}>
                 <i className="fa-solid fa-floppy-disk"></i> Agregar Equipo
               </button>
             </div>

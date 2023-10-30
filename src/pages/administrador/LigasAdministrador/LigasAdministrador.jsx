@@ -1,19 +1,18 @@
 import { Spinner } from "components";
-import CardLiga from "components/organizador/CardLiga/CardLiga";
-import {  useLigaStore, useEquipoStore } from "hooks";
+import CardLiga from "components/administrador/CardLiga/CardLiga";
+import {  useLigaStore } from "hooks";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { BotonAgregar } from "components";
-import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
+import { ModalLiga } from "components/administrador/ModalLiga/ModalLiga";
 
-export default function LigasOrganizador() {
-  const { cargarLigasDelOrganizador, ligas, setLigaActiva } = useLigaStore();
-  const { vaciar } = useEquipoStore();
+export function LigasAdministrador() {
+  const { cargarTodasLasLigas, ligas, setLigaActiva } = useLigaStore();
   const navigate = useNavigate();
 
   const editarLiga = (liga) => {
     setLigaActiva(liga);
-    navigate("/organizador/liga");
+    navigate("/administrador/liga");
   };
 
   const abrirModal = () => {
@@ -21,10 +20,9 @@ export default function LigasOrganizador() {
   };
 
   useEffect(() => {
-    cargarLigasDelOrganizador();
-    
+    cargarTodasLasLigas();
   });
-
+  console.log(ligas)
   return (
     <div className="dashboard-page">
       <div className="container-fluid">

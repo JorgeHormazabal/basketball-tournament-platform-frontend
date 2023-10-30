@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/equipo/equipoSlice";
 
 export const useEquipoStore = () => {
@@ -94,9 +95,7 @@ export const useEquipoStore = () => {
   const cargarEquiposDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
-      console.log(data);
       dispatch(onLoadEvents(data));
-      console.log(data);
     } catch (error) {
       console.log("Error cargando equipos");
       console.log(error);
@@ -107,8 +106,7 @@ export const useEquipoStore = () => {
     try {
       const { data: equiposTotales } = await backendApi.get("/teams");
       const { data: equiposDeLiga } = await backendApi.get(`/leagues/${ligaId}/clubs`);
-
-      const equiposFueraDeLiga = equiposTotales.filter((equipo) => {
+      var equiposFueraDeLiga = equiposTotales.filter((equipo) => {
         return !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id);
       });
       return equiposFueraDeLiga;
@@ -129,6 +127,15 @@ export const useEquipoStore = () => {
     }
   };
 
+  const vaciar = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error vaciando equipos");
+      console.log(error);
+    }
+  }
+
   return {
     //* Propiedades
     equipoActivo,
@@ -144,5 +151,6 @@ export const useEquipoStore = () => {
     guardarEquipo,
     cargarTotalDelClub,
     cargarEquiposFueraDeLiga,
+    vaciar,
   };
 };

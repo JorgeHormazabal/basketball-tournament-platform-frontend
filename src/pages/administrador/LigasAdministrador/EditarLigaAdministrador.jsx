@@ -16,19 +16,23 @@ import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPos
 import { formatDate } from "helpers";
 import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/ModalAgregarEquipo";
 
-export default function EditarLigaOrganizador() {
+export function EditarLigaAdministrador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
   const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } = usePartidoStore();
   const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
-  
+
   useEffect(() => {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
   
   const navigate = useNavigate();
-  useEffect(() => {}, [ligaActiva]);
+
+  useEffect(() => {
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
+  }, [ligaActiva]);
+  
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
     borrarPartido(jugador);
@@ -36,7 +40,7 @@ export default function EditarLigaOrganizador() {
   const borrarEstaLiga = (ligaActiva) => {
     setLigaActiva(ligaActiva);
     borrarLiga(ligaActiva);
-    navigate("/administrador/ligas");
+    navigate("/organizador/ligas");
   };
 
   const editarModal = (jugador) => {
@@ -55,6 +59,9 @@ export default function EditarLigaOrganizador() {
     cargarEstadisticasDeLiga(ligaActiva.id);
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
   }, [ligaActiva]);
+
+  console.log(ligaActiva.startDate)
+  console.log(formatDate(ligaActiva.startDate))
 
   return (
     <div className="dashboard-page">
@@ -89,11 +96,11 @@ export default function EditarLigaOrganizador() {
                     <td>
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
-                        <span className="subheadings">
-                          {/*ligaActiva.winner.name
+                        {/*<span className="subheadings">
+                          {ligaActiva.winner.name
                             ? ligaActiva.winner.name
-                            : "Sin ganador"*/}
-                        </span>
+                            : "Sin ganador"}
+                          </span>*/}
                       </div>
                     </td>
                     <td>

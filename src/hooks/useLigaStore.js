@@ -56,6 +56,43 @@ export const useLigaStore = () => {
     }
   };
 
+  const guardarLigaAdministrador = async (liga) => {
+    try {
+      if (liga.id.length !== 0) {
+        const { id, organizerId, winnerId, ...restoLiga } = liga;
+        const { data } = await backendApi.patch(`/leagues/${id}`, {
+          ...restoLiga,
+          winnerId: Number(winnerId),
+        });
+        dispatch(
+          onUpdateEvent({
+            ...liga,
+            ...data,
+            user,
+          })
+        );
+      } else {
+        const { id, organizerId, ...restoLiga } = liga;
+        const { data } = await backendApi.post("/leagues/", {
+          ...restoLiga,
+          organizerId: Number(organizerId),
+        });
+        dispatch(onAddNewEvent(data));
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Liga guardada",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error(error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
+    }
+  };
+
   const borrarLiga = async (liga) => {
     try {
       await backendApi.delete(`/leagues/${liga.id}`);
@@ -96,6 +133,16 @@ export const useLigaStore = () => {
     }
   };
 
+  const cargarTodasLasLigas = async () => {
+    try {
+      const { data } = await backendApi.get("/leagues");
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando ligas");
+      console.log(error);
+    }
+  };
+
   const cargarTotalLigasDelOrganizador = async () => {
     try {
       const { data } = await backendApi.get("/leagues/organizer/count");
@@ -117,8 +164,10 @@ export const useLigaStore = () => {
     borrarLiga,
     cargarLigas,
     guardarLigaOrganizador,
+    guardarLigaAdministrador,
     cargarLigasDelClub,
     cargarLigasDelOrganizador,
     cargarTotalLigasDelOrganizador,
+    cargarTodasLasLigas,
   };
 };

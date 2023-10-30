@@ -30,7 +30,7 @@ export const useEstadisticaLigaEquipoStore = () => {
       dispatch(onAddNewEvent(data));
       Swal.fire({
         icon: "success",
-        title: "Liga guardada",
+        title: "Equipo Agregado a la Liga",
         showConfirmButton: false,
         timer: 1500,
       });
