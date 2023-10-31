@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import "./ControlPanel.scss";
 import { socket } from "socket";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Team from "../components/Team/Team";
 import ActivePlayers from "../components/ActivePlayers/ActivePlayers";
 import ClockControl from "../components/ClockControl/ClockControl";
@@ -10,6 +10,7 @@ import { ShortClockControl } from "../components/ShortClockControl/ShortClockCon
 import PeriodControl from "../components/PeriodControl/PeriodControl";
 import Alarm from "../components/Alarm/Alarm";
 import { useState } from "react";
+import { usePanelChronometer } from "hooks";
 
 const emptyMatch = {
   activeAwayPlayers: [],
@@ -30,70 +31,62 @@ const emptyMatch = {
   isEmpty: true,
 };
 let internalState = emptyMatch;
-let internalTimeStamp;
-let timeElapsed = 0;
-let shortTime = 0;
-let internalShortTimeStamp;
 
 export default function ControlPanel() {
   const params = useParams();
   const matchId = params.matchId;
   const [matchInfo, setMatchInfo] = useState(emptyMatch);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isShortRunning, setIsShortRunning] = useState(false);
-  const [time, setTime] = useState(600000);
-  const [short, setShortTime] = useState(24000);
+  const shortChronometer = usePanelChronometer(24);
+  const longChronometer = usePanelChronometer(600);
 
   const start = () => {
-    internalTimeStamp = performance.now();
-    setIsRunning(true);
-    socket.emit("startClock", { time: 600000 - timeElapsed });
+    const time = longChronometer.start(600);
+    socket.emit("startClock", { time });
   };
 
   const stop = () => {
-    const temp = performance.now();
-    timeElapsed = temp - internalTimeStamp + timeElapsed;
-    setTime(600000 - timeElapsed);
-    setIsRunning(false);
-    socket.emit("stopClock", { time: 600000 - timeElapsed });
+    const time = longChronometer.stop();
+    socket.emit("stopClock", { time });
+  };
+
+  const adjust = (correction) => {
+    longChronometer.adjust(correction);
+    socket.emit("stopClock", { time: longChronometer.displayTime });
   };
 
   const reset = () => {
-    internalTimeStamp = performance.now();
-    timeElapsed = 0;
-    setTime(600000 - timeElapsed);
-    setIsRunning(false);
-    socket.emit("resetClock", { time: 600000 - timeElapsed });
+    const time = longChronometer.reset(600);
+    socket.emit("resetClock", { time });
   };
 
-  const startShort = (role) => {
-    internalShortTimeStamp = performance.now();
-    setIsShortRunning(true);
+  const startShort = (direction, startTime) => {
+    shortChronometer.reset(startTime);
+    const time = shortChronometer.start(startTime);
     socket.emit("startShort", {
-      shortTime: 24000 - shortTime,
-      role,
+      shortTime: time,
+      direction,
     });
   };
 
-  const stopShort = (role) => {
-    const temp = performance.now();
-    shortTime = temp - internalShortTimeStamp + shortTime;
-    setShortTime(24000 - shortTime);
-    setIsShortRunning(false);
+  const resumeShort = () => {
+    shortChronometer.resume();
+    socket.emit("startShort", {
+      shortTime: shortChronometer.displayTime,
+    });
+  };
+
+  const stopShort = () => {
+    const time = shortChronometer.stop();
     socket.emit("stopShort", {
-      shortTime: 24000 - shortTime,
-      role,
+      shortTime: time,
     });
   };
 
-  const resetShort = (role) => {
-    internalShortTimeStamp = performance.now();
-    shortTime = 0;
-    setShortTime(24000 - shortTime);
-    setIsShortRunning(false);
+  const resetShort = (direction, startTime) => {
+    const time = shortChronometer.reset(startTime);
     socket.emit("resetShort", {
-      shortTime: 24000 - shortTime,
-      role,
+      shortTime: time,
+      direction,
     });
   };
 
@@ -194,8 +187,8 @@ export default function ControlPanel() {
           start={start}
           stop={stop}
           reset={reset}
-          serverTime={time}
-          isRunning={isRunning}
+          adjust={adjust}
+          serverTime={longChronometer.displayTime}
         />
         <Team
           elementId="controlpanel__team-away"
@@ -206,8 +199,8 @@ export default function ControlPanel() {
           start={startShort}
           stop={stopShort}
           reset={resetShort}
-          serverTime={short}
-          isRunning={isShortRunning}
+          resume={resumeShort}
+          serverTime={shortChronometer.displayTime}
         />
         <PeriodControl period={matchInfo.period} update={updateAndEmit} />
         <Alarm />

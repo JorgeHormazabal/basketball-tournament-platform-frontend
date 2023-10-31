@@ -12,8 +12,19 @@
     align-items: center;
     justify-content: space-evenly;
     gap: 1em;
+    color: $text_color;
     button {
       font-size: 4em;
+    }
+
+    .scoreboard__short-clock__direction {
+      font-size: 10em;
+      background-color: transparent;
+      color: gray;
+      line-height: 0.8em;
+    }
+    .scoreboard__short-clock__direction--active {
+      color: red;
     }
     #scoreboard__short-clock__description {
       font-size: 3em;
@@ -27,7 +38,7 @@
     color: $shortclock_color;
     #scoreboard__short-clock__time {
       line-height: 0.8em;
-      font-size: 16em;
+      font-size: 15em;
     }
   }
 }

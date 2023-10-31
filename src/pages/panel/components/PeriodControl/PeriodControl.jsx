@@ -10,16 +10,16 @@ export default function PeriodControl({ period, update }) {
       </div>
       <div id="controlpanel__period-control__buttons">
         <button
-          id="controlpanel__period-control__remove-period"
-          onClick={() => updatePeriod(period - 1)}
-        >
-          -
-        </button>
-        <button
           id="controlpanel__period-control__add-period"
           onClick={() => updatePeriod(period + 1)}
         >
           +
+        </button>
+        <button
+          id="controlpanel__period-control__remove-period"
+          onClick={() => updatePeriod(period - 1)}
+        >
+          -
         </button>
       </div>
     </div>

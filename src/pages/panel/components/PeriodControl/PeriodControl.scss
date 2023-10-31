@@ -5,7 +5,9 @@
   align-items: center;
   gap: 4em;
   #control__panel_period-control__text {
-    font-size: 4em;
+    span {
+      font-size: 3em;
+    }
   }
   #controlpanel__period-control__buttons {
     display: flex;

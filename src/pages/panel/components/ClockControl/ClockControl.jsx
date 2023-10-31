@@ -1,42 +1,33 @@
-import { useEffect } from "react";
 import "./ClockControl.scss";
-import { useState } from "react";
 
 export default function ClockControl({
   start,
   stop,
   reset,
-  serverTime,
-  isRunning,
+  serverTime: time,
+  adjust,
 }) {
-  const [time, setTime] = useState(serverTime);
-
-  useEffect(() => {
-    setTime(serverTime);
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        if (time < 10) return;
-        setTime((prevTime) => {
-          if (prevTime < 10) return prevTime;
-          return prevTime - 10;
-        });
-      }, 10);
-    } else if (!isRunning) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isRunning, serverTime]);
-
   return (
     <div id="controlpanel__clock" className="grid-item">
       <span id="controlpanel__clock__title">Reloj</span>
       <div id="controlpanel__clock__container">
+        <button
+          className="controlpanel__clock__second-control controlpanel__clock__second-control--add"
+          onClick={() => adjust(+1)}
+        >
+          +1
+        </button>
         <tt>
           <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}</span>
           <span>:</span>
           <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
         </tt>
+        <button
+          className="controlpanel__clock__second-control controlpanel__clock__second-control--remove"
+          onClick={() => adjust(-1)}
+        >
+          -1
+        </button>
       </div>
       <div id="controlpanel__clock__buttons">
         <button id="controlpanel__clock__start-button" onClick={start}>

@@ -171,7 +171,7 @@ const router = createBrowserRouter(
         },
         { path: "tablero/:matchId", element: <Scoreboard /> },
         { path: "panel/:matchId", element: <ControlPanel /> },
-        { path: "reloj/:role/:matchId", element: <ShortClockContainer /> },
+        { path: "tablero/:matchId/reloj", element: <ShortClockContainer /> },
         {
           path: "login",
           element: <Login />,

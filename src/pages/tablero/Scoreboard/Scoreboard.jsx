@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { socket } from "socket";
 import "./Scoreboard.scss";
+import { useBoardChronometer } from "hooks";
 
 export default function Scoreboard() {
   const params = useParams();
@@ -27,32 +28,29 @@ export default function Scoreboard() {
     awayTotalFouls: 0,
     period: 0,
   });
-  const [clockTime, setClockTime] = useState(600000);
   const [shortTime, setShortTime] = useState(24000);
-  const [isClockRunning, setIsClockRunning] = useState(false);
   const [isShortRunning, setIsShortRunning] = useState(false);
+  const [shortDirection, setShortDirection] = useState("");
   const navigate = useNavigate();
-  const navigateShortClock = (route) => {
-    navigate(`${route}${matchId}`);
-  };
+  const navigateShortClock = (route) => navigate(route);
+  const longClock = useBoardChronometer(600);
 
   useEffect(() => {
     socket.connect();
+    console.log("connect");
     socket.on("state", ({ state }) => setState(state));
     socket.on("stopClock", ({ time }) => {
-      setIsClockRunning(false);
-      setClockTime(time);
+      console.log("cluck");
+      longClock.stop(time);
     });
     socket.on("startClock", ({ time }) => {
-      setClockTime(time);
-      setIsClockRunning(true);
+      console.log("clock");
+      longClock.start(time);
     });
-    socket.on("resetClock", ({ time }) => {
-      setIsClockRunning(false);
-      setClockTime(time);
-    });
+    socket.on("resetClock", ({ time }) => longClock.reset(time));
     //SHORT
-    socket.on("startShort", ({ shortTime: time }) => {
+    socket.on("startShort", ({ shortTime: time, direction }) => {
+      if (direction) setShortDirection(direction);
       setShortTime(time);
       setIsShortRunning(true);
     });
@@ -91,11 +89,12 @@ export default function Scoreboard() {
           players={state.activeHomePlayers}
           faults={state.homePlayersFaults}
         />
-        <Clock isRunning={isClockRunning} serverTime={clockTime} />
+        <Clock serverTime={longClock.displayTime} />
         <ShortClock
           isRunning={isShortRunning}
           serverTime={shortTime}
           navigateShortClock={navigateShortClock}
+          direction={shortDirection}
         />
         <Faults
           elementId="scoreboard__homeFaults"

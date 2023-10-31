@@ -55,24 +55,6 @@ export default function ActivePlayers({
               </td>
               <td className="controlpanel_active-players__points">
                 <button
-                  className="controlpanel_active-players__remove-btn"
-                  onClick={() => updatePoints(player.id, -3)}
-                >
-                  -3
-                </button>
-                <button
-                  className="controlpanel_active-players__remove-btn"
-                  onClick={() => updatePoints(player.id, -2)}
-                >
-                  -2
-                </button>
-                <button
-                  className="controlpanel_active-players__remove-btn"
-                  onClick={() => updatePoints(player.id, -1)}
-                >
-                  -1
-                </button>
-                <button
                   className="controlpanel_active-players__add-btn"
                   onClick={() => updatePoints(player.id, 1)}
                 >
@@ -90,19 +72,37 @@ export default function ActivePlayers({
                 >
                   +3
                 </button>
-              </td>
-              <td className="controlpanel_active-players__fouls">
                 <button
                   className="controlpanel_active-players__remove-btn"
-                  onClick={() => updateFouls(player.id, -1)}
+                  onClick={() => updatePoints(player.id, -1)}
                 >
                   -1
                 </button>
+                <button
+                  className="controlpanel_active-players__remove-btn"
+                  onClick={() => updatePoints(player.id, -2)}
+                >
+                  -2
+                </button>
+                <button
+                  className="controlpanel_active-players__remove-btn"
+                  onClick={() => updatePoints(player.id, -3)}
+                >
+                  -3
+                </button>
+              </td>
+              <td className="controlpanel_active-players__fouls">
                 <button
                   className="controlpanel_active-players__add-btn"
                   onClick={() => updateFouls(player.id, 1)}
                 >
                   +1
+                </button>
+                <button
+                  className="controlpanel_active-players__remove-btn"
+                  onClick={() => updateFouls(player.id, -1)}
+                >
+                  -1
                 </button>
               </td>
             </tr>

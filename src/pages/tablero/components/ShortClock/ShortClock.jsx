@@ -5,6 +5,7 @@ export default function ShortClock({
   isRunning,
   serverTime,
   navigateShortClock,
+  direction,
 }) {
   const [time, setTime] = useState(serverTime);
 
@@ -27,13 +28,26 @@ export default function ShortClock({
   return (
     <div className="timer" id="scoreboard__short-clock">
       <div id="scoreboard__short-clock__header">
-        <button onClick={() => navigateShortClock("/reloj/home/")}>
+        <span
+          className={`scoreboard__short-clock__direction ${
+            direction === "home" && "scoreboard__short-clock__direction--active"
+          }`}
+        >
           {"<"}
-        </button>
-        <span id="scoreboard__short-clock__description">Reloj de posesión</span>
-        <button onClick={() => navigateShortClock("/reloj/away/")}>
+        </span>
+        <span
+          id="scoreboard__short-clock__description"
+          onClick={() => navigateShortClock("reloj/")}
+        >
+          Reloj de posesión
+        </span>
+        <span
+          className={`scoreboard__short-clock__direction ${
+            direction === "away" && "scoreboard__short-clock__direction--active"
+          }`}
+        >
           {">"}
-        </button>
+        </span>
       </div>
       <div id="scoreboard__short-clock__box">
         <span id="scoreboard__short-clock__time">

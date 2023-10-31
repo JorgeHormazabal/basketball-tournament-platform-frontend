@@ -6,59 +6,108 @@
   #control__short-clock__title {
     font-size: 3.3em;
   }
-  #control_short-clock__timer {
+  #control__short-clock__body {
     display: flex;
-    flex-direction: row;
+    align-items: start;
     justify-content: center;
-    align-items: center;
-    gap: 5em;
-    .control_short-clock__selector-btn {
-      background-color: transparent;
-      color: black;
+    padding-top: 1.5em;
+    gap: 3em;
+    #control_short-clock__timer-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5em;
+      #control_short-clock__under-buttons {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        justify-content: center;
+        button {
+          font-size: 1.2em;
+          width: 6em;
+          display: inline-block;
+          outline: 0;
+          cursor: pointer;
+          text-align: center;
+          border: 0;
+          padding: 7px 9px;
+          margin-bottom: 12px;
+          min-height: 36px;
+          min-width: 36px;
+          color: #ffffff;
+          border-radius: 4px;
+          font-weight: 500;
+          box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px,
+            rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
+        }
+        #control_short-clock__under-buttons--resume {
+          background-color: orange;
+        }
+        #control_short-clock__under-buttons--stop {
+          background-color: red;
+        }
+      }
+      #control_short-clock__timer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .control_short-clock__selector-btn {
+          font-weight: 900;
+          font-size: 7em;
+          background-color: transparent;
+          color: transparent;
+        }
+        .control_short-clock__selector-btn--active {
+          background-color: transparent;
+          color: black;
+        }
+        #control_short-clock__time {
+          font-size: 6em;
+        }
+
+        span {
+          line-height: 0.8em;
+        }
+      }
     }
-    .control_short-clock__selector-btn--active {
-      background-color: transparent;
-      color: green;
-    }
-    #control_short-clock__time {
-      font-size: 6em;
-    }
-    button {
-      font-size: 5em;
-    }
-  }
-  #control_short-clock__buttons {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    button {
-      font-size: 1.5em;
-      width: 5em;
-      display: inline-block;
-      outline: 0;
-      cursor: pointer;
-      text-align: center;
-      border: 0;
-      padding: 7px 9px;
-      margin-bottom: 12px;
-      min-height: 36px;
-      min-width: 36px;
-      color: #ffffff;
-      border-radius: 4px;
-      font-weight: 500;
-      box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px,
-        rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
-    }
-    #control_short-clock__start-button {
-      background: #008000;
-    }
-    #control_short-clock__stop-button {
-      background: #ffa500;
-    }
-    #control_short-clock__reset-button {
-      background: #ff0000;
+    .control_short-clock__buttons {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 2.5em;
+      button {
+        font-size: 1.2em;
+        width: 6.5em;
+        display: inline-block;
+        outline: 0;
+        cursor: pointer;
+        text-align: center;
+        border: 0;
+        padding: 5px 7px;
+        margin-bottom: 12px;
+        color: #ffffff;
+        border-radius: 4px;
+        font-weight: 500;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px,
+          rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
+      }
+      .control_short-clock__buttons-column {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+      }
+      .control_short-clock__start24-button {
+        background: #008000;
+      }
+      .control_short-clock__stop-button {
+        background: #ffa500;
+      }
+      .control_short-clock__reset24-button {
+        background: #ff0000;
+      }
     }
   }
 }

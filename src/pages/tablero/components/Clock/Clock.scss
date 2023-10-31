@@ -3,10 +3,12 @@
 #scoreboard__clock {
   background-color: $secondary_background_color;
   border: 1px solid $interior_border_color;
-  border-radius: 0.1em;
+  border-radius: 1em;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18em;
   color: $clock_color;
+  span {
+    font-size: 16em;
+  }
 }

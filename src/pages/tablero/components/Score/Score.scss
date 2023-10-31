@@ -9,10 +9,11 @@
   .scoreboard__name-info {
     text-align: center;
     .scoreboard__role {
-      font-size: 2.8em;
+      font-size: 3em;
     }
     .scoreboard__name {
-      font-size: 2.5em;
+      color: $text_color;
+      font-size: 2.3em;
       white-space: nowrap;
     }
   }
@@ -24,8 +25,9 @@
     text-align: center;
     padding: 1em 0;
     .scoreboard__points {
+      color: $points_color;
       line-height: 80%;
-      font-size: 16.5em;
+      font-size: 17.5em;
     }
   }
 }
