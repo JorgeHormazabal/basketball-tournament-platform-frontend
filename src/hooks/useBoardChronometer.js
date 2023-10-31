@@ -47,6 +47,7 @@ export const useBoardChronometer = (startTime) => {
   };
 
   const stop = (time) => {
+    clearInterval(interval.current);
     setIsRunning(true);
     setDisplayTime(time);
     return displayTime;
