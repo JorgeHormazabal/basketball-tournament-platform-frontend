@@ -1,6 +1,6 @@
-import "./pasado.css"
 import { usePartidoStore } from "hooks";
 import { useEffect } from "react";
+import { imagePath, formatDateTime } from 'helpers';
 
 export function TablaPasados({ encuentros, limit }) {
   const encuentrosPasados = encuentros.filter(encuentro => {
@@ -31,12 +31,12 @@ export function TablaPasados({ encuentros, limit }) {
       <tbody>
         {ultimosEncuentros.map((encuentro) => (
           <tr key={encuentros.id}>
-            <td className="text-start">{"LIGA"}</td>
-            <td className="text-start">{"img"} &nbsp; {"nombre"}</td>
+            <td className="text-start">{encuentro.league.name}</td>
+            <td className="text-end"> {encuentro.home.club.name} &nbsp; <img src={imagePath(encuentro.home.club.image)}/></td>
             <td className="text-center">{encuentro.homePoints} - {encuentro.awayPoints}</td>
-            <td className="text-end">{"img"} &nbsp; {"nombre"}</td>
+            <td className="text-start"> <img src={imagePath(encuentro.away.club.image)}/>&nbsp;{encuentro.away.club.name}</td>
             <td className="text-start">{encuentro.place}</td>
-            <td className="text-start">{encuentro.dateTime}</td>
+            <td className="text-start">{formatDateTime(encuentro.dateTime)}</td>
           </tr>
         ))}
       </tbody>

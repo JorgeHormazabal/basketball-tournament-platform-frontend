@@ -1,6 +1,7 @@
 import "./proximos.css";
 import { usePartidoStore } from "hooks";
 import { useEffect } from "react";
+import { imagePath, formatDateTime } from 'helpers';
 
 export function CardsProximos({ encuentros, limit }) {
   const encuentrosFuturos = encuentros.filter(encuentro => {
@@ -16,21 +17,22 @@ export function CardsProximos({ encuentros, limit }) {
 
    const primerosEncuentros = limit ? encuentrosOrdenados.slice(0, limit) : encuentrosOrdenados;
 
+   console.log(primerosEncuentros)
   return (
     <div className="encuentros-list">
       {primerosEncuentros.map((encuentro, index) => (
         <div key={index} className="encuentro-card">
           <div className="equipo-info">
-            {"img"}
-            <h3>{"nombre"}</h3>
+          <img src={imagePath(encuentro.home.club.image)}/>
+            <h3>{encuentro.home.club.name}</h3>
             <div className="vs">V/S</div>
-            <h3>{"nombre"}</h3>
-            {"img"}
+            <h3>{encuentro.away.club.name}</h3>
+            <img src={imagePath(encuentro.away.club.image)}/>
           </div>
           <div className="fila2">
-          <span>{"liga"}</span>&emsp;-&emsp;
+          <span>{encuentro.league.name}</span>&emsp;-&emsp;
             <span>{encuentro.place}</span>&emsp;-&emsp;
-            <span>{encuentro.dateTime}</span>
+            <span>{formatDateTime(encuentro.dateTime)}</span>
           </div>
         </div>
       ))}

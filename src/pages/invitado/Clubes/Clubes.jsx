@@ -1,20 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useClubStore, useJugadorStore } from "hooks";
+import { imagePath } from 'helpers';
 import "./clubes.css"
 
 export function Clubes() {
   const { clubes, cargarClubes, activeClub, setClubActivo } = useClubStore();
-  const { jugadores, cargarJugadores } = useJugadorStore();
+  const { jugadores, cargarJugadoresDeUnClub } = useJugadorStore();
+  const [jugadoress, setJugadores] = useState([]);
 
   useEffect(() => {
     cargarClubes();
-    cargarJugadores();
+    if (activeClub) {
+      cargarJugadoresDeUnClub(activeClub);
+    }
+  },[activeClub]);
+
+  useEffect(() => {
+    setJugadores([])
+    setJugadores(jugadores)
   });
   
   const mostrarJugadoras = (club) => {
     setClubActivo(club);
   };
-
   return (
     <div className="ClubesAPP">
        <div className="titulos">
@@ -23,7 +31,7 @@ export function Clubes() {
       <div className="equipo-list">
         {Object.values(clubes).map((club) => (
           <div key={club.id} className="equipo-card" onClick={() => mostrarJugadoras(club)}>
-            <img src={"https://deportivoantu.cl/wp-content/uploads/2023/05/logo-antu-50x50-1.png"}/>
+            <img src={imagePath(club.image)}/>
             <h2>{club.name}</h2>
           </div>
         ))}
@@ -36,7 +44,7 @@ export function Clubes() {
           </div>
           {
         <div className="jugadoras-list">
-          {Object.values(jugadores).map((jugador) => (
+          {jugadoress.map((jugador) => (
             <div key={jugador.id} className="jugadora-card">
               <img src={"https://cdn0.iconfinder.com/data/icons/female-sport/128/basketball-athlete-women-player-sport-512.png"}/>
               <h3>{jugador.name}</h3>

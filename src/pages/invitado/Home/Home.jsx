@@ -36,7 +36,9 @@ export function Home() {
       <div className="contenedorpasado">
         <div className="Pasados">
           <h2 id="cuarto">Últimos Enfrentamientos</h2>
+          <div className="contenedorDeLiga">
           <TablaPasados encuentros={partidos} limit={3}/>
+          </div>
         </div>
       </div>
       <br />
