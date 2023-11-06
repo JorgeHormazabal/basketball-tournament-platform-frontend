@@ -40,7 +40,7 @@ export default function ControlPanel() {
   const longChronometer = usePanelChronometer(600);
 
   const start = () => {
-    const time = longChronometer.start(600);
+    const time = longChronometer.resume();
     socket.emit("startClock", { time });
   };
 
@@ -50,8 +50,8 @@ export default function ControlPanel() {
   };
 
   const adjust = (correction) => {
-    longChronometer.adjust(correction);
-    socket.emit("stopClock", { time: longChronometer.displayTime });
+    const time = longChronometer.adjust(correction);
+    socket.emit("stopClock", { time });
   };
 
   const reset = () => {
@@ -60,7 +60,6 @@ export default function ControlPanel() {
   };
 
   const startShort = (direction, startTime) => {
-    shortChronometer.reset(startTime);
     const time = shortChronometer.start(startTime);
     socket.emit("startShort", {
       shortTime: time,

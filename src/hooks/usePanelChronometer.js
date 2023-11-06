@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  useRef } from "react";
+import { useRef } from "react";
 
 export const usePanelChronometer = (startTime) => {
   const [displayTime, setDisplayTime] = useState(startTime * 1000);
@@ -8,7 +8,7 @@ export const usePanelChronometer = (startTime) => {
   let initial = useRef(0);
 
   const start = (startTime) => {
-    if (isRunning) return resume();
+    clearInterval(interval.current);
     startTime *= 1000;
     initial.current = startTime;
     setDisplayTime(startTime);
@@ -18,17 +18,18 @@ export const usePanelChronometer = (startTime) => {
   };
 
   const reset = (startTime) => {
+    clearInterval(interval.current);
     startTime *= 1000;
     setIsRunning(false);
     initial.current = startTime;
     setDisplayTime(startTime);
-    clearInterval(interval.current);
     return startTime;
   };
 
   const resume = () => {
-    console.log("resume");
+    clearInterval(interval.current);
     startClicking();
+    setIsRunning(true);
     return displayTime;
   };
 
@@ -43,13 +44,15 @@ export const usePanelChronometer = (startTime) => {
   };
 
   const adjust = (correction) => {
+    console.log(correction);
     correction *= 1000;
     setDisplayTime((previos) => previos + correction);
+    return displayTime + correction;
   };
 
   const stop = () => {
-    setIsRunning(true);
     clearInterval(interval.current);
+    setIsRunning(false);
     return displayTime;
   };
 
