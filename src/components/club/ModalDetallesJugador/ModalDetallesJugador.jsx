@@ -1,6 +1,7 @@
 import { useJugadorStore } from "hooks";
 import { useEffect, useState } from "react";
 import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
+import { imagePath } from "helpers";
 
 export const ModalDetallesJugador = () => {
   const { jugadorActivo, cargarJugadores } = useJugadorStore();
@@ -22,7 +23,16 @@ export const ModalDetallesJugador = () => {
               aria-label="close"
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body d-flex flex-column justify-content-start align-items-start">
+            <img
+              width="200px"
+              className="align-self-center"
+              src={
+                jugadorActivo?.image
+                  ? imagePath(jugadorActivo.image)
+                  : "/img/default_player.png"
+              }
+            />
             <p className="fw-bold">Nombre</p>
             <p>{jugadorActivo?.name}</p>
             <p className="fw-bold">Rut</p>

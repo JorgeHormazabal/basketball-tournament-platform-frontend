@@ -25,7 +25,7 @@ const jugadorVacio = {
 };
 
 export const ModalJugador = () => {
-  const { jugadorActivo, guardarJugador } = useJugadorStore();
+  const { jugadorActivo, guardarJugador, setJugadorActivo } = useJugadorStore();
   const { equipos, cargarEquiposDelClub } = useEquipoStore();
   const [formValues, setFormValues] = useState(jugadorVacio);
   const [file, setFile] = useState();
@@ -56,8 +56,18 @@ export const ModalJugador = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const data = objectToFormData(formValues);
+    const {
+      rut,
+      name,
+      birthdate,
+      displayDivision,
+      team,
+      displayBirthdate,
+      ...restoJugador
+    } = formValues;
+    const data = objectToFormData(jugadorActivo ? restoJugador : formValues);
     if (file) data.append("file", file);
+    console.log(data);
     await guardarJugador(data);
   };
   return (
@@ -419,6 +429,9 @@ export const ModalJugador = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={() => {
+                setJugadorActivo(null);
+              }}
             >
               Cerrar
             </button>
