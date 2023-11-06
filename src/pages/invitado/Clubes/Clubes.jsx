@@ -6,18 +6,10 @@ import "./clubes.css"
 export function Clubes() {
   const { clubes, cargarClubes, activeClub, setClubActivo } = useClubStore();
   const { jugadores, cargarJugadoresDeUnClub } = useJugadorStore();
-  const [jugadoress, setJugadores] = useState([]);
 
   useEffect(() => {
     cargarClubes();
-    if (activeClub) {
       cargarJugadoresDeUnClub(activeClub);
-    }
-  },[activeClub]);
-
-  useEffect(() => {
-    setJugadores([])
-    setJugadores(jugadores)
   });
   
   const mostrarJugadoras = (club) => {
@@ -31,7 +23,7 @@ export function Clubes() {
       <div className="equipo-list">
         {Object.values(clubes).map((club) => (
           <div key={club.id} className="equipo-card" onClick={() => mostrarJugadoras(club)}>
-            <img src={imagePath(club.image)}/>
+            <img src={ club.image? imagePath(club.image) : "img/default_club.png"}/>
             <h2>{club.name}</h2>
           </div>
         ))}
@@ -44,9 +36,9 @@ export function Clubes() {
           </div>
           {
         <div className="jugadoras-list">
-          {jugadoress.map((jugador) => (
+          {jugadores.map((jugador) => (
             <div key={jugador.id} className="jugadora-card">
-              <img src={"https://cdn0.iconfinder.com/data/icons/female-sport/128/basketball-athlete-women-player-sport-512.png"}/>
+              <img src={ jugador.image? imagePath(jugador.image) : "img/default_player.png"}/>
               <h3>{jugador.name}</h3>
               <p>{jugador.displayBirthdate} <br />{jugador.position}</p>
             </div>
