@@ -1,25 +1,21 @@
-import "./pasado.css"
-import { equipo1, equipo2, equipo3, equipo4, equipo5 } from "../Ligas/Ligas.jsx"
+import { usePartidoStore } from "hooks";
+import { useEffect } from "react";
+import { imagePath, formatDateTime } from 'helpers';
 
-function Encuentro(local, visitante, puntosLocal, puntosVisitantes, fecha, liga, lugar, hora) {
-  this.local = local;
-  this.visitante = visitante;
-  this.puntosLocal = puntosLocal;
-  this.puntosVisitantes = puntosVisitantes;
-  this.fecha = fecha;
-  this.liga = liga;
-  this.lugar = lugar;
-  this.hora = hora;
-}
+export function TablaPasados({ encuentros, limit }) {
+  const encuentrosPasados = encuentros.filter(encuentro => {
+    const encuentroFecha = new Date(encuentro.dateTime).getTime();
+    const fechaActual = new Date().getTime();
+    return encuentroFecha < fechaActual;
+  });
+  const encuentrosOrdenados = encuentrosPasados.sort((a, b) => {
+    const fechaA = new Date(a.dateTime).getTime();
+    const fechaB = new Date(b.dateTime).getTime();
+    return fechaB - fechaA;
+  });
 
-const partido1 = new Encuentro(equipo1, equipo2, 105, 92, "5 de Noviembre","Femi-BioMaule","Casa del deporte, Chillán", "15:00");
-const partido2 = new Encuentro(equipo3, equipo4, 62, 80, "6 de Noviembre","Femi-BioMaule","Cancha Municipal, Chillán Viejo", "13:00");
-const partido3 = new Encuentro(equipo5, equipo1, 77, 58, "7 de Noviembre","Femi-BioMaule","UDEC, Chillán", "15:00");
-const partido4 = new Encuentro(equipo4, equipo2, 90, 107, "8 de Noviembre","Femi-BioMaule","UBB sede Fernando May, Chillán", "14:00");
-export const encuentros = [partido1, partido2, partido3, partido4,partido1, partido2, partido3, partido4];
+  const ultimosEncuentros = limit ? encuentrosOrdenados.slice(0, limit) : encuentrosOrdenados;
 
-
-export function TablaPasados({ encuentros }) {
   return (
     <table>
       <thead>
@@ -33,14 +29,14 @@ export function TablaPasados({ encuentros }) {
         </tr>
       </thead>
       <tbody>
-        {encuentros.map((encuentro, index) => (
-          <tr key={index}>
-            <td className="text-start">{encuentro.liga}</td>
-            <td className="text-start"><img src={encuentro.local.imagen}/> &nbsp; {encuentro.local.nombre}</td>
-            <td className="text-center">{encuentro.puntosLocal} - {encuentro.puntosVisitantes}</td>
-            <td className="text-end">{encuentro.visitante.nombre}&nbsp;<img src={encuentro.visitante.imagen}/></td>
-            <td className="text-start">{encuentro.lugar}</td>
-            <td className="text-start">{encuentro.fecha}</td>
+        {ultimosEncuentros.map((encuentro) => (
+          <tr key={encuentros.id}>
+            <td className="text-start">{encuentro.league.name}</td>
+            <td className="text-end"> {encuentro.home.club.name} &nbsp; <img src={imagePath(encuentro.home.club.image)}/></td>
+            <td className="text-center">{encuentro.homePoints} - {encuentro.awayPoints}</td>
+            <td className="text-start"> <img src={imagePath(encuentro.away.club.image)}/>&nbsp;{encuentro.away.club.name}</td>
+            <td className="text-start">{encuentro.place}</td>
+            <td className="text-start">{formatDateTime(encuentro.dateTime)}</td>
           </tr>
         ))}
       </tbody>
@@ -49,13 +45,20 @@ export function TablaPasados({ encuentros }) {
 }
 
 export function Pasados() {
+
+  const { partidos, cargarPartidos } = usePartidoStore();
+
+  useEffect(() => {
+    cargarPartidos();
+  });
+  
   return (
     <div className="PartidosPasadosAPP">
       <div className="titulos">
         <h1>Partidos Pasados</h1>
       </div>
       <div className="contenedorDeLiga">
-      <TablaPasados encuentros={encuentros} />
+      <TablaPasados encuentros={partidos} />
       </div>
     </div>
   );

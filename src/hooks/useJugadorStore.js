@@ -83,6 +83,19 @@ export const useJugadorStore = () => {
     }
   };
 
+  const cargarJugadoresDeUnClub = async (activeClub) => {
+    try {
+      const { data } = await backendApi.get(`/clubs/players/${activeClub.id}`);
+      data.forEach((player) => {
+      player.displayBirthdate = formatDate(player.birthdate);
+    });
+      dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando jugadoras");
+      console.log(error);
+    }
+  };
+
   const cargarJugadoresDelClub = async () => {
     try {
       const { data } = await backendApi.get("/teams/owned");
@@ -115,5 +128,6 @@ export const useJugadorStore = () => {
     cargarJugadores,
     guardarJugador,
     cargarJugadoresDelClub,
+    cargarJugadoresDeUnClub,
   };
 };

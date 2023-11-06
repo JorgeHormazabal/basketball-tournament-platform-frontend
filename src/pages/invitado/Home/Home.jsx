@@ -1,13 +1,17 @@
 import "./home.css";
 import { Link, useNavigate } from "react-router-dom";
-import { liga1, EquiposTabla } from "../Ligas/Ligas";
-import { encuentros, TablaPasados } from "../Pasados/Pasados";
-import { CardsProximos } from "../Proximos/Proximos";
-const encuentrosproximos = encuentros.slice(0, 2);
-const encuentrospasados = encuentros.slice(2, 6);
+import { usePartidoStore } from "hooks";
+import { useEffect } from "react"; 
+import { CardsProximos } from "..";
+import { TablaPasados } from "..";
 
 export function Home() {
   const navigate = useNavigate();
+  const { partidos, cargarPartidos } = usePartidoStore();
+  useEffect(() => {
+    cargarPartidos();
+  });
+
   return (
     <>
       <button onClick={() => navigate("/tablero/3")}>TABLERO--TEMPORAL</button>
@@ -22,10 +26,9 @@ export function Home() {
       </div>
 
       {/* PROXIMOS PARTIDOS  */}
-
       <div className="Proximos">
         <h2 id="cuarto">Próximos Enfrentamientos</h2>
-        <CardsProximos encuentros={encuentrosproximos} />
+        <CardsProximos encuentros={partidos} limit={2} />
         <br />
       </div>
 
@@ -33,26 +36,26 @@ export function Home() {
       <div className="contenedorpasado">
         <div className="Pasados">
           <h2 id="cuarto">Últimos Enfrentamientos</h2>
-          <TablaPasados encuentros={encuentrospasados} />
+          <div className="contenedorDeLiga">
+          <TablaPasados encuentros={partidos} limit={3}/>
+          </div>
         </div>
       </div>
       <br />
 
       {/* DIV LIGAS  */}
-
       <div className="Ligass">
         <h2 id="actualizacionligauno">
           Última Actualización de <strong>Liga Uno - Femenina</strong>
         </h2>
         <div className="LigasAPP">
           <div className="contenedorDeLiga">
-            <EquiposTabla equipos={liga1.equipos} />
+            {/*<EquiposTabla equipos={liga1.equipos} />*/}
           </div>
         </div>
       </div>
 
       {/* DIV CONOCE MAS */}
-
       <div className="botonesConoce">
         <div>
           <h1 id="tercero">¡Conoce más de Tromü!</h1>
