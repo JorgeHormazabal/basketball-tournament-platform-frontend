@@ -37,7 +37,6 @@ export default function Scoreboard() {
 
   useEffect(() => {
     socket.connect();
-    console.log("connect");
     socket.on("state", ({ state }) => setState(state));
     socket.on("stopClock", ({ time }) => {
       console.log("cluck");
@@ -50,6 +49,7 @@ export default function Scoreboard() {
     socket.on("resetClock", ({ time }) => longClock.reset(time));
     //SHORT
     socket.on("startShort", ({ shortTime: time, direction }) => {
+      console.log(time, direction);
       if (direction) setShortDirection(direction);
       setShortTime(time);
       setIsShortRunning(true);
@@ -58,7 +58,8 @@ export default function Scoreboard() {
       setIsShortRunning(false);
       setShortTime(time);
     });
-    socket.on("resetShort", ({ shortTime: time }) => {
+    socket.on("resetShort", ({ direction, shortTime: time }) => {
+      setShortDirection(direction);
       setIsShortRunning(false);
       setShortTime(time);
     });
@@ -73,6 +74,14 @@ export default function Scoreboard() {
 
     return () => {
       socket.disconnect();
+      socket.off("state");
+      socket.off("stopClock");
+      socket.off("startClock");
+      socket.off("resetClock");
+      socket.off("startShort");
+      socket.off("stopShort");
+      socket.off("resetShort");
+      socket.off("updateShort");
     };
   }, []);
 

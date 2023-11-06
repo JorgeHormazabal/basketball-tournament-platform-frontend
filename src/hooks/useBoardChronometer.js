@@ -25,7 +25,6 @@ export const useBoardChronometer = (startTime) => {
   };
 
   const resume = (time) => {
-    console.log("resume");
     setDisplayTime(time);
     startClicking();
     return displayTime;
@@ -39,16 +38,18 @@ export const useBoardChronometer = (startTime) => {
         ),
       10
     );
+    console.log(interval.current);
   };
 
   const adjust = (correction) => {
     correction *= 1000;
-    setDisplayTime((previos) => previos + correction);
+    setDisplayTime((previous) => previous + correction);
   };
 
   const stop = (time) => {
     clearInterval(interval.current);
     setIsRunning(true);
+    console.log(time);
     setDisplayTime(time);
     return displayTime;
   };

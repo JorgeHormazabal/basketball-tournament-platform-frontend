@@ -1,6 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { backendApi } from "../api";
-import { clearErrorMessage, onChecking, onLogin, onLogout } from "../store";
+import {
+  clearErrorMessage,
+  onChecking,
+  onLogin,
+  onLogout,
+  onUpdate,
+} from "../store/auth/authSlice";
 
 import { onLogout as onLogoutAuth } from "store/auth/authSlice";
 import { onLogoutEvent as onLogoutClub } from "store/club/clubSlice";
@@ -26,7 +32,12 @@ export const useAuthStore = () => {
       localStorage.setItem("token-init-date", new Date().getTime());
       //TODO: guardar imagen
       await dispatch(
-        onLogin({ name: data.name, role: data.role, email: data.email })
+        onLogin({
+          name: data.name,
+          role: data.role,
+          email: data.email,
+          image: data.image,
+        })
       );
       return data.role;
     } catch (error) {
@@ -86,6 +97,16 @@ export const useAuthStore = () => {
     }
   };
 
+  const updateClubProfile = async (payload) => {
+    try {
+      const { data } = await backendApi.patch("/clubs/update-profile", payload);
+      console.log(data);
+      await dispatch(onUpdate(data));
+    } catch (error) {
+      console.log("Error al actualizar perfil", error);
+    }
+  };
+
   /*
   //TODO: hacer end-point en backend
   const checkAuthToken = async () => {
@@ -127,5 +148,6 @@ export const useAuthStore = () => {
     startLogin,
     startLogout,
     cargarTotal,
+    updateClubProfile,
   };
 };

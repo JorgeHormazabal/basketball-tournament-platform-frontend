@@ -11,7 +11,7 @@ export * from "./administrador/ModalJugador/ModalJugador";
 export * from "./administrador/ModalOrganizador/ModalOrganizador";
 export * from "./administrador/SidebarAdministrador/SidebarData";
 export { default as EstadisticaLigaTab } from "./club/EstadisticaLigaTab/EstadisticaLigaTab";
-export * from "./club/ModalClub/ModalClub";
+export * from "./club/ModalPerfilClub/ModalPerfilClub";
 export * from "./club/ModalEquipo/ModalEquipo";
 export * from "./club/ModalJugador/ModalJugador";
 export * from "./club/PerfilClub/BienvenidaTromu";
