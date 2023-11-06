@@ -2,13 +2,14 @@ import { useEffect, useState, useMemo } from "react";
 import { useJugadorStore } from "hooks";
 import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
+import { objectToFormData } from "helpers";
 
 const jugadorVacio = {
   id: "",
   rut: "",
   name: "",
   birthdate: new Date(),
-  teamId: 0,
+  teamId: "0",
   phone: "",
   email: "",
   emergencyName: "",
@@ -27,6 +28,7 @@ export const ModalJugador = () => {
   const { jugadorActivo, guardarJugador } = useJugadorStore();
   const { equipos, cargarEquiposDelClub } = useEquipoStore();
   const [formValues, setFormValues] = useState(jugadorVacio);
+  const [file, setFile] = useState();
 
   const titulo = useMemo(
     () => (jugadorActivo === null ? "Nuevo jugador" : "Editar jugador"),
@@ -34,7 +36,6 @@ export const ModalJugador = () => {
   );
 
   useEffect(() => {
-    console.log("laconchatumadre");
     cargarEquiposDelClub();
     if (jugadorActivo !== null) {
       setFormValues({ ...jugadorActivo, teamId: jugadorActivo.team.id });
@@ -49,12 +50,16 @@ export const ModalJugador = () => {
       [target.name]: target.value,
     });
   };
+  const handleOnChangeImage = ({ target }) => {
+    setFile(target.files[0]);
+  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await guardarJugador(formValues);
+    const data = objectToFormData(formValues);
+    if (file) data.append("file", file);
+    await guardarJugador(data);
   };
-
   return (
     <div id="modalJugador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -70,6 +75,24 @@ export const ModalJugador = () => {
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
             <input type="hidden" id="id" />
+            <div className="mb-3">
+              <label htmlFor="clave" className="form-label">
+                Logo
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  accept="image/png, image/jpg, image/jpeg"
+                  onChange={handleOnChangeImage}
+                />
+              </div>
+            </div>
             {!formValues.id && ( // Check if formValues.id is falsy
               <>
                 <div className="mb-3">

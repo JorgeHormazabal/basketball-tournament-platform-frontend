@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import "./ModalPerfilClub.scss";
 import { useAuthStore } from "hooks";
+import { objectToFormData } from "helpers";
 
 export const ModalPerfilClub = () => {
   const { user: club, updateClubProfile } = useAuthStore();
@@ -32,13 +33,8 @@ export const ModalPerfilClub = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData();
+    const data = objectToFormData(formValues, true);
     if (file) data.append("file", file);
-    Object.keys(formValues).forEach((key) => {
-      if (formValues[key] && formValues[key].length > 0) {
-        data.append(key, formValues[key]);
-      }
-    });
     updateClubProfile(data);
   };
 

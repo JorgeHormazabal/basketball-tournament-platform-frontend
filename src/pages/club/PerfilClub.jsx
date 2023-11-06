@@ -26,7 +26,14 @@ export function PerfilClub() {
             <div className="row shadow p-3 rounded">
               <div className="col-sm-4 bg-primary text-white rounded-left fondo">
                 <div className="card-body text-center">
-                  <img className="w-75 mt-4" src={imagePath(user.image)} />
+                  <img
+                    className="w-75 mt-4"
+                    src={
+                      user.image
+                        ? imagePath(user.image)
+                        : "img/default_club.png"
+                    }
+                  />
                   <h2 className="fw-bold mt-4">{user.name}</h2>
                   <p className="rol">{user.role}</p>
                 </div>
