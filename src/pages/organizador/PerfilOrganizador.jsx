@@ -30,7 +30,7 @@ export function PerfilOrganizador() {
                     src={
                       user.image
                         ? imagePath(user.image)
-                        : "img/default_club.png"
+                        : "/img/default_club.png"
                     }
                   />
                   <h2 className="fw-bold mt-4">{user.name}</h2>

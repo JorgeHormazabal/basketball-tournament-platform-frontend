@@ -1,5 +1,5 @@
-import { imagePath } from 'helpers';
-import { useState, useEffect } from 'react';
+import { imagePath } from "helpers";
+import { useState, useEffect } from "react";
 
 export function TablaPosiciones({ equipos }) {
   const [equiposOrdenados, setEquiposOrdenados] = useState([]);
@@ -16,34 +16,66 @@ export function TablaPosiciones({ equipos }) {
       <table className="table table ">
         <thead className="table-light">
           <tr>
-            <th className="text-start" scope="col">&nbsp;POS</th>
-            <th className="text-start" scope="col">Equipo</th>
-            <th className="text-center" scope="col">PJ</th>
-            <th className="text-center" scope="col">PG</th>
-            <th className="text-center" scope="col">PP</th>
-            <th className="text-center" scope="col">PUNTOS</th>
-            <th className="text-center" scope="col">PTS. FAV.</th>
-            <th className="text-center" scope="col">PTS. CON.</th>
-            <th className="text-center" scope="col">DIF</th>
+            <th className="text-start" scope="col">
+              &nbsp;POS
+            </th>
+            <th className="text-start" scope="col">
+              Equipo
+            </th>
+            <th className="text-center" scope="col">
+              PJ
+            </th>
+            <th className="text-center" scope="col">
+              PG
+            </th>
+            <th className="text-center" scope="col">
+              PP
+            </th>
+            <th className="text-center" scope="col">
+              PUNTOS
+            </th>
+            <th className="text-center" scope="col">
+              PTS. FAV.
+            </th>
+            <th className="text-center" scope="col">
+              PTS. CON.
+            </th>
+            <th className="text-center" scope="col">
+              DIF
+            </th>
           </tr>
         </thead>
         <tbody>
           {equiposOrdenados.map((equipo, index) => (
             <tr key={index}>
-              <td className="text-start align-middle">&nbsp;&nbsp;&nbsp;{index + 1}</td>
+              <td className="text-start align-middle">
+                &nbsp;&nbsp;&nbsp;{index + 1}
+              </td>
               <td className="text-start align-middle">
                 <img
-                  src={equipo.team.club.image ? imagePath(equipo.team.club.image) : "img/default_club.png"}
+                  src={
+                    equipo.team.club.image
+                      ? imagePath(equipo.team.club.image)
+                      : "/img/default_club.png"
+                  }
                 />
                 &nbsp;&nbsp;&nbsp;{equipo.team.club.name}
               </td>
-              <td className="text-center align-middle">{equipo.matchesWon+equipo.matchesLost}</td>
+              <td className="text-center align-middle">
+                {equipo.matchesWon + equipo.matchesLost}
+              </td>
               <td className="text-center align-middle">{equipo.matchesWon}</td>
               <td className="text-center align-middle">{equipo.matchesLost}</td>
               <td className="text-center align-middle">{equipo.points}</td>
-              <td className="text-center align-middle">{equipo.favorablePoints}</td>
-              <td className="text-center align-middle">{equipo.pointsAgainst}</td>
-              <td className="text-center align-middle">{equipo.favorablePoints-equipo.pointsAgainst}</td>
+              <td className="text-center align-middle">
+                {equipo.favorablePoints}
+              </td>
+              <td className="text-center align-middle">
+                {equipo.pointsAgainst}
+              </td>
+              <td className="text-center align-middle">
+                {equipo.favorablePoints - equipo.pointsAgainst}
+              </td>
             </tr>
           ))}
         </tbody>
