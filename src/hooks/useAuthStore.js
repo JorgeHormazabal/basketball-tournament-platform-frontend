@@ -112,7 +112,7 @@ export const useAuthStore = () => {
       const { data } = await backendApi.patch(
         "/organizers/update-profile",
         payload
-      );
+      );  
       console.log(data);
       await dispatch(onUpdate(data));
     } catch (error) {
