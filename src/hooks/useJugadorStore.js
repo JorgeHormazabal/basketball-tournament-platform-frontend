@@ -33,6 +33,7 @@ export const useJugadorStore = () => {
           onUpdateEvent({
             ...data,
             displayDivision: data.team.division.category,
+            displayBirthdate: formatDate(data.birthdate),
           })
         );
       } else {

@@ -66,6 +66,9 @@ export function EditarLigaAdministrador() {
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
+          <button className="btn btn-primary" onClick={() => navigate(-1)}>
+            Volver
+          </button>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <h1>{ligaActiva.name}</h1>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">

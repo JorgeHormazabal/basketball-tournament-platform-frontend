@@ -29,6 +29,7 @@ export const ModalJugador = () => {
   const { equipos, cargarEquiposDelClub } = useEquipoStore();
   const [formValues, setFormValues] = useState(jugadorVacio);
   const [file, setFile] = useState();
+  const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
     () => (jugadorActivo === null ? "Nuevo jugador" : "Editar jugador"),
@@ -52,6 +53,11 @@ export const ModalJugador = () => {
   };
   const handleOnChangeImage = ({ target }) => {
     setFile(target.files[0]);
+    const file = new FileReader();
+    file.onload = function () {
+      setPreview(file.result);
+    };
+    file.readAsDataURL(target.files[0]);
   };
 
   const onSubmit = async (event) => {
@@ -103,6 +109,16 @@ export const ModalJugador = () => {
                 />
               </div>
             </div>
+            {preview && (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={preview}
+                  alt="Upload preview"
+                />
+              </p>
+            )}
             {!formValues.id && ( // Check if formValues.id is falsy
               <>
                 <div className="mb-3">

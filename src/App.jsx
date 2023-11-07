@@ -30,7 +30,7 @@ import ShortClockContainer from "pages/relojPosesion/ShortClockContainer/ShortCl
 const PublicLayout = () => {
   return (
     <>
-      <div className="App">
+      <div className="App pages">
         <Navbar />
         <Outlet />
         <Footer />
@@ -41,28 +41,28 @@ const PublicLayout = () => {
 
 const ClubLayout = () => {
   return (
-    <>
+    <div className="pages">
       <SidebarClub />
       <Outlet />
-    </>
+    </div>
   );
 };
 
 const OrganizadorLayout = () => {
   return (
-    <>
+    <div className="pages">
       <SidebarOrganizador />
       <Outlet />
-    </>
+    </div>
   );
 };
 
 const AdminLayout = () => {
   return (
-    <>
+    <div className="pages">
       <SidebarAdministrador />
       <Outlet />
-    </>
+    </div>
   );
 };
 

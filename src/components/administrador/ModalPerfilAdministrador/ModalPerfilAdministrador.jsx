@@ -1,23 +1,23 @@
 import { useEffect, useState, useMemo } from "react";
-import "./ModalPerfilClub.scss";
+import "./ModalPerfilAdministrador.scss";
 import { useAuthStore } from "hooks";
 import { objectToFormData } from "helpers";
 
-export const ModalPerfilClub = () => {
-  const { user: club, updateClubProfile } = useAuthStore();
+export const ModalPerfilAdministrador = () => {
+  const { user: administrador, updateAdministradorProfile } = useAuthStore();
   const [formValues, setFormValues] = useState({});
   const [file, setFile] = useState();
   const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
-    () => (club === null ? "Nuevo Club" : "Editar Club"),
-    [club]
+    () => (administrador === null ? "Nuevo administrador" : "Editar administrador"),
+    [administrador]
   );
 
   useEffect(() => {
     setFormValues({
-      name: club.name,
-      password: club.password,
+      name: administrador.name,
+      password: administrador.password,
     });
   }, []);
 
@@ -41,11 +41,11 @@ export const ModalPerfilClub = () => {
     event.preventDefault();
     const data = objectToFormData(formValues, true);
     if (file) data.append("file", file);
-    updateClubProfile(data);
+    updateAdministradorProfile(data);
   };
 
   return (
-    <div id="modalClub" className="modal fade" aria-hidden="true">
+    <div id="modalOrganizador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -61,7 +61,7 @@ export const ModalPerfilClub = () => {
             <input type="hidden" id="id" />
             <div className="mb-3">
               <label htmlFor="nombre" className="form-label">
-                Nombre del club
+                Nombre del administrador
               </label>
               <div className="input-group">
                 <span className="input-group-text">
@@ -71,7 +71,7 @@ export const ModalPerfilClub = () => {
                   type="text"
                   id="nombre"
                   className="form-control"
-                  placeholder="Nombre del club"
+                  placeholder="Nombre del administrador"
                   value={formValues.name}
                   name="name" // Corrected name attribute
                   onChange={onInputChanged}
@@ -81,7 +81,7 @@ export const ModalPerfilClub = () => {
 
             <div className="mb-3">
               <label htmlFor="clave" className="form-label">
-                Contraseña del club
+                Contraseña del administrador
               </label>
               <div className="input-group">
                 <span className="input-group-text">
@@ -92,7 +92,7 @@ export const ModalPerfilClub = () => {
                   id="clave"
                   name="password" // Corrected name attribute
                   className="form-control"
-                  placeholder="Contraseña del club"
+                  placeholder="Contraseña del administrador"
                   value={formValues.password}
                   onChange={onInputChanged}
                 />
@@ -129,7 +129,7 @@ export const ModalPerfilClub = () => {
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar Club
+                <i className="fa-solid fa-floppy-disk"></i> Guardar administrador
               </button>
             </div>
           </form>

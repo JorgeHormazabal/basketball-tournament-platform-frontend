@@ -107,6 +107,19 @@ export const useAuthStore = () => {
     }
   };
 
+  const updateOrganizadorProfile = async (payload) => {
+    try {
+      const { data } = await backendApi.patch(
+        "/organizers/update-profile",
+        payload
+      );
+      console.log(data);
+      await dispatch(onUpdate(data));
+    } catch (error) {
+      console.log("Error al actualizar perfil", error);
+    }
+  };
+
   /*
   //TODO: hacer end-point en backend
   const checkAuthToken = async () => {
@@ -149,5 +162,6 @@ export const useAuthStore = () => {
     startLogout,
     cargarTotal,
     updateClubProfile,
+    updateOrganizadorProfile,
   };
 };
