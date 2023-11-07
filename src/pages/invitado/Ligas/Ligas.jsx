@@ -3,34 +3,37 @@ import { useLigaStore, useEstadisticaLigaEquipoStore } from "hooks";
 import { useEffect } from "react";
 import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones"
 
-export function Ligas () {
-  const { cargarTodasLasLigas, ligas, ligaActiva, setLigaActiva } = useLigaStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+export function Ligas() {
+  const { cargarTodasLasLigas, ligas } = useLigaStore();
+  const { estadisticasLigaEquipo, cargarTodasLasEstadisticasDeLiga, limpiarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
 
   useEffect(() => {
     cargarTodasLasLigas();
-  });
+  }, []);
+
   useEffect(() => {
-    if (ligaActiva) {
-      cargarEstadisticasDeLiga(ligaActiva.id);
+    if (ligas.length > 0) {
+      cargarTodasLasEstadisticasDeLiga(ligas);
     }
-  },[ligaActiva]);
- 
+  }, [ligas, cargarTodasLasEstadisticasDeLiga, limpiarEstadisticasDeLiga]);
+
+  const filtrarEstadisticasPorLiga = (ligaId) => {
+    return estadisticasLigaEquipo.filter(equipo => equipo.ligaId === ligaId);
+  };
+
   return (
     <div className="LigasAPP">
       <div className="titulos">
-      <h1>Tablas de posiciones</h1>
+        <h1>Tablas de posiciones</h1>
       </div>
       <div className="contenedorDeLiga">
         {ligas.map((liga, index) => (
-           <div key={index}>
+          <div key={index}>
             <h2>{liga.name}</h2>
-            <TablaPosiciones equipos={estadisticasLigaEquipo} />
+            <TablaPosiciones equipos={filtrarEstadisticasPorLiga(liga.id)} />
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-  

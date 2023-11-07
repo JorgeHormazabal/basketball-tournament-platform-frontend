@@ -18,20 +18,22 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 
 export function EditarLigaAdministrador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } = usePartidoStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido, limpiarPartidosDeLaLiga } = usePartidoStore();
+  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga, limpiarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
 
   useEffect(() => {
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
+    if(ligaActiva){
+    limpiarPartidosDeLaLiga();
+    limpiarEstadisticasDeLiga();
+    cargarPartidosDeLaLiga(ligaActiva.id);
+    cargarEstadisticasDeLiga(ligaActiva.id);
+  }
   }, [ligaActiva]);
   
   const navigate = useNavigate();
-
-  useEffect(() => {
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
-  }, [ligaActiva]);
   
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
@@ -53,15 +55,6 @@ export function EditarLigaAdministrador() {
   const abrirModal = () => {
     setPartidoActivo(null);
   };
-
-  useEffect(() => {
-    cargarPartidosDeLaLiga(ligaActiva.id);
-    cargarEstadisticasDeLiga(ligaActiva.id);
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
-  }, [ligaActiva]);
-
-  console.log(ligaActiva.startDate)
-  console.log(formatDate(ligaActiva.startDate))
 
   return (
     <div className="dashboard-page">

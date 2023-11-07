@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/jugador/jugadorSlice";
 import formatDate from "helpers/formatDate";
 
@@ -87,11 +88,20 @@ export const useJugadorStore = () => {
     try {
       const { data } = await backendApi.get(`/clubs/players/${activeClub.id}`);
       data.forEach((player) => {
-      player.displayBirthdate = formatDate(player.birthdate);
-    });
+        player.displayBirthdate = formatDate(player.birthdate);
+      });
       dispatch(onLoadEvents(data));
     } catch (error) {
       console.log("Error cargando jugadoras");
+      console.log(error);
+    }
+  };
+
+  const limpiarJugadoresDeUnClub = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando jugadoras");
       console.log(error);
     }
   };
@@ -129,5 +139,6 @@ export const useJugadorStore = () => {
     guardarJugador,
     cargarJugadoresDelClub,
     cargarJugadoresDeUnClub,
+    limpiarJugadoresDeUnClub,
   };
 };

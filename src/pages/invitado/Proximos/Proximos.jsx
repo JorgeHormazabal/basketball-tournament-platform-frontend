@@ -23,11 +23,11 @@ export function CardsProximos({ encuentros, limit }) {
       {primerosEncuentros.map((encuentro, index) => (
         <div key={index} className="encuentro-card">
           <div className="equipo-info">
-          <img src={imagePath(encuentro.home.club.image)}/>
+          <img src={ encuentro.home.club.image? imagePath(encuentro.home.club.image) : "img/default_club.png"}/>
             <h3>{encuentro.home.club.name}</h3>
             <div className="vs">V/S</div>
             <h3>{encuentro.away.club.name}</h3>
-            <img src={imagePath(encuentro.away.club.image)}/>
+            <img src={ encuentro.away.club.image? imagePath(encuentro.away.club.image) : "img/default_club.png"}/>
           </div>
           <div className="fila2">
           <span>{encuentro.league.name}</span>&emsp;-&emsp;

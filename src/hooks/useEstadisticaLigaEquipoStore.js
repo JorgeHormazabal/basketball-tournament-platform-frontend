@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/estadisticaLigaEquipo/estadisticaLigaEquipoSlice";
 
 export const useEstadisticaLigaEquipoStore = () => {
@@ -110,9 +111,37 @@ export const useEstadisticaLigaEquipoStore = () => {
   const cargarEstadisticasDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(
-        `/team-league-statistics/league/${ligaId}`
+        `/team-league-statistics/league/${ligaId}` 
       );
       dispatch(onLoadEvents(data));
+    } catch (error) {
+      console.log("Error cargando estadisticas");
+      console.log(error);
+    }
+  };
+
+  const cargarTodasLasEstadisticasDeLiga = async (ligas) => {
+    try {
+      const routes = ligas.map(liga => `/team-league-statistics/league/${liga.id}`);
+      
+      for (const [index, route] of routes.entries()) {
+        const { data } = await backendApi.get(route);
+        const ligaId = ligas[index].id;
+  
+        const dataWithLigaId = data.map(item => ({ ...item, ligaId }));
+  
+        dispatch(onLoadEvents(dataWithLigaId));
+      }
+    } catch (error) {
+      console.log("Error cargando todas las estadisticas");
+      console.log(error);
+    }
+  };
+  
+
+  const limpiarEstadisticasDeLiga = async () => {
+    try {
+      dispatch(onLogoutEvent());
     } catch (error) {
       console.log("Error cargando estadisticas");
       console.log(error);
@@ -135,5 +164,7 @@ export const useEstadisticaLigaEquipoStore = () => {
     cargarEstadisticasYLigasDelClub,
     cargarEstadisticasDeLiga,
     agregarLiga,
+    limpiarEstadisticasDeLiga,
+    cargarTodasLasEstadisticasDeLiga,
   };
 };

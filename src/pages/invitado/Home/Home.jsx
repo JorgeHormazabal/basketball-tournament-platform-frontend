@@ -4,14 +4,30 @@ import { usePartidoStore } from "hooks";
 import { useEffect } from "react"; 
 import { CardsProximos } from "..";
 import { TablaPasados } from "..";
+import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones";
+import { useLigaStore, useEstadisticaLigaEquipoStore } from "hooks";
 
 export function Home() {
   const navigate = useNavigate();
   const { partidos, cargarPartidos } = usePartidoStore();
+  const { cargarTodasLasLigas, ligas } = useLigaStore();
+  const { estadisticasLigaEquipo, cargarTodasLasEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   useEffect(() => {
     cargarPartidos();
+    cargarTodasLasLigas();
   });
+  useEffect(() => {
+    if (ligas.length > 0) {
+      cargarTodasLasEstadisticasDeLiga([ligas[0]]);
+    }
+  }, [ligas, cargarTodasLasEstadisticasDeLiga]);
 
+  const filtrarEstadisticasPrimeraLiga = () => {
+    if (ligas.length > 0) {
+      return estadisticasLigaEquipo.filter(equipo => equipo.ligaId === ligas[0].id);
+    }
+    return [];
+  };
   return (
     <>
       <button onClick={() => navigate("/tablero/3")}>TABLERO--TEMPORAL</button>
@@ -46,11 +62,11 @@ export function Home() {
       {/* DIV LIGAS  */}
       <div className="Ligass">
         <h2 id="actualizacionligauno">
-          Última Actualización de <strong>Liga Uno - Femenina</strong>
+          Última Actualización de <strong>{ligas.length > 0 ? ligas[0].name : ''}</strong>
         </h2>
         <div className="LigasAPP">
           <div className="contenedorDeLiga">
-            {/*<EquiposTabla equipos={liga1.equipos} />*/}
+          <TablaPosiciones equipos={filtrarEstadisticasPrimeraLiga()} />
           </div>
         </div>
       </div>
