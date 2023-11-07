@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/jugador/jugadorSlice";
 import formatDate from "helpers/formatDate";
 
@@ -98,6 +99,15 @@ export const useJugadorStore = () => {
     }
   };
 
+  const limpiarJugadoresDeUnClub = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando jugadoras");
+      console.log(error);
+    }
+  };
+
   const cargarJugadoresDelClub = async () => {
     try {
       const { data } = await backendApi.get("/teams/owned");
@@ -131,5 +141,6 @@ export const useJugadorStore = () => {
     guardarJugador,
     cargarJugadoresDelClub,
     cargarJugadoresDeUnClub,
+    limpiarJugadoresDeUnClub,
   };
 };

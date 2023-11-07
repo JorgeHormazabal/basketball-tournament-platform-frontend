@@ -153,6 +153,8 @@ export const useLigaStore = () => {
     }
   };
 
+  
+
   return {
     //* Propiedades
     ligaActiva,

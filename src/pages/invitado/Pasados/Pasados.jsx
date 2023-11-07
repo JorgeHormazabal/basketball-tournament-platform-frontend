@@ -32,9 +32,9 @@ export function TablaPasados({ encuentros, limit }) {
         {ultimosEncuentros.map((encuentro) => (
           <tr key={encuentros.id}>
             <td className="text-start">{encuentro.league.name}</td>
-            <td className="text-end"> {encuentro.home.club.name} &nbsp; <img src={imagePath(encuentro.home.club.image)}/></td>
+            <td className="text-end"> {encuentro.home.club.name} &nbsp; <img src={ encuentro.home.club.image? imagePath(encuentro.home.club.image) : "img/default_club.png"}/></td>
             <td className="text-center">{encuentro.homePoints} - {encuentro.awayPoints}</td>
-            <td className="text-start"> <img src={imagePath(encuentro.away.club.image)}/>&nbsp;{encuentro.away.club.name}</td>
+            <td className="text-start"> <img src={ encuentro.away.club.image? imagePath(encuentro.away.club.image) : "img/default_club.png"}/>&nbsp;{encuentro.away.club.name}</td>
             <td className="text-start">{encuentro.place}</td>
             <td className="text-start">{formatDateTime(encuentro.dateTime)}</td>
           </tr>

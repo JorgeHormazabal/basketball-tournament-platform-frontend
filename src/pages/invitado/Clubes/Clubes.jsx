@@ -5,12 +5,18 @@ import "./clubes.css"
 
 export function Clubes() {
   const { clubes, cargarClubes, activeClub, setClubActivo } = useClubStore();
-  const { jugadores, cargarJugadoresDeUnClub } = useJugadorStore();
+  const { jugadores, cargarJugadoresDeUnClub, limpiarJugadoresDeUnClub } = useJugadorStore();
 
   useEffect(() => {
     cargarClubes();
+  }, []);
+
+  useEffect(() => {
+    if (activeClub) {
+      limpiarJugadoresDeUnClub(activeClub);
       cargarJugadoresDeUnClub(activeClub);
-  });
+    }
+  }, [activeClub]);
   
   const mostrarJugadoras = (club) => {
     setClubActivo(club);

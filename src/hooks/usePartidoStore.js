@@ -7,6 +7,7 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/partido/partidoSlice";
 
 export const usePartidoStore = () => {
@@ -93,6 +94,15 @@ export const usePartidoStore = () => {
     }
   };
 
+  const limpiarPartidosDeLaLiga = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error cargando partidos");
+      console.log(error);
+    }
+  };
+
   const borrarPartido = async (partido) => {
     try {
       await backendApi.delete(`/matches/${partido.id}`);
@@ -116,5 +126,6 @@ export const usePartidoStore = () => {
     cargarPartidosDelEquipo,
     cargarPartidosDeLaLiga,
     borrarPartido,
+    limpiarPartidosDeLaLiga,
   };
 };
