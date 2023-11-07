@@ -19,6 +19,7 @@ export const useJugadorStore = () => {
   const { user } = useSelector((state) => state.auth);
 
   const setJugadorActivo = (jugador) => {
+    console.log("jActivo", jugador);
     dispatch(onSetActiveEvent(jugador));
   };
 
@@ -26,13 +27,13 @@ export const useJugadorStore = () => {
     try {
       const id = jugador.get("id");
       jugador.delete("id");
-      if (id.length !== 0) {
+      if (id?.length !== 0) {
         const { data } = await backendApi.patch(`/players/${id}`, jugador);
+        console.log(data);
         dispatch(
           onUpdateEvent({
-            ...jugador,
+            ...data,
             displayDivision: data.team.division.category,
-            user,
           })
         );
       } else {
@@ -53,7 +54,7 @@ export const useJugadorStore = () => {
         timer: 1500,
       });
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data.message);
       const errorMessage = error.response?.data?.msg || "Error al guardar";
       Swal.fire("Error al guardar", errorMessage, "error");
     }

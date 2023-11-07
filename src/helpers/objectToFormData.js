@@ -8,7 +8,6 @@ function objectToFormData(obj, validate = false) {
     });
   } else {
     Object.entries(obj).forEach(([key, value]) => {
-      console.log(key, value);
       formData.append(key, value);
     });
   }
