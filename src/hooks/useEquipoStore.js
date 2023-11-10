@@ -12,9 +12,11 @@ import {
 
 export const useEquipoStore = () => {
   const dispatch = useDispatch();
-  const { events: equipos, activeEvent: equipoActivo } = useSelector(
-    (state) => state.equipo
-  );
+  const {
+    events: equipos,
+    activeEvent: equipoActivo,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.equipo);
   const { user } = useSelector((state) => state.auth);
 
   const setEquipoActivo = async (equipo) => {
@@ -39,6 +41,7 @@ export const useEquipoStore = () => {
           divisionId: Number(equipoResto.divisionId),
         });
         data.displayDivision = data.division.category;
+        data.displayClub = data.club.name;
         dispatch(onAddNewEvent(data));
       }
 
@@ -59,6 +62,12 @@ export const useEquipoStore = () => {
     try {
       await backendApi.delete(`/teams/${equipo.id}`);
       await dispatch(onDeleteEvent());
+      Swal.fire({
+        icon: "success",
+        title: "Equipo borrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -105,17 +114,19 @@ export const useEquipoStore = () => {
   const cargarEquiposFueraDeLiga = async (ligaId) => {
     try {
       const { data: equiposTotales } = await backendApi.get("/teams");
-      const { data: equiposDeLiga } = await backendApi.get(`/leagues/${ligaId}/clubs`);
-      var equiposFueraDeLiga = equiposTotales.filter((equipo) => {
-        return !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id);
-      });
+      const { data: equiposDeLiga } = await backendApi.get(
+        `/leagues/${ligaId}/clubs`
+      );
+      const equiposFueraDeLiga = equiposTotales.filter(
+        (equipo) =>
+          !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id)
+      );
       return equiposFueraDeLiga;
     } catch (error) {
       console.log("Error cargando equipos fuera de la liga");
       console.log(error);
     }
   };
-  
 
   const cargarTotalDelClub = async () => {
     try {
@@ -127,20 +138,21 @@ export const useEquipoStore = () => {
     }
   };
 
-  const vaciar = async () => {
+  const limpiarEquipo = async () => {
     try {
       dispatch(onLogoutEvent());
     } catch (error) {
-      console.log("Error vaciando equipos");
+      console.log("Error limpiando equipos");
       console.log(error);
     }
-  }
+  };
 
   return {
     //* Propiedades
     equipoActivo,
     equipos,
     hayEquipoActivo: !!equipoActivo,
+    isLoading,
 
     //* Métodos
     setEquipoActivo,
@@ -151,6 +163,6 @@ export const useEquipoStore = () => {
     guardarEquipo,
     cargarTotalDelClub,
     cargarEquiposFueraDeLiga,
-    vaciar,
+    limpiarEquipo,
   };
 };

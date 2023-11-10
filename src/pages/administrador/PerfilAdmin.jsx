@@ -3,6 +3,8 @@ import "../Dashboard.scss";
 import { BienvenidaTromu } from "components/club/PerfilClub/BienvenidaTromu";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ModalPerfilAdministrador } from "components/administrador/ModalPerfilAdministrador/ModalPerfilAdministrador";
+import { imagePath } from "helpers";
 
 export function PerfilAdmin() {
   const { user, cargarTotal } = useAuthStore();
@@ -21,7 +23,10 @@ export function PerfilAdmin() {
             <div className="row shadow p-3 rounded">
               <div className="col-sm-4 bg-primary text-white rounded-left fondo">
                 <div className="card-body text-center">
-                  <img className="w-75 mt-4" src="img/icon.png" />
+                  <img
+                    className="w-75 mt-4"
+                    src={imagePath(user?.image) || "img/icon.png"}
+                  />
                   <h2 className="fw-bold mt-4">{user.name}</h2>
                   <p className="rol">{user.role}</p>
                 </div>
@@ -31,12 +36,14 @@ export function PerfilAdmin() {
                 <hr className="mt-0 w-100"></hr>
                 <div className="row">
                   <div className="col-sm-6">
-                    <p className="font-weight-bold d-inline">Correo: </p><br />
+                    <p className="font-weight-bold d-inline">Correo: </p>
+                    <br />
                     <h6 className="text-muted d-inline">{user.email}</h6>
                   </div>
                   <div className="col-sm-6">
-                    <p className="font-weight-bold d-inline">Celular:</p><br />
-                    <h6 className="text-muted d-inline">998989898</h6>
+                    <p className="font-weight-bold d-inline">Celular:</p>
+                    <br />
+                    <h6 className="text-muted d-inline">{user.phone}</h6>
                   </div>
                 </div>
                 <hr className="bg-primary" />
@@ -92,7 +99,12 @@ export function PerfilAdmin() {
                 </div>
                 <hr className="mt-3 w-100"></hr>
                 <div className="buttons text-center">
-                  <button className="w-50 btn btn-secondary">
+                  <button
+                    className="w-50 btn btn-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalAdministrador"
+                    onClick={() => {}}
+                  >
                     Editar perfil
                   </button>
                 </div>
@@ -101,6 +113,7 @@ export function PerfilAdmin() {
           </div>
         </div>
       </div>
+      <ModalPerfilAdministrador />
     </div>
   );
 }

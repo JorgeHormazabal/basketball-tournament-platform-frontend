@@ -73,7 +73,7 @@ export const ModalPerfilClub = () => {
                   className="form-control"
                   placeholder="Nombre del club"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
@@ -90,7 +90,7 @@ export const ModalPerfilClub = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
                   placeholder="Contraseña del club"
                   value={formValues.password}

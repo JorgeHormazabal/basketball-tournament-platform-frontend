@@ -47,6 +47,9 @@ export const ModalEquipo = () => {
     await guardarEquipo(formValues);
   };
 
+  const onClose = () => {
+    setFormValues(equipoVacio);
+  };
   return (
     <div id="modalEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -58,6 +61,7 @@ export const ModalEquipo = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -73,7 +77,7 @@ export const ModalEquipo = () => {
                 <input
                   type="text"
                   id="coach"
-                  name="coach" // Corrected name attribute
+                  name="coach"
                   className="form-control"
                   placeholder="Jose Tapia"
                   value={formValues.coach}
@@ -105,7 +109,7 @@ export const ModalEquipo = () => {
                 </select>
               </div>
             </div>
-            {!formValues.id && ( // Check if formValues.id is falsy
+            {!formValues.id && (
               <>
                 <div className="mb-3">
                   <label htmlFor="club" className="form-label">
@@ -136,7 +140,7 @@ export const ModalEquipo = () => {
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar jugadora
+                <i className="fa-solid fa-floppy-disk"></i> Guardar equipo
               </button>
             </div>
           </form>
@@ -146,6 +150,7 @@ export const ModalEquipo = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

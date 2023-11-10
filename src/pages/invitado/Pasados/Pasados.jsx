@@ -32,7 +32,7 @@ export function TablaPasados({ encuentros, limit }) {
       </thead>
       <tbody>
         {ultimosEncuentros.map((encuentro) => (
-          <tr key={encuentros.id}>
+          <tr key={encuentro.id}>
             <td className="text-start">{encuentro.league.name}</td>
             <td className="text-end">
               {" "}

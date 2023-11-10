@@ -73,7 +73,7 @@ export const ModalPerfilOrganizador = () => {
                   className="form-control"
                   placeholder="Nombre del organizador"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
@@ -90,10 +90,29 @@ export const ModalPerfilOrganizador = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
                   placeholder="Contraseña del organizador"
                   value={formValues.password}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Numero del organizador
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-user"></i>
+                </span>
+                <input
+                  type="text"
+                  id="phone"
+                  className="form-control"
+                  placeholder="Numero del organizador"
+                  value={formValues.phone}
+                  name="phone"
                   onChange={onInputChanged}
                 />
               </div>

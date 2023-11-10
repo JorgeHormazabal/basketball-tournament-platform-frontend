@@ -18,23 +18,35 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 
 export function EditarLigaAdministrador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido, limpiarPartidosDeLaLiga } = usePartidoStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga, limpiarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  const {
+    partidos,
+    cargarPartidosDeLaLiga,
+    setPartidoActivo,
+    borrarPartido,
+    limpiarPartido,
+  } = usePartidoStore();
+  const {
+    estadisticasLigaEquipo,
+    cargarEstadisticasDeLiga,
+    limpiarEstadisticasDeLiga,
+  } = useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
 
   useEffect(() => {
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
-    if(ligaActiva){
-    limpiarPartidosDeLaLiga();
-    limpiarEstadisticasDeLiga();
-    cargarPartidosDeLaLiga(ligaActiva.id);
-    cargarEstadisticasDeLiga(ligaActiva.id);
-  }
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
+      setTotalEquipos(data)
+    );
+    if (ligaActiva) {
+      limpiarPartido();
+      limpiarEstadisticasDeLiga();
+      cargarPartidosDeLaLiga(ligaActiva.id);
+      cargarEstadisticasDeLiga(ligaActiva.id);
+    }
   }, [ligaActiva]);
-  
+
   const navigate = useNavigate();
-  
+
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
     borrarPartido(jugador);
@@ -59,9 +71,9 @@ export function EditarLigaAdministrador() {
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
-          <button className="btn btn-primary" onClick={() => navigate(-1)}>
-            Volver
-          </button>
+        <button className="btn btn-primary" onClick={() => navigate(-1)}>
+          Volver
+        </button>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <h1>{ligaActiva.name}</h1>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -128,9 +140,9 @@ export function EditarLigaAdministrador() {
           </div>
         </div>
         <div className="ps-4">
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <h3 className="m-0">Tabla de puntuaciones</h3>
-          <button
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h3 className="m-0">Tabla de puntuaciones</h3>
+            <button
               className="btn btn-primary me-md-2"
               type="button"
               data-bs-toggle="modal"
@@ -138,7 +150,7 @@ export function EditarLigaAdministrador() {
             >
               <i className="fa-solid fa-plus"></i> Agregar Equipo
             </button>
-            </div>
+          </div>
           {partidos.length > 0 ? (
             <TablaPosiciones equipos={estadisticasLigaEquipo} />
           ) : (
@@ -167,8 +179,8 @@ export function EditarLigaAdministrador() {
         </div>
       </div>
       <ModalPartido />
-      <ModalLiga/>
-      <ModalAgregarEquipo/>
+      <ModalLiga />
+      <ModalAgregarEquipo />
     </div>
   );
 }

@@ -8,7 +8,8 @@ import Spinner from "components/Spinner/Spinner";
 import { useClubStore } from "hooks";
 
 export function Club() {
-  const { clubes, setClubActivo, borrarClub, cargarClubes } = useClubStore();
+  const { clubes, setClubActivo, borrarClub, cargarClubes, isLoading } =
+    useClubStore();
 
   const borrar = (club) => {
     setClubActivo(club);
@@ -35,7 +36,9 @@ export function Club() {
           abrir={abrirModal}
           modalId={"modalClub"}
         />
-        {clubes.length > 0 ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <Tabla
             cabeceras={["Nombre", "Correo", "Contraseña"]}
             filas={["name", "email", "password"]}
@@ -44,8 +47,6 @@ export function Club() {
             borrar={borrar}
             modalId={"modalClub"}
           />
-        ) : (
-          <Spinner />
         )}
       </div>
       <ModalClubes />

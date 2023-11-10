@@ -16,9 +16,11 @@ import { onLogoutEvent as onLogoutEstadisticaLigaEquipo } from "store/estadistic
 import { onLogoutEvent as onLogoutJugador } from "store/jugador/jugadorSlice";
 import { onLogoutEvent as onLogoutLiga } from "store/liga/ligaSlice";
 import { onLogoutEvent as onLogoutOrganizador } from "store/organizador/organizadorSlice";
+import { useCleanStore } from "./useCleanStore";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
+  const { limpiarStores } = useCleanStore();
   const dispatch = useDispatch();
 
   const startLogin = async ({ email, password }) => {
@@ -112,7 +114,17 @@ export const useAuthStore = () => {
       const { data } = await backendApi.patch(
         "/organizers/update-profile",
         payload
-      );  
+      );
+      console.log(data);
+      await dispatch(onUpdate(data));
+    } catch (error) {
+      console.log("Error al actualizar perfil", error);
+    }
+  };
+
+  const updateAdministradorProfile = async (payload) => {
+    try {
+      const { data } = await backendApi.patch("/admin/update-profile", payload);
       console.log(data);
       await dispatch(onUpdate(data));
     } catch (error) {
@@ -141,13 +153,7 @@ export const useAuthStore = () => {
   const startLogout = (msg) => {
     localStorage.clear();
     dispatch(msg ? onLogoutAuth(msg) : onLogoutAuth());
-    dispatch(onLogoutClub());
-    dispatch(onLogoutDivision());
-    dispatch(onLogoutEquipo());
-    dispatch(onLogoutEstadisticaLigaEquipo());
-    dispatch(onLogoutJugador());
-    dispatch(onLogoutLiga());
-    dispatch(onLogoutOrganizador());
+    limpiarStores();
   };
 
   return {
@@ -163,5 +169,6 @@ export const useAuthStore = () => {
     cargarTotal,
     updateClubProfile,
     updateOrganizadorProfile,
+    updateAdministradorProfile,
   };
 };

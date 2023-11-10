@@ -51,6 +51,7 @@ export const ModalJugador = () => {
       [target.name]: target.value,
     });
   };
+
   const handleOnChangeImage = ({ target }) => {
     setFile(target.files[0]);
     const file = new FileReader();
@@ -67,15 +68,23 @@ export const ModalJugador = () => {
       name,
       birthdate,
       displayDivision,
+      displayTeam,
       team,
       displayBirthdate,
       ...restoJugador
     } = formValues;
     const data = objectToFormData(jugadorActivo ? restoJugador : formValues);
     if (file) data.append("file", file);
-    console.log(data);
     await guardarJugador(data);
   };
+
+  const onClose = () => {
+    setFile("");
+    setPreview(null);
+    setFormValues(jugadorVacio);
+    document.getElementById("file").value = "";
+  };
+
   return (
     <div id="modalJugador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -87,6 +96,7 @@ export const ModalJugador = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -119,7 +129,7 @@ export const ModalJugador = () => {
                 />
               </p>
             )}
-            {!formValues.id && ( // Check if formValues.id is falsy
+            {!formValues.id && (
               <>
                 <div className="mb-3">
                   <label htmlFor="rut" className="form-label">
@@ -132,7 +142,7 @@ export const ModalJugador = () => {
                     <input
                       type="text"
                       id="rut"
-                      name="rut" // Corrected name attribute
+                      name="rut"
                       className="form-control"
                       placeholder="21.369.852-1"
                       value={formValues.rut}
@@ -151,7 +161,7 @@ export const ModalJugador = () => {
                     <input
                       type="text"
                       id="nombre"
-                      name="name" // Corrected name attribute
+                      name="name"
                       className="form-control"
                       placeholder="Ana López Gómez"
                       value={formValues.name}
@@ -445,9 +455,7 @@ export const ModalJugador = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
-              onClick={() => {
-                setJugadorActivo(null);
-              }}
+              onClick={onClose}
             >
               Cerrar
             </button>

@@ -19,7 +19,6 @@ export function CardsProximos({ encuentros, limit }) {
     ? encuentrosOrdenados.slice(0, limit)
     : encuentrosOrdenados;
 
-  console.log(primerosEncuentros);
   return (
     <div className="encuentros-list">
       {primerosEncuentros.map((encuentro, index) => (

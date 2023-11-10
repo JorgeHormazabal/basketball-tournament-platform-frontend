@@ -1,30 +1,35 @@
 import { useEffect, useState, useMemo } from "react";
 import { useClubStore } from "hooks/useClubStore";
 import "./ModalClubes.scss";
+import { imagePath } from "helpers";
 
-const newClub = {
+const clubVacio = {
   id: "",
   name: "",
   email: "",
   password: "",
+  phone: "",
+  image: "",
 };
 
 export const ModalClubes = () => {
-  const { activeClub, guardarClub } = useClubStore();
-  const [formValues, setFormValues] = useState(newClub);
+  const { clubActivo, guardarClub } = useClubStore();
+  const [formValues, setFormValues] = useState(clubVacio);
+  const [file, setFile] = useState();
+  const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
-    () => (activeClub === null ? "Nuevo Club" : "Editar Club"),
-    [activeClub]
+    () => (clubActivo === null ? "Nuevo Club" : "Editar Club"),
+    [clubActivo]
   );
 
   useEffect(() => {
-    if (activeClub !== null) {
-      setFormValues({ ...activeClub });
+    if (clubActivo !== null) {
+      setFormValues({ ...clubActivo });
     } else {
-      setFormValues(newClub);
+      setFormValues(clubVacio);
     }
-  }, [activeClub]);
+  }, [clubActivo]);
 
   const onInputChanged = ({ target }) => {
     setFormValues({
@@ -35,7 +40,23 @@ export const ModalClubes = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await guardarClub(formValues);
+    await guardarClub(formValues, file);
+  };
+
+  const onClose = () => {
+    setFile("");
+    setPreview(null);
+    setFormValues(clubVacio);
+    document.getElementById("file").value = "";
+  };
+
+  const handleOnChangeImage = ({ target }) => {
+    setFile(target.files[0]);
+    const file = new FileReader();
+    file.onload = function () {
+      setPreview(file.result);
+    };
+    file.readAsDataURL(target.files[0]);
   };
 
   return (
@@ -49,6 +70,7 @@ export const ModalClubes = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -67,12 +89,12 @@ export const ModalClubes = () => {
                   className="form-control"
                   placeholder="Nombre del club"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
             </div>
-            {!formValues.id && ( // Check if formValues.id is falsy
+            {!formValues.id && (
               <div className="mb-3">
                 <label htmlFor="correo" className="form-label">
                   Correo del club
@@ -84,7 +106,7 @@ export const ModalClubes = () => {
                   <input
                     type="text"
                     id="correo"
-                    name="email" // Corrected name attribute
+                    name="email"
                     className="form-control"
                     placeholder="Correo del club"
                     value={formValues.email}
@@ -105,7 +127,7 @@ export const ModalClubes = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
                   placeholder="Contraseña del club"
                   value={formValues.password}
@@ -113,6 +135,63 @@ export const ModalClubes = () => {
                 />
               </div>
             </div>
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Numero del organizador
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  className="form-control"
+                  placeholder="Numero del organizador"
+                  value={formValues.phone}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="clave" className="form-label">
+                Logo
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  accept="image/png, image/jpg, image/jpeg"
+                  onChange={handleOnChangeImage}
+                />
+              </div>
+            </div>
+
+            {preview ? (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={preview}
+                  alt="Upload preview"
+                />
+              </p>
+            ) : (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={imagePath(clubActivo?.image) || "/img/default_club.png"}
+                  alt="Upload preview"
+                />
+              </p>
+            )}
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
@@ -126,6 +205,7 @@ export const ModalClubes = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

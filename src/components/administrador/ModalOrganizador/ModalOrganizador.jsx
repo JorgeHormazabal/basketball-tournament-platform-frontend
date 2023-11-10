@@ -1,17 +1,22 @@
 import { useEffect, useState, useMemo } from "react";
 import { useOrganizadorStore } from "hooks/useOrganizadorStore";
 import "./ModalOrganizador.scss";
+import { imagePath, objectToFormData } from "helpers";
 
 const organizadorVacio = {
   id: "",
   name: "",
   email: "",
   password: "",
+  phone: "",
+  image: "",
 };
 
 export const ModalOrganizador = () => {
   const { organizadorActivo, guardarOganizador } = useOrganizadorStore();
   const [formValues, setFormValues] = useState(organizadorVacio);
+  const [file, setFile] = useState();
+  const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
     () =>
@@ -36,7 +41,23 @@ export const ModalOrganizador = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await guardarOganizador(formValues);
+    await guardarOganizador(formValues, file);
+  };
+
+  const onClose = () => {
+    setFile("");
+    setPreview(null);
+    setFormValues(organizadorVacio);
+    document.getElementById("file").value = "";
+  };
+
+  const handleOnChangeImage = ({ target }) => {
+    setFile(target.files[0]);
+    const file = new FileReader();
+    file.onload = function () {
+      setPreview(file.result);
+    };
+    file.readAsDataURL(target.files[0]);
   };
 
   return (
@@ -50,6 +71,7 @@ export const ModalOrganizador = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -68,12 +90,12 @@ export const ModalOrganizador = () => {
                   className="form-control"
                   placeholder="Nombre del organizador"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
             </div>
-            {!formValues.id && ( // Check if formValues.id is falsy
+            {!formValues.id && (
               <div className="mb-3">
                 <label htmlFor="correo" className="form-label">
                   Correo del organizador
@@ -85,7 +107,7 @@ export const ModalOrganizador = () => {
                   <input
                     type="text"
                     id="correo"
-                    name="email" // Corrected name attribute
+                    name="email"
                     className="form-control"
                     placeholder="Correo del organizador"
                     value={formValues.email}
@@ -97,7 +119,7 @@ export const ModalOrganizador = () => {
 
             <div className="mb-3">
               <label htmlFor="clave" className="form-label">
-                Contraseña del club
+                Contraseña del organizador
               </label>
               <div className="input-group">
                 <span className="input-group-text">
@@ -106,14 +128,73 @@ export const ModalOrganizador = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
-                  placeholder="Contraseña del club"
+                  placeholder="Contraseña del organizador"
                   value={formValues.password}
                   onChange={onInputChanged}
                 />
               </div>
             </div>
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Numero del organizador
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  className="form-control"
+                  placeholder="Numero del organizador"
+                  value={formValues.phone}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="clave" className="form-label">
+                Logo
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  accept="image/png, image/jpg, image/jpeg"
+                  onChange={handleOnChangeImage}
+                />
+              </div>
+            </div>
+            {preview ? (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={preview}
+                  alt="Upload preview"
+                />
+              </p>
+            ) : (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={
+                    imagePath(organizadorActivo?.image) ||
+                    "/img/default_club.png"
+                  }
+                  alt="Upload preview"
+                />
+              </p>
+            )}
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
@@ -127,6 +208,7 @@ export const ModalOrganizador = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

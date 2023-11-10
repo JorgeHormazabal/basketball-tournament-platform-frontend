@@ -4,8 +4,8 @@ import { imagePath } from "helpers";
 import "./clubes.css";
 
 export function Clubes() {
-  const { clubes, cargarClubes, activeClub, setClubActivo } = useClubStore();
-  const { jugadores, cargarJugadoresDeUnClub, limpiarJugadoresDeUnClub } =
+  const { clubes, cargarClubes, clubActivo, setClubActivo } = useClubStore();
+  const { jugadores, cargarJugadoresDeUnClub, limpiarJugador } =
     useJugadorStore();
 
   useEffect(() => {
@@ -13,11 +13,11 @@ export function Clubes() {
   }, []);
 
   useEffect(() => {
-    if (activeClub) {
-      limpiarJugadoresDeUnClub(activeClub);
-      cargarJugadoresDeUnClub(activeClub);
+    if (clubActivo) {
+      limpiarJugador(clubActivo);
+      cargarJugadoresDeUnClub(clubActivo);
     }
-  }, [activeClub]);
+  }, [clubActivo]);
 
   const mostrarJugadoras = (club) => {
     setClubActivo(club);
@@ -42,10 +42,10 @@ export function Clubes() {
         ))}
       </div>
 
-      {activeClub && (
+      {clubActivo && (
         <div className="jugadorasMostrar">
           <div className="subtitulo">
-            <h2>{activeClub.name}</h2>
+            <h2>{clubActivo.name}</h2>
           </div>
           {
             <div className="jugadoras-list">

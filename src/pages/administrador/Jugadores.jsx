@@ -9,8 +9,13 @@ import { ModalJugador } from "components/administrador/ModalJugador/ModalJugador
 import { ModalDetallesJugador } from "components/club/ModalDetallesJugador/ModalDetallesJugador";
 
 export function Jugadores() {
-  const { jugadores, setJugadorActivo, borrarJugador, cargarJugadores } =
-    useJugadorStore();
+  const {
+    jugadores,
+    setJugadorActivo,
+    borrarJugador,
+    cargarJugadores,
+    isLoading,
+  } = useJugadorStore();
   const borrar = (jugador) => {
     setJugadorActivo(jugador);
     borrarJugador(jugador);
@@ -39,7 +44,9 @@ export function Jugadores() {
           abrir={abrirModal}
           modalId={"modalJugador"}
         />
-        {jugadores.length > 0 ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <Tabla
             cabeceras={[
               "Nombre",
@@ -64,8 +71,6 @@ export function Jugadores() {
             mostrarEditar={false}
             mostrarJugador={mostrarJugador}
           />
-        ) : (
-          <Spinner />
         )}
       </div>
       <ModalJugador />

@@ -7,13 +7,16 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/division/divisionSlice";
 
 export const useDivisionStore = () => {
   const dispatch = useDispatch();
-  const { events: divisiones, activeEvent: divisionActiva } = useSelector(
-    (state) => state.division
-  );
+  const {
+    events: divisiones,
+    activeEvent: divisionActiva,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.division);
   const { user } = useSelector((state) => state.auth);
 
   const setDivisionActivo = async (division) => {
@@ -49,6 +52,13 @@ export const useDivisionStore = () => {
     try {
       await backendApi.delete(`/divisions/${division.id}`);
       await dispatch(onDeleteEvent());
+
+      Swal.fire({
+        icon: "success",
+        title: "Division borrada",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -65,16 +75,27 @@ export const useDivisionStore = () => {
     }
   };
 
+  const limpiarDivision = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando divisiones");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     divisionActiva,
     divisiones,
     hayDivisionActiva: !!divisionActiva,
+    isLoading,
 
     //* Métodos
     setDivisionActivo,
     borrarDivision,
     cargarDivisiones,
     guardarDivision,
+    limpiarDivision,
   };
 };

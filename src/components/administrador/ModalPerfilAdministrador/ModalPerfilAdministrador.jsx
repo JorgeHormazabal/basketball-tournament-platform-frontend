@@ -5,19 +5,25 @@ import { objectToFormData } from "helpers";
 
 export const ModalPerfilAdministrador = () => {
   const { user: administrador, updateAdministradorProfile } = useAuthStore();
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    name: "",
+    password: "",
+    phone: "",
+  });
   const [file, setFile] = useState();
   const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
-    () => (administrador === null ? "Nuevo administrador" : "Editar administrador"),
+    () =>
+      administrador === null ? "Nuevo administrador" : "Editar administrador",
     [administrador]
   );
 
   useEffect(() => {
     setFormValues({
-      name: administrador.name,
-      password: administrador.password,
+      name: administrador.name || "",
+      password: administrador.password || "",
+      phone: administrador.phone || "",
     });
   }, []);
 
@@ -45,7 +51,7 @@ export const ModalPerfilAdministrador = () => {
   };
 
   return (
-    <div id="modalOrganizador" className="modal fade" aria-hidden="true">
+    <div id="modalAdministrador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -73,7 +79,7 @@ export const ModalPerfilAdministrador = () => {
                   className="form-control"
                   placeholder="Nombre del administrador"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
@@ -90,10 +96,29 @@ export const ModalPerfilAdministrador = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
                   placeholder="Contraseña del administrador"
                   value={formValues.password}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Numero del administrador
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-user"></i>
+                </span>
+                <input
+                  type="text"
+                  id="phone"
+                  className="form-control"
+                  placeholder="Numero del administrador"
+                  value={formValues.phone}
+                  name="phone"
                   onChange={onInputChanged}
                 />
               </div>
@@ -129,7 +154,8 @@ export const ModalPerfilAdministrador = () => {
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar administrador
+                <i className="fa-solid fa-floppy-disk"></i> Guardar
+                administrador
               </button>
             </div>
           </form>

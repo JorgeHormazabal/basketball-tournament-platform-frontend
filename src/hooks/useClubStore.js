@@ -7,34 +7,42 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/club/clubSlice";
+import { objectToFormData } from "helpers";
 
 export const useClubStore = () => {
   const dispatch = useDispatch();
-  const { events: clubes, activeEvent: activeClub } = useSelector(
-    (state) => state.club
-  );
+  const {
+    events: clubes,
+    activeEvent: clubActivo,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.club);
   const { user } = useSelector((state) => state.auth);
 
   const setClubActivo = async (clubEvent) => {
     await dispatch(onSetActiveEvent(clubEvent));
   };
 
-  const guardarClub = async (clubEvent) => {
+  const guardarClub = async (club, file = undefined) => {
     try {
-      if (clubEvent.id.length !== 0) {
-        const { id, name, password } = clubEvent;
-        await backendApi.patch(`/clubs/${id}`, { name, password });
-        dispatch(onUpdateEvent({ ...clubEvent, user }));
+      let info;
+      if (club.id && club.id.length !== 0) {
+        const { id, name, password, phone } = club;
+        info = objectToFormData({ name, password, phone }, true);
+        if (file) info.append("file", file);
+        const { data } = await backendApi.patch(`/clubs/${id}`, info);
+        dispatch(onUpdateEvent({ ...club, ...data, user }));
       } else {
-        const { id, ...club } = clubEvent;
-        const { data } = await backendApi.post("/clubs", club);
+        info = objectToFormData(club, true);
+        if (file) info.append("file", file);
+        const { data } = await backendApi.post("/clubs", info);
         dispatch(onAddNewEvent(data));
       }
 
       Swal.fire({
         icon: "success",
-        title: "Club Guardado",
+        title: "Club guardado",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -49,6 +57,12 @@ export const useClubStore = () => {
     try {
       await backendApi.delete(`/clubs/${club.id}`);
       await dispatch(onDeleteEvent());
+      Swal.fire({
+        icon: "success",
+        title: "Club borrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -65,16 +79,27 @@ export const useClubStore = () => {
     }
   };
 
+  const limpiarClub = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando clubes");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
-    activeClub,
+    clubActivo,
     clubes,
-    hayClubSeleccionado: !!activeClub,
+    hayClubSeleccionado: !!clubActivo,
+    isLoading,
 
     //* Métodos
     setClubActivo,
     borrarClub,
     cargarClubes,
     guardarClub,
+    limpiarClub,
   };
 };

@@ -3,16 +3,18 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { SidebarData } from "./SidebarData";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.scss";
-import { useAuthStore } from "hooks";
+import { useAuthStore, useCleanStore } from "hooks";
 
 export default function SidebarAdminitrador() {
   const navigate = useNavigate();
   const { startLogout, user } = useAuthStore();
+  const { limpiarStores } = useCleanStore();
   return (
     <SideNav
       className="sidenav"
       onSelect={(selected) => {
         if (selected === "/") startLogout();
+        limpiarStores();
         navigate(selected);
       }}
     >

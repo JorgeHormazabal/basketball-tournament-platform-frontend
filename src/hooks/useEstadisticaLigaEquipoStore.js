@@ -15,6 +15,7 @@ export const useEstadisticaLigaEquipoStore = () => {
   const {
     events: estadisticasLigaEquipo,
     activeEvent: estadisticaLigaEquipoActiva,
+    isLoadingEvents: isLoading,
   } = useSelector((state) => state.estadisticaLigaEquipo);
   const { user } = useSelector((state) => state.auth);
 
@@ -111,7 +112,7 @@ export const useEstadisticaLigaEquipoStore = () => {
   const cargarEstadisticasDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(
-        `/team-league-statistics/league/${ligaId}` 
+        `/team-league-statistics/league/${ligaId}`
       );
       dispatch(onLoadEvents(data));
     } catch (error) {
@@ -122,14 +123,16 @@ export const useEstadisticaLigaEquipoStore = () => {
 
   const cargarTodasLasEstadisticasDeLiga = async (ligas) => {
     try {
-      const routes = ligas.map(liga => `/team-league-statistics/league/${liga.id}`);
-      
+      const routes = ligas.map(
+        (liga) => `/team-league-statistics/league/${liga.id}`
+      );
+
       for (const [index, route] of routes.entries()) {
         const { data } = await backendApi.get(route);
         const ligaId = ligas[index].id;
-  
-        const dataWithLigaId = data.map(item => ({ ...item, ligaId }));
-  
+
+        const dataWithLigaId = data.map((item) => ({ ...item, ligaId }));
+
         dispatch(onLoadEvents(dataWithLigaId));
       }
     } catch (error) {
@@ -137,7 +140,6 @@ export const useEstadisticaLigaEquipoStore = () => {
       console.log(error);
     }
   };
-  
 
   const limpiarEstadisticasDeLiga = async () => {
     try {
@@ -153,6 +155,7 @@ export const useEstadisticaLigaEquipoStore = () => {
     estadisticaLigaEquipoActiva,
     estadisticasLigaEquipo,
     hayEstadisticaLigaEquipoActivaActiva: !!estadisticaLigaEquipoActiva,
+    isLoading,
 
     //* Métodos
     setEstadisticaLigaEquipoActiva,
