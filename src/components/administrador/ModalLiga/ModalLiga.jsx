@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useEquipoStore, useLigaStore, useOrganizadorStore } from "hooks";
-import "./ModalLiga.scss"
+import "./ModalLiga.scss";
 
 const nuevaLigaVacia = {
   id: "",
@@ -203,7 +203,7 @@ export const ModalLiga = () => {
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar partido
+                <i className="fa-solid fa-floppy-disk"></i> Guardar liga
               </button>
             </div>
           </form>

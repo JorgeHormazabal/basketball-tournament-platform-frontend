@@ -2,13 +2,14 @@ import { useEffect, useState, useMemo } from "react";
 import { useJugadorStore } from "hooks";
 import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
+import { objectToFormData } from "helpers";
 
 const jugadorVacio = {
   id: "",
   rut: "",
   name: "",
   birthdate: new Date(),
-  teamId: 0,
+  teamId: "0",
   phone: "",
   email: "",
   emergencyName: "",
@@ -27,6 +28,8 @@ export const ModalJugador = () => {
   const { jugadorActivo, guardarJugador } = useJugadorStore();
   const { equipos, cargarEquipos } = useEquipoStore();
   const [formValues, setFormValues] = useState(jugadorVacio);
+  const [file, setFile] = useState();
+  const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
     () => (jugadorActivo === null ? "Nuevo jugador" : "Editar jugador"),
@@ -49,9 +52,37 @@ export const ModalJugador = () => {
     });
   };
 
+  const handleOnChangeImage = ({ target }) => {
+    setFile(target.files[0]);
+    const file = new FileReader();
+    file.onload = function () {
+      setPreview(file.result);
+    };
+    file.readAsDataURL(target.files[0]);
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
-    await guardarJugador(formValues);
+    const {
+      rut,
+      name,
+      birthdate,
+      displayDivision,
+      displayTeam,
+      team,
+      displayBirthdate,
+      ...restoJugador
+    } = formValues;
+    const data = objectToFormData(jugadorActivo ? restoJugador : formValues);
+    if (file) data.append("file", file);
+    await guardarJugador(data);
+  };
+
+  const onClose = () => {
+    setFile("");
+    setPreview(null);
+    setFormValues(jugadorVacio);
+    document.getElementById("file").value = "";
   };
 
   return (
@@ -65,11 +96,40 @@ export const ModalJugador = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
             <input type="hidden" id="id" />
-            {!formValues.id && ( // Check if formValues.id is falsy
+            <div className="mb-3">
+              <label htmlFor="clave" className="form-label">
+                Logo
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-key"></i>
+                </span>
+
+                <input
+                  id="file"
+                  type="file"
+                  name="file"
+                  accept="image/png, image/jpg, image/jpeg"
+                  onChange={handleOnChangeImage}
+                />
+              </div>
+            </div>
+            {preview && (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={preview}
+                  alt="Upload preview"
+                />
+              </p>
+            )}
+            {!formValues.id && (
               <>
                 <div className="mb-3">
                   <label htmlFor="rut" className="form-label">
@@ -82,7 +142,7 @@ export const ModalJugador = () => {
                     <input
                       type="text"
                       id="rut"
-                      name="rut" // Corrected name attribute
+                      name="rut"
                       className="form-control"
                       placeholder="21.369.852-1"
                       value={formValues.rut}
@@ -101,7 +161,7 @@ export const ModalJugador = () => {
                     <input
                       type="text"
                       id="nombre"
-                      name="name" // Corrected name attribute
+                      name="name"
                       className="form-control"
                       placeholder="Ana López Gómez"
                       value={formValues.name}
@@ -395,6 +455,7 @@ export const ModalJugador = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

@@ -18,16 +18,20 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } = usePartidoStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } =
+    usePartidoStore();
+  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } =
+    useEstadisticaLigaEquipoStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
-  
-  useEffect(() => {
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
-  }, [ligaActiva]);
-  
   const navigate = useNavigate();
+
+  useEffect(() => {
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
+      setTotalEquipos(data)
+    );
+  }, [ligaActiva]);
+
   useEffect(() => {}, [ligaActiva]);
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
@@ -53,13 +57,18 @@ export default function EditarLigaOrganizador() {
   useEffect(() => {
     cargarPartidosDeLaLiga(ligaActiva.id);
     cargarEstadisticasDeLiga(ligaActiva.id);
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setTotalEquipos(data));
+    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
+      setTotalEquipos(data)
+    );
   }, [ligaActiva]);
 
   return (
     <div className="dashboard-page">
       <div className="container-fluid">
         <div className="d-flex flex-row justify-content-between align-items-center">
+          <button className="btn btn-primary" onClick={() => navigate(-1)}>
+            Volver
+          </button>
           <h1>{ligaActiva.name}</h1>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
@@ -125,9 +134,9 @@ export default function EditarLigaOrganizador() {
           </div>
         </div>
         <div className="ps-4">
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <h3 className="m-0">Tabla de puntuaciones</h3>
-          <button
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h3 className="m-0">Tabla de puntuaciones</h3>
+            <button
               className="btn btn-primary me-md-2"
               type="button"
               data-bs-toggle="modal"
@@ -135,7 +144,7 @@ export default function EditarLigaOrganizador() {
             >
               <i className="fa-solid fa-plus"></i> Agregar Equipo
             </button>
-            </div>
+          </div>
           {partidos.length > 0 ? (
             <TablaPosiciones equipos={estadisticasLigaEquipo} />
           ) : (
@@ -164,8 +173,8 @@ export default function EditarLigaOrganizador() {
         </div>
       </div>
       <ModalPartido />
-      <ModalLiga/>
-      <ModalAgregarEquipo/>
+      <ModalLiga />
+      <ModalAgregarEquipo />
     </div>
   );
 }

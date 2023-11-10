@@ -7,28 +7,36 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/organizador/organizadorSlice";
+import { objectToFormData } from "helpers";
 
 export const useOrganizadorStore = () => {
   const dispatch = useDispatch();
-  const { events: organizadores, activeEvent: organizadorActivo } = useSelector(
-    (state) => state.organizador
-  );
+  const {
+    events: organizadores,
+    activeEvent: organizadorActivo,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.organizador);
   const { user } = useSelector((state) => state.auth);
 
   const setOrganizadorActivo = async (organizador) => {
     await dispatch(onSetActiveEvent(organizador));
   };
 
-  const guardarOganizador = async (organizador) => {
+  const guardarOganizador = async (organizador, file = undefined) => {
     try {
-      if (organizador.id.length !== 0) {
-        const { id, name, password } = organizador;
-        await backendApi.patch(`/organizers/${id}`, { name, password });
-        dispatch(onUpdateEvent({ ...organizador, user }));
+      let info;
+      if (organizador.id && organizador.id.length !== 0) {
+        const { id, name, password, phone } = organizador;
+        info = objectToFormData({ name, password, phone }, true);
+        if (file) info.append("file", file);
+        const { data } = await backendApi.patch(`/organizers/${id}`, info);
+        dispatch(onUpdateEvent({ ...organizador, ...data, user }));
       } else {
-        const { id, ...organizadorResto } = organizador;
-        const { data } = await backendApi.post("/organizers", organizadorResto);
+        info = objectToFormData(organizador, true);
+        if (file) info.append("file", file);
+        const { data } = await backendApi.post("/organizers", info);
         dispatch(onAddNewEvent(data));
       }
 
@@ -49,6 +57,13 @@ export const useOrganizadorStore = () => {
     try {
       await backendApi.delete(`/organizers/${organizador.id}`);
       await dispatch(onDeleteEvent());
+
+      Swal.fire({
+        icon: "success",
+        title: "Organizador borrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -65,16 +80,27 @@ export const useOrganizadorStore = () => {
     }
   };
 
+  const limpiarOrganizador = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando partidos");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     organizadorActivo,
     organizadores,
     hayOrganizadorSeleccionado: !!organizadorActivo,
+    isLoading,
 
     //* Métodos
     setOrganizadorActivo,
     borrarOrganizador,
     cargarOrganizadores,
     guardarOganizador,
+    limpiarOrganizador,
   };
 };

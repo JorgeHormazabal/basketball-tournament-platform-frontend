@@ -8,8 +8,13 @@ import { useDivisionStore } from "hooks";
 import { ModalDivision } from "components/administrador/ModalDivision/ModalDivision";
 
 export function Divisiones() {
-  const { divisiones, setDivisionActivo, borrarDivision, cargarDivisiones } =
-    useDivisionStore();
+  const {
+    divisiones,
+    setDivisionActivo,
+    borrarDivision,
+    cargarDivisiones,
+    isLoading,
+  } = useDivisionStore();
   //const { openDateModal } = useUiClub();
 
   const borrar = (club) => {
@@ -23,7 +28,7 @@ export function Divisiones() {
   const abrirModal = () => {
     setDivisionActivo(null);
   };
-
+  
   useEffect(() => {
     cargarDivisiones();
   });
@@ -37,7 +42,9 @@ export function Divisiones() {
           abrir={abrirModal}
           modalId={"modalDivision"}
         />
-        {divisiones.length > 0 ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <Tabla
             cabeceras={["Categorías"]}
             filas={["category"]}
@@ -46,8 +53,6 @@ export function Divisiones() {
             borrar={borrar}
             modalId={"modalDivision"}
           />
-        ) : (
-          <Spinner />
         )}
       </div>
       <ModalDivision />

@@ -13,6 +13,7 @@ export function Organizador() {
     setOrganizadorActivo,
     borrarOrganizador,
     cargarOrganizadores,
+    isLoading,
   } = useOrganizadorStore();
   //const { openDateModal } = useUiClub();
 
@@ -41,7 +42,9 @@ export function Organizador() {
           abrir={abrirModal}
           modalId={"modalOrganizador"}
         />
-        {organizadores.length > 0 ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <Tabla
             cabeceras={["Nombre", "Correo", "Contraseña"]}
             filas={["name", "email", "password"]}
@@ -50,8 +53,6 @@ export function Organizador() {
             borrar={borrar}
             modalId={"modalOrganizador"}
           />
-        ) : (
-          <Spinner />
         )}
       </div>
       <ModalOrganizador />

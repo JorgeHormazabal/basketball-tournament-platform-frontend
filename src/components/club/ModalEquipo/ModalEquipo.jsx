@@ -73,7 +73,7 @@ export const ModalEquipo = () => {
                 <input
                   type="text"
                   id="coach"
-                  name="coach" // Corrected name attribute
+                  name="coach"
                   className="form-control"
                   placeholder="Jose Tapia"
                   value={formValues.coach}
@@ -106,7 +106,7 @@ export const ModalEquipo = () => {
               </div>
             </div>
 
-            {/*!formValues.id && ( // Check if formValues.id is falsy
+            {/*!formValues.id && (
               <>
                 <div className="mb-3">
                   <label htmlFor="club" className="form-label">

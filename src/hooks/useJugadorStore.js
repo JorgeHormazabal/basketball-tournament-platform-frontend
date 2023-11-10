@@ -13,9 +13,11 @@ import formatDate from "helpers/formatDate";
 
 export const useJugadorStore = () => {
   const dispatch = useDispatch();
-  const { events: jugadores, activeEvent: jugadorActivo } = useSelector(
-    (state) => state.jugador
-  );
+  const {
+    events: jugadores,
+    activeEvent: jugadorActivo,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.jugador);
   const { user } = useSelector((state) => state.auth);
 
   const setJugadorActivo = (jugador) => {
@@ -29,11 +31,11 @@ export const useJugadorStore = () => {
       jugador.delete("id");
       if (id?.length !== 0) {
         const { data } = await backendApi.patch(`/players/${id}`, jugador);
-        console.log(data);
         dispatch(
           onUpdateEvent({
             ...data,
             displayDivision: data.team.division.category,
+            displayBirthdate: formatDate(data.birthdate),
           })
         );
       } else {
@@ -41,6 +43,7 @@ export const useJugadorStore = () => {
         dispatch(
           onAddNewEvent({
             ...data,
+            displayTeam: data.team.club.name,
             displayDivision: data.team.division.category,
             displayBirthdate: formatDate(data.birthdate),
           })
@@ -49,12 +52,12 @@ export const useJugadorStore = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Jugadora guardada",
+        title: "Jugador guardada",
         showConfirmButton: false,
         timer: 1500,
       });
     } catch (error) {
-      console.error(error.response.data.message);
+      console.error(error?.response?.data?.message);
       const errorMessage = error.response?.data?.msg || "Error al guardar";
       Swal.fire("Error al guardar", errorMessage, "error");
     }
@@ -64,6 +67,13 @@ export const useJugadorStore = () => {
     try {
       await backendApi.delete(`/players/${jugador.id}`);
       await dispatch(onDeleteEvent());
+
+      Swal.fire({
+        icon: "success",
+        title: "Jugadora borrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -85,9 +95,9 @@ export const useJugadorStore = () => {
     }
   };
 
-  const cargarJugadoresDeUnClub = async (activeClub) => {
+  const cargarJugadoresDeUnClub = async (clubActivo) => {
     try {
-      const { data } = await backendApi.get(`/clubs/players/${activeClub.id}`);
+      const { data } = await backendApi.get(`/clubs/players/${clubActivo.id}`);
       data.forEach((player) => {
         player.displayBirthdate = formatDate(player.birthdate);
       });
@@ -98,7 +108,7 @@ export const useJugadorStore = () => {
     }
   };
 
-  const limpiarJugadoresDeUnClub = async () => {
+  const limpiarJugador = async () => {
     try {
       dispatch(onLogoutEvent());
     } catch (error) {
@@ -132,6 +142,7 @@ export const useJugadorStore = () => {
     jugadorActivo,
     jugadores,
     hayJugadorActivo: !!jugadorActivo,
+    isLoading,
 
     //* Métodos
     setJugadorActivo,
@@ -140,6 +151,6 @@ export const useJugadorStore = () => {
     guardarJugador,
     cargarJugadoresDelClub,
     cargarJugadoresDeUnClub,
-    limpiarJugadoresDeUnClub,
+    limpiarJugador,
   };
 };

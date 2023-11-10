@@ -1,14 +1,14 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Nunito', sans-serif;
-    font-size: 20px;
+.pages {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
 }
 
-.App{
-    text-align: center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

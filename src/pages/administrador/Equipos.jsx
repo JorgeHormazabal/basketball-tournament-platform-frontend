@@ -8,7 +8,7 @@ import { useEquipoStore } from "hooks/useEquipoStore";
 import { ModalEquipo } from "components/administrador/ModalEquipo/ModalEquipo";
 
 export function Equipos() {
-  const { equipos, setEquipoActivo, borrarEquipo, cargarEquipos } =
+  const { equipos, setEquipoActivo, borrarEquipo, cargarEquipos, isLoading } =
     useEquipoStore();
 
   const borrar = (club) => {
@@ -36,7 +36,9 @@ export function Equipos() {
           abrir={abrirModal}
           modalId={"modalEquipo"}
         />
-        {equipos.length > 0 ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <Tabla
             cabeceras={["Club", "División", "Entrenador"]}
             filas={["displayClub", "displayDivision", "coach"]}
@@ -45,8 +47,6 @@ export function Equipos() {
             borrar={borrar}
             modalId={"modalEquipo"}
           />
-        ) : (
-          <Spinner />
         )}
       </div>
       <ModalEquipo />

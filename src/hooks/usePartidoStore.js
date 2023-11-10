@@ -12,9 +12,11 @@ import {
 
 export const usePartidoStore = () => {
   const dispatch = useDispatch();
-  const { events: partidos, activeEvent: partidoActivo } = useSelector(
-    (state) => state.partido
-  );
+  const {
+    events: partidos,
+    activeEvent: partidoActivo,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.partido);
   const { user } = useSelector((state) => state.auth);
   const setPartidoActivo = async (partido) => {
     await dispatch(await onSetActiveEvent(partido));
@@ -94,11 +96,11 @@ export const usePartidoStore = () => {
     }
   };
 
-  const limpiarPartidosDeLaLiga = async () => {
+  const limpiarPartido = async () => {
     try {
       dispatch(onLogoutEvent());
     } catch (error) {
-      console.log("Error cargando partidos");
+      console.log("Error limpiando partidos");
       console.log(error);
     }
   };
@@ -107,6 +109,13 @@ export const usePartidoStore = () => {
     try {
       await backendApi.delete(`/matches/${partido.id}`);
       await dispatch(onDeleteEvent());
+
+      Swal.fire({
+        icon: "success",
+        title: "Partido borrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -118,6 +127,7 @@ export const usePartidoStore = () => {
     partidoActivo,
     partidos,
     hayPartidoActivo: !!partidoActivo,
+    isLoading,
 
     //* Métodos
     setPartidoActivo,
@@ -126,6 +136,6 @@ export const usePartidoStore = () => {
     cargarPartidosDelEquipo,
     cargarPartidosDeLaLiga,
     borrarPartido,
-    limpiarPartidosDeLaLiga,
+    limpiarPartido,
   };
 };

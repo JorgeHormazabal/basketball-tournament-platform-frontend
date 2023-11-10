@@ -7,6 +7,7 @@ export const ModalPerfilClub = () => {
   const { user: club, updateClubProfile } = useAuthStore();
   const [formValues, setFormValues] = useState({});
   const [file, setFile] = useState();
+  const [preview, setPreview] = useState(null);
 
   const titulo = useMemo(
     () => (club === null ? "Nuevo Club" : "Editar Club"),
@@ -29,6 +30,11 @@ export const ModalPerfilClub = () => {
 
   const handleOnChangeImage = ({ target }) => {
     setFile(target.files[0]);
+    const file = new FileReader();
+    file.onload = function () {
+      setPreview(file.result);
+    };
+    file.readAsDataURL(target.files[0]);
   };
 
   const onSubmit = async (event) => {
@@ -67,7 +73,7 @@ export const ModalPerfilClub = () => {
                   className="form-control"
                   placeholder="Nombre del club"
                   value={formValues.name}
-                  name="name" // Corrected name attribute
+                  name="name"
                   onChange={onInputChanged}
                 />
               </div>
@@ -84,7 +90,7 @@ export const ModalPerfilClub = () => {
                 <input
                   type="text"
                   id="clave"
-                  name="password" // Corrected name attribute
+                  name="password"
                   className="form-control"
                   placeholder="Contraseña del club"
                   value={formValues.password}
@@ -110,6 +116,16 @@ export const ModalPerfilClub = () => {
                 />
               </div>
             </div>
+            {preview && (
+              <p>
+                <img
+                  className="m-auto d-block"
+                  width="200px"
+                  src={preview}
+                  alt="Upload preview"
+                />
+              </p>
+            )}
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">

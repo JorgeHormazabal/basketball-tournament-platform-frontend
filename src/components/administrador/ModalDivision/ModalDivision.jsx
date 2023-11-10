@@ -36,6 +36,10 @@ export const ModalDivision = () => {
     await guardarDivision(formValues);
   };
 
+  const onClose = () => {
+    setFormValues(divisionVacio);
+  };
+
   return (
     <div id="modalDivision" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -47,6 +51,7 @@ export const ModalDivision = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -65,7 +70,7 @@ export const ModalDivision = () => {
                   className="form-control"
                   placeholder="Categoria"
                   value={formValues.category}
-                  name="category" // Corrected name attribute
+                  name="category"
                   onChange={onInputChanged}
                 />
               </div>
@@ -83,6 +88,7 @@ export const ModalDivision = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

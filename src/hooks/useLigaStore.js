@@ -7,13 +7,16 @@ import {
   onLoadEvents,
   onSetActiveEvent,
   onUpdateEvent,
+  onLogoutEvent,
 } from "store/liga/ligaSlice";
 
 export const useLigaStore = () => {
   const dispatch = useDispatch();
-  const { events: ligas, activeEvent: ligaActiva } = useSelector(
-    (state) => state.liga
-  );
+  const {
+    events: ligas,
+    activeEvent: ligaActiva,
+    isLoadingEvents: isLoading,
+  } = useSelector((state) => state.liga);
   const { user } = useSelector((state) => state.auth);
 
   const setLigaActiva = async (liga) => {
@@ -97,6 +100,13 @@ export const useLigaStore = () => {
     try {
       await backendApi.delete(`/leagues/${liga.id}`);
       await dispatch(onDeleteEvent());
+
+      Swal.fire({
+        icon: "success",
+        title: "Liga borrada",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
       Swal.fire("Error al eliminar", error.response.data.msg, "error");
@@ -153,13 +163,21 @@ export const useLigaStore = () => {
     }
   };
 
-  
+  const limpiarLiga = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando ligas");
+      console.log(error);
+    }
+  };
 
   return {
     //* Propiedades
     ligaActiva,
     ligas,
     hayLigaActiva: !!ligaActiva,
+    isLoading,
 
     //* Métodos
     setLigaActiva,
@@ -171,5 +189,6 @@ export const useLigaStore = () => {
     cargarLigasDelOrganizador,
     cargarTotalLigasDelOrganizador,
     cargarTodasLasLigas,
+    limpiarLiga,
   };
 };
