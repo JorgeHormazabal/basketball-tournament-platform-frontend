@@ -101,6 +101,16 @@ export const useEquipoStore = () => {
     }
   };
 
+  const cargarEquiposYPartidosDelClub = async () => {
+    try {
+      const { data } = await backendApi.get("/clubs/leagues/");
+      return data;
+    } catch (error) {
+      console.log("Error cargando equipos");
+      console.log(error);
+    }
+  };
+
   const cargarEquiposDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(`/leagues/${ligaId}/clubs`);
@@ -159,6 +169,7 @@ export const useEquipoStore = () => {
     borrarEquipo,
     cargarEquipos,
     cargarEquiposDelClub,
+    cargarEquiposYPartidosDelClub,
     cargarEquiposDeLiga,
     guardarEquipo,
     cargarTotalDelClub,

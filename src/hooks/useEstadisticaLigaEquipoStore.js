@@ -98,17 +98,6 @@ export const useEstadisticaLigaEquipoStore = () => {
   };
   */
 
-  const cargarEstadisticasYLigasDelClub = async () => {
-    try {
-      const { data } = await backendApi.get("/team-league-statistics/club");
-      console.log(data);
-      dispatch(onLoadEvents(data));
-    } catch (error) {
-      console.log("Error cargando estadisticas");
-      console.log(error);
-    }
-  };
-
   const cargarEstadisticasDeLiga = async (ligaId) => {
     try {
       const { data } = await backendApi.get(
@@ -164,7 +153,6 @@ export const useEstadisticaLigaEquipoStore = () => {
     cargarLigas,
     guardarLiga,
     */
-    cargarEstadisticasYLigasDelClub,
     cargarEstadisticasDeLiga,
     agregarLiga,
     limpiarEstadisticasDeLiga,

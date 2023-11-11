@@ -70,7 +70,7 @@ export const useJugadorStore = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Jugadora borrado",
+        title: "Jugador borrado",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -90,7 +90,7 @@ export const useJugadorStore = () => {
       });
       dispatch(onLoadEvents(data));
     } catch (error) {
-      console.log("Error cargando jugadoras");
+      console.log("Error cargando jugadores");
       console.log(error);
     }
   };
@@ -103,7 +103,7 @@ export const useJugadorStore = () => {
       });
       dispatch(onLoadEvents(data));
     } catch (error) {
-      console.log("Error cargando jugadoras");
+      console.log("Error cargando jugadores");
       console.log(error);
     }
   };
@@ -112,7 +112,7 @@ export const useJugadorStore = () => {
     try {
       dispatch(onLogoutEvent());
     } catch (error) {
-      console.log("Error limpiando jugadoras");
+      console.log("Error limpiando jugadores");
       console.log(error);
     }
   };

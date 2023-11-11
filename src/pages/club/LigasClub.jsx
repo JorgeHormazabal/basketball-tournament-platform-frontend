@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import "../Dashboard.scss";
 import Spinner from "components/Spinner/Spinner";
 import { ModalEquipo } from "components/club/ModalEquipo/ModalEquipo";
 import EstadisticaLigaTab from "components/club/EstadisticaLigaTab/EstadisticaLigaTab";
-import { useEstadisticaLigaEquipoStore } from "hooks";
+import {
+  useEquipoStore,
+  useEstadisticaLigaEquipoStore,
+  usePartidoStore,
+} from "hooks";
 
 export function LigasClub() {
-  const { estadisticasLigaEquipo, cargarEstadisticasYLigasDelClub } =
-    useEstadisticaLigaEquipoStore();
+  const { cargarEquiposYPartidosDelClub, isLoading } = useEquipoStore();
+  const [equipos, setEquipos] = useState(null);
 
   useEffect(() => {
-    cargarEstadisticasYLigasDelClub();
+    cargarEquiposYPartidosDelClub().then((data) => setEquipos(data));
   });
 
   return (
@@ -19,13 +23,13 @@ export function LigasClub() {
       <div className="container-fluid">
         <h1>Ligas </h1>
         <div className="mt-5">
-          {estadisticasLigaEquipo.length > 0 ? (
-            estadisticasLigaEquipo.map((liga) => (
+          {equipos ? (
+            equipos.map((equipo) => (
               <EstadisticaLigaTab
-                key={liga.id}
-                {...liga}
-                {...liga.league}
-                teamId={liga.team.id}
+                key={equipo.id}
+                teamLeagueParticipations={equipo.teamLeagueParticipations}
+                division={equipo.division}
+                coach={equipo.coach}
               />
             ))
           ) : (

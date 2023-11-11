@@ -3,49 +3,56 @@ import React from "react";
 
 export default function EstadisticaLigaTab({
   id,
-  points,
-  pointsAgainst,
-  favorablePoints,
-  matchesLost,
-  matchesWon,
-  leagueId,
-  name,
-  rules,
-  startDate,
-  endDate,
-  teamId
+  division,
+  coach,
+  teamLeagueParticipations,
 }) {
   return (
-    <div>
-      <div className="container bg-primary p-3 pb-1 border border-2">
-        <div className="d-flex text-white justify-content-between">
-          <h2>{name}</h2>
-          <div className="d-flex flex-column">
-            <p>Fecha de inicio: {startDate}</p>
-            <p>Fecha de fin: {endDate}</p>
-          </div>
+    <div className="my-5">
+      <div className="container p-3 pb-1 border border-5 fs-5 text">
+        <div className="d-flex  justify-content-between">
+          <h2>
+            Equipo {division.category} - {coach}
+          </h2>
         </div>
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Puntos</th>
-              <th scope="col">Puntos en contra</th>
-              <th scope="col">Puntos favorables</th>
-              <th scope="col">Partidos perdidos</th>
-              <th scope="col">Partidos ganados</th>
-            </tr>
-          </thead>
-          <tbody className="table-group-divider">
-            <tr>
-              <th scope="row">{points}</th>
-              <td>{pointsAgainst}</td>
-              <td>{favorablePoints}</td>
-              <td>{matchesLost}</td>
-              <td>{matchesWon}</td>
-            </tr>
-          </tbody>
-        </table>
-        <TablaPartidos teamId={teamId}/>
+        {teamLeagueParticipations.map((participation, index) => (
+          <div key={index} className="my-5 p-4 border border-2">
+            <div className="row">
+              <div className="col">
+                <p className="fw-bold">{participation.leagueInfo.name}</p>
+                <p>{participation.leagueInfo.rules}</p>
+              </div>
+              <div className="col">
+                <p>Fecha de inicio: {participation.leagueInfo.startDate}</p>
+                <p>Fecha de fin: {participation.leagueInfo.endDate}</p>
+              </div>
+            </div>
+
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Puntos</th>
+                  <th scope="col">Puntos en contra</th>
+                  <th scope="col">Puntos favorables</th>
+                  <th scope="col">Partidos perdidos</th>
+                  <th scope="col">Partidos ganados</th>
+                </tr>
+              </thead>
+              <tbody className="table-group-divider">
+                <tr>
+                  <th scope="row">
+                    {participation.teamLeagueStatistics.points}
+                  </th>
+                  <td>{participation.teamLeagueStatistics.pointsAgainst}</td>
+                  <td>{participation.teamLeagueStatistics.favorablePoints}</td>
+                  <td>{participation.teamLeagueStatistics.matchesLost}</td>
+                  <td>{participation.teamLeagueStatistics.matchesWon}</td>
+                </tr>
+              </tbody>
+            </table>
+            <TablaPartidos partidos={participation.matches} />
+          </div>
+        ))}
       </div>
     </div>
   );

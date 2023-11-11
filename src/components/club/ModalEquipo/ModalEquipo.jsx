@@ -47,6 +47,10 @@ export const ModalEquipo = () => {
     await guardarEquipo(formValues);
   };
 
+  const onClose = () => {
+    setFormValues(equipoVacio);
+  };
+
   return (
     <div id="modalEquipo" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -58,6 +62,7 @@ export const ModalEquipo = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -147,6 +152,7 @@ export const ModalEquipo = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

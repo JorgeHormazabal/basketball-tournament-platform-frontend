@@ -17,6 +17,7 @@ import { onLogoutEvent as onLogoutJugador } from "store/jugador/jugadorSlice";
 import { onLogoutEvent as onLogoutLiga } from "store/liga/ligaSlice";
 import { onLogoutEvent as onLogoutOrganizador } from "store/organizador/organizadorSlice";
 import { useCleanStore } from "./useCleanStore";
+import Swal from "sweetalert2";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -102,10 +103,17 @@ export const useAuthStore = () => {
   const updateClubProfile = async (payload) => {
     try {
       const { data } = await backendApi.patch("/clubs/update-profile", payload);
-      console.log(data);
       await dispatch(onUpdate(data));
+      Swal.fire({
+        icon: "success",
+        title: "Perfil guardado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log("Error al actualizar perfil", error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
     }
   };
 
@@ -115,20 +123,34 @@ export const useAuthStore = () => {
         "/organizers/update-profile",
         payload
       );
-      console.log(data);
       await dispatch(onUpdate(data));
+      Swal.fire({
+        icon: "success",
+        title: "Perfil guardado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log("Error al actualizar perfil", error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
     }
   };
 
   const updateAdministradorProfile = async (payload) => {
     try {
       const { data } = await backendApi.patch("/admin/update-profile", payload);
-      console.log(data);
       await dispatch(onUpdate(data));
+      Swal.fire({
+        icon: "success",
+        title: "Perfil guardado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log("Error al actualizar perfil", error);
+      const errorMessage = error.response?.data?.msg || "Error al guardar";
+      Swal.fire("Error al guardar", errorMessage, "error");
     }
   };
 

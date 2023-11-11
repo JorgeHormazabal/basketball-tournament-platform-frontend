@@ -35,7 +35,6 @@ export function sliceBase(name) {
         }
       },
       onLoadEvents: (state, { payload = [] }) => {
-        state.isLoadingEvents = false;
         // state.events = payload;
         payload.forEach((event) => {
           const exists = state.events.some(
@@ -45,6 +44,7 @@ export function sliceBase(name) {
             state.events.push(event);
           }
         });
+        state.isLoadingEvents = false;
       },
       onLogoutEvent: (state) => {
         (state.isLoadingEvents = true), (state.events = []);

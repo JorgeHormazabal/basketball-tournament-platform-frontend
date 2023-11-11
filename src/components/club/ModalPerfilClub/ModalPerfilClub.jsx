@@ -5,7 +5,11 @@ import { objectToFormData } from "helpers";
 
 export const ModalPerfilClub = () => {
   const { user: club, updateClubProfile } = useAuthStore();
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    name: "",
+    password: "",
+    phone: "",
+  });
   const [file, setFile] = useState();
   const [preview, setPreview] = useState(null);
 
@@ -16,8 +20,9 @@ export const ModalPerfilClub = () => {
 
   useEffect(() => {
     setFormValues({
-      name: club.name,
-      password: club.password,
+      name: club.name || "",
+      password: club.password || "",
+      phone: club.phone || "",
     });
   }, []);
 
@@ -94,6 +99,25 @@ export const ModalPerfilClub = () => {
                   className="form-control"
                   placeholder="Contraseña del club"
                   value={formValues.password}
+                  onChange={onInputChanged}
+                />
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Numero del administrador
+              </label>
+              <div className="input-group">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-user"></i>
+                </span>
+                <input
+                  type="text"
+                  id="phone"
+                  className="form-control"
+                  placeholder="Numero del administrador"
+                  value={formValues.phone}
+                  name="phone"
                   onChange={onInputChanged}
                 />
               </div>

@@ -5,7 +5,11 @@ import { objectToFormData } from "helpers";
 
 export const ModalPerfilOrganizador = () => {
   const { user: organizador, updateOrganizadorProfile } = useAuthStore();
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    name: "",
+    password: "",
+    phone: "",
+  });
   const [file, setFile] = useState();
   const [preview, setPreview] = useState(null);
 
@@ -16,8 +20,9 @@ export const ModalPerfilOrganizador = () => {
 
   useEffect(() => {
     setFormValues({
-      name: organizador.name,
-      password: organizador.password,
+      name: organizador.name || "",
+      password: organizador.password || "",
+      phone: organizador.phone || "",
     });
   }, []);
 
