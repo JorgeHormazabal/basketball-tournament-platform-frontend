@@ -137,18 +137,18 @@ export const ModalClubes = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="phone" className="form-label">
-                Numero del organizador
+                Celular del organizador
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
+                <i className="fa-solid fa-phone"></i>
                 </span>
                 <input
                   type="text"
                   id="phone"
                   name="phone"
                   className="form-control"
-                  placeholder="Numero del organizador"
+                  placeholder="Celular del organizador"
                   value={formValues.phone}
                   onChange={onInputChanged}
                 />
@@ -160,7 +160,7 @@ export const ModalClubes = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
+                <i className="fa-solid fa-image"></i>
                 </span>
 
                 <input

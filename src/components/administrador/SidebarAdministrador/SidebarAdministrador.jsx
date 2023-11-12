@@ -4,6 +4,7 @@ import { SidebarData } from "./SidebarData";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.scss";
 import { useAuthStore, useCleanStore } from "hooks";
+import { imagePath } from "helpers";
 
 export default function SidebarAdminitrador() {
   const navigate = useNavigate();
@@ -18,16 +19,20 @@ export default function SidebarAdminitrador() {
         navigate(selected);
       }}
     >
+
       <SideNav.Toggle id="sidenav--toggle" />
+
       <SideNav.Nav defaultSelected="/administrador">
+
         <NavItem className="unclickeable">
           <NavIcon>
-            <span className="sidenav--icon"></span>
+          <img className="sidenav--icon" src={user.image ? imagePath(user.image) : "/img/default_player.png"}/>
           </NavIcon>
           <NavText>
             <span className="sidenav--text fst-italic">{user.name}</span>
           </NavText>
         </NavItem>
+
         {SidebarData.map((item, index) => {
           return (
             <NavItem eventKey={item.path} key={index}>
@@ -40,7 +45,9 @@ export default function SidebarAdminitrador() {
             </NavItem>
           );
         })}
+
       </SideNav.Nav>
+
     </SideNav>
   );
 }

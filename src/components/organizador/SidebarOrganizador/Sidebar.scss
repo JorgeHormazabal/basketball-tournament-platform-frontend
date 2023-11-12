@@ -4,6 +4,11 @@
 
 .sidenav {
   background-color: #eff0f3;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
 }
 
 #sidenav--toggle {

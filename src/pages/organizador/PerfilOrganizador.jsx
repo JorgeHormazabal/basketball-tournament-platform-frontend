@@ -13,7 +13,7 @@ export function PerfilOrganizador() {
 
   useEffect(() => {
     cargarTotalLigasDelOrganizador().then((data) => setTotal(data));
-  });
+  },[]);
 
   return (
     <div className="dashboard-page">
@@ -47,7 +47,7 @@ export function PerfilOrganizador() {
                   </div>
                   <div className="col-sm-6">
                     <p className="font-weight-bold">Celular:</p>
-                    <h6 className="text-muted">987986545</h6>
+                    <h6 className="text-muted">{user.phone}</h6>
                   </div>
                 </div>
                 <hr className="bg-primary" />

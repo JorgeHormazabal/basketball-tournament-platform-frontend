@@ -107,7 +107,7 @@ export const ModalJugador = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
+                <i className="fa-solid fa-image"></i>
                 </span>
 
                 <input
@@ -137,7 +137,7 @@ export const ModalJugador = () => {
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-envelope"></i>
+                    <i className="fa-solid fa-user"></i>
                     </span>
                     <input
                       type="text"
@@ -156,7 +156,7 @@ export const ModalJugador = () => {
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-envelope"></i>
+                    <i className="fa-solid fa-user"></i>
                     </span>
                     <input
                       type="text"
@@ -175,7 +175,7 @@ export const ModalJugador = () => {
                   </label>
                   <div className="input-group">
                     <span className="input-group-text">
-                      <i className="fa-solid fa-envelope"></i>
+                    <i className="fa-regular fa-calendar"></i>
                     </span>
                     <input
                       type="date"

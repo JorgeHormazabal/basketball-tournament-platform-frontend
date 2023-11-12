@@ -68,7 +68,7 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion=true }) {
       ))}
     </div>
     <div>
-    {mostrarPaginacion && (
+    {pageCount > 1 && (
         <ReactPaginate
           pageCount={pageCount}
           pageRangeDisplayed={5}
