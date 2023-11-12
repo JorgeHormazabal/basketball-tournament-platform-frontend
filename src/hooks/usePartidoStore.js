@@ -89,8 +89,8 @@ export const usePartidoStore = () => {
 
   const cargarPartidosDeLaLiga = async (ligaId) => {
     try {
-      const { data } = await backendApi.get(`/leagues/${ligaId}/matches`);
-      dispatch(onLoadEvents(data.matches));
+      const { data } = await backendApi.get(`/matches/league/${ligaId}`);
+      dispatch(onLoadEvents(data));
     } catch (error) {
       console.log("Error cargando partidos");
       console.log(error);

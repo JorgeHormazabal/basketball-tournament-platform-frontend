@@ -48,6 +48,10 @@ export const ModalLiga = () => {
     await guardarLigaOrganizador(formValues);
   };
 
+  const onClose = () => {
+    setFormValues(nuevaLigaVacia);
+  };
+
   return (
     <div id="modalLiga" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -59,6 +63,7 @@ export const ModalLiga = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -182,6 +187,7 @@ export const ModalLiga = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

@@ -1,6 +1,11 @@
 import { Spinner } from "components";
 import CardLiga from "components/organizador/CardLiga/CardLiga";
-import { useLigaStore, useEquipoStore } from "hooks";
+import {
+  useLigaStore,
+  useEquipoStore,
+  useCleanStore,
+  usePartidoStore,
+} from "hooks";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { BotonAgregar } from "components";
@@ -8,7 +13,7 @@ import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
 
 export default function LigasOrganizador() {
   const { cargarLigasDelOrganizador, ligas, setLigaActiva } = useLigaStore();
-  const { limpiarEquipo } = useEquipoStore();
+  const { limpiarStores } = useCleanStore();
   const navigate = useNavigate();
 
   const editarLiga = (liga) => {
@@ -21,8 +26,9 @@ export default function LigasOrganizador() {
   };
 
   useEffect(() => {
+    limpiarStores();
     cargarLigasDelOrganizador();
-  });
+  }, []);
 
   return (
     <div className="dashboard-page">

@@ -19,6 +19,7 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 export function EditarLigaAdministrador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
   const {
+    isLoading: isLoadingPartidos,
     partidos,
     cargarPartidosDeLaLiga,
     setPartidoActivo,
@@ -26,14 +27,16 @@ export function EditarLigaAdministrador() {
     limpiarPartido,
   } = usePartidoStore();
   const {
+    isLoading: isLoadingEstadisticas,
     estadisticasLigaEquipo,
     cargarEstadisticasDeLiga,
     limpiarEstadisticasDeLiga,
   } = useEstadisticaLigaEquipoStore();
-  const { cargarEquiposFueraDeLiga } = useEquipoStore();
-  const [totalEquipos, setTotalEquipos] = useState([]);
+  const { cargarEquiposFueraDeLiga, limpiarEquipo } = useEquipoStore();
+  const [setTotalEquipos] = useState([]);
 
   useEffect(() => {
+    limpiarEquipo();
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
       setTotalEquipos(data)
     );
@@ -104,11 +107,11 @@ export function EditarLigaAdministrador() {
                     <td>
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
-                        {/*<span className="subheadings">
-                          {ligaActiva.winner.name
-                            ? ligaActiva.winner.name
+                        <span className="subheadings">
+                          {ligaActiva.winner
+                            ? ligaActiva?.winner?.name
                             : "Sin ganador"}
-                          </span>*/}
+                        </span>
                       </div>
                     </td>
                     <td>
@@ -151,10 +154,10 @@ export function EditarLigaAdministrador() {
               <i className="fa-solid fa-plus"></i> Agregar Equipo
             </button>
           </div>
-          {partidos.length > 0 ? (
-            <TablaPosiciones equipos={estadisticasLigaEquipo} />
-          ) : (
+          {isLoadingEstadisticas ? (
             <Spinner />
+          ) : (
+            <TablaPosiciones equipos={estadisticasLigaEquipo} />
           )}
         </div>
         <div className="ps-4 pt-4">
@@ -166,15 +169,15 @@ export function EditarLigaAdministrador() {
               boton=" Crear Partido"
             />
           </div>
-          {partidos.length > 0 ? (
+          {isLoadingPartidos > 0 ? (
+            <Spinner />
+          ) : (
             <TablaPartidosOrganizador
               partidos={partidos}
               editar={editarModal}
               borrar={borrar}
               modalId="modalPartido"
             />
-          ) : (
-            <Spinner />
           )}
         </div>
       </div>

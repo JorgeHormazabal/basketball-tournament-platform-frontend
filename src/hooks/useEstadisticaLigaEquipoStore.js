@@ -23,7 +23,7 @@ export const useEstadisticaLigaEquipoStore = () => {
     await dispatch(onSetActiveEvent(estadistica));
   };
 
-  const agregarLiga = async (ligaId, equipoId) => {
+  const agregarEquipoALiga = async (ligaId, equipoId) => {
     try {
       const { data } = await backendApi.post(`/team-league-statistics`, {
         teamId: Number(equipoId),
@@ -154,7 +154,7 @@ export const useEstadisticaLigaEquipoStore = () => {
     guardarLiga,
     */
     cargarEstadisticasDeLiga,
-    agregarLiga,
+    agregarEquipoALiga,
     limpiarEstadisticasDeLiga,
     cargarTodasLasEstadisticasDeLiga,
   };
