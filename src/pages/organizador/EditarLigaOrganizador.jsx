@@ -18,21 +18,22 @@ import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/Mo
 
 export default function EditarLigaOrganizador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
-  const { partidos, cargarPartidosDeLaLiga, setPartidoActivo, borrarPartido } =
-    usePartidoStore();
-  const { estadisticasLigaEquipo, cargarEstadisticasDeLiga } =
-    useEstadisticaLigaEquipoStore();
-  const { cargarEquiposFueraDeLiga } = useEquipoStore();
+  const {
+    isLoading: isLoadingPartidos,
+    partidos,
+    cargarPartidosDeLaLiga,
+    setPartidoActivo,
+    borrarPartido,
+  } = usePartidoStore();
+  const {
+    isLoading: isLoadingEstadisticas,
+    estadisticasLigaEquipo,
+    cargarEstadisticasDeLiga,
+  } = useEstadisticaLigaEquipoStore();
+  const { cargarEquiposFueraDeLiga, limpiarEquipo } = useEquipoStore();
   const [totalEquipos, setTotalEquipos] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
-      setTotalEquipos(data)
-    );
-  }, [ligaActiva]);
-
-  useEffect(() => {}, [ligaActiva]);
   const borrar = (jugador) => {
     setPartidoActivo(jugador);
     borrarPartido(jugador);
@@ -55,6 +56,7 @@ export default function EditarLigaOrganizador() {
   };
 
   useEffect(() => {
+    limpiarEquipo();
     cargarPartidosDeLaLiga(ligaActiva.id);
     cargarEstadisticasDeLiga(ligaActiva.id);
     cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
@@ -100,9 +102,9 @@ export default function EditarLigaOrganizador() {
                       <div className="d-flex flex-column">
                         <span className="heading d-block">Ganador</span>
                         <span className="subheadings">
-                          {/*ligaActiva.winner.name
-                            ? ligaActiva.winner.name
-                            : "Sin ganador"*/}
+                          {ligaActiva.winner
+                            ? ligaActiva?.winner?.name
+                            : "Sin ganador"}
                         </span>
                       </div>
                     </td>
@@ -146,10 +148,10 @@ export default function EditarLigaOrganizador() {
               <i className="fa-solid fa-plus"></i> Agregar Equipo
             </button>
           </div>
-          {partidos.length > 0 ? (
-            <TablaPosiciones equipos={estadisticasLigaEquipo} />
-          ) : (
+          {isLoadingEstadisticas ? (
             <Spinner />
+          ) : (
+            <TablaPosiciones equipos={estadisticasLigaEquipo} />
           )}
         </div>
         <div className="ps-4 pt-4">
@@ -161,21 +163,21 @@ export default function EditarLigaOrganizador() {
               boton=" Crear Partido"
             />
           </div>
-          {partidos.length > 0 ? (
+          {isLoadingPartidos > 0 ? (
+            <Spinner />
+          ) : (
             <TablaPartidosOrganizador
               partidos={partidos}
               editar={editarModal}
               borrar={borrar}
               modalId="modalPartido"
             />
-          ) : (
-            <Spinner />
           )}
         </div>
       </div>
-      <ModalPartido />
       <ModalLiga />
       <ModalAgregarEquipo />
+      <ModalPartido />
     </div>
     </>
   );

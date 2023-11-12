@@ -1,6 +1,11 @@
 import { Spinner } from "components";
 import CardLiga from "components/organizador/CardLiga/CardLiga";
-import { useLigaStore } from "hooks";
+import {
+  useLigaStore,
+  useEquipoStore,
+  useCleanStore,
+  usePartidoStore,
+} from "hooks";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BotonAgregar } from "components";
@@ -9,6 +14,7 @@ import ReactPaginate from 'react-paginate';
 
 export default function LigasOrganizador() {
   const { cargarLigasDelOrganizador, ligas, setLigaActiva } = useLigaStore();
+  const { limpiarStores } = useCleanStore();
   const navigate = useNavigate();
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(0);
@@ -34,6 +40,11 @@ export default function LigasOrganizador() {
   const abrirModal = () => {
     setLigaActiva(null);
   };
+
+  useEffect(() => {
+    limpiarStores();
+    cargarLigasDelOrganizador();
+  }, []);
 
   return (
     <div className="dashboard-page">

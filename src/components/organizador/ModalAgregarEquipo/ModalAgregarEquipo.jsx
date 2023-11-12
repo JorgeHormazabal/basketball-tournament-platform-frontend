@@ -9,12 +9,16 @@ import { useNavigate } from "react-router";
 export function ModalAgregarEquipo() {
   const { ligaActiva } = useLigaStore();
   const { cargarEquiposFueraDeLiga } = useEquipoStore();
-  const { agregarLiga } = useEstadisticaLigaEquipoStore();
+  const { agregarEquipoALiga } = useEstadisticaLigaEquipoStore();
   const [equipos, setEquipos] = useState([]);
   const [equipoId, setEquipoId] = useState("");
 
   const onInputChanged = (event) => {
     setEquipoId(event.target.value);
+  };
+
+  const onClose = (nuevoPartidoVacio) => {
+    setEquipoId("");
   };
 
   useEffect(() => {
@@ -32,6 +36,7 @@ export function ModalAgregarEquipo() {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body">
@@ -52,9 +57,9 @@ export function ModalAgregarEquipo() {
                   onChange={onInputChanged}
                 >
                   <option value="">Seleccionar Equipo</option>
-                  {equipos.map((equipo) => (
+                  {equipos?.map((equipo) => (
                     <option key={equipo.id} value={equipo.id}>
-                      {equipo.club.name} - {equipo.id}
+                      {equipo.club.name} - {equipo?.division?.category}
                     </option>
                   ))}
                 </select>
@@ -64,7 +69,13 @@ export function ModalAgregarEquipo() {
               <button
                 className="btn btn-secondary"
                 type="button"
-                onClick={() => agregarLiga(ligaActiva.id, equipoId)}
+                onClick={async () => {
+                  console.log(equipos);
+                  await agregarEquipoALiga(ligaActiva.id, equipoId);
+                  cargarEquiposFueraDeLiga(ligaActiva.id).then((data) =>
+                    setEquipos(data)
+                  );
+                }}
               >
                 <i className="fa-solid fa-floppy-disk"></i> Agregar Equipo
               </button>
@@ -76,6 +87,7 @@ export function ModalAgregarEquipo() {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>

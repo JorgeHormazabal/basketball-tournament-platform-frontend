@@ -1,7 +1,13 @@
 import { useEffect, useState, useMemo } from "react";
-import { useJugadorStore, useLigaStore, usePartidoStore } from "hooks";
+import {
+  useEstadisticaLigaEquipoStore,
+  useJugadorStore,
+  useLigaStore,
+  usePartidoStore,
+} from "hooks";
 import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
+import Swal from "sweetalert2";
 
 const nuevoPartidoVacio = {
   id: "",
@@ -17,6 +23,7 @@ export const ModalPartido = () => {
   const { ligaActiva } = useLigaStore();
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
   const [formValues, setFormValues] = useState(nuevoPartidoVacio);
+  const { estadisticasLigaEquipo } = useEstadisticaLigaEquipoStore();
 
   const titulo = useMemo(
     () => (partidoActivo === null ? "Nuevo Partido" : "Editar Partido"),
@@ -25,7 +32,6 @@ export const ModalPartido = () => {
 
   useEffect(() => {
     cargarEquiposDeLiga(ligaActiva.id);
-    console.log(partidoActivo?.dateTime);
     if (partidoActivo !== null) {
       setFormValues({
         id: partidoActivo.id,
@@ -37,7 +43,7 @@ export const ModalPartido = () => {
     } else {
       setFormValues({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
     }
-  }, [partidoActivo]);
+  }, [partidoActivo, estadisticasLigaEquipo]);
 
   const onInputChanged = ({ target }) => {
     setFormValues({
@@ -48,7 +54,15 @@ export const ModalPartido = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await guardarPartido(formValues);
+    if (formValues.homeId === formValues.awayId) {
+      Swal.fire("Error al guardar", "Equipo seleccionado dos veces.", "error");
+    } else {
+      await guardarPartido(formValues);
+    }
+  };
+
+  const onClose = () => {
+    setFormValues({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
   };
 
   return (
@@ -62,6 +76,7 @@ export const ModalPartido = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="close"
+              onClick={onClose}
             ></button>
           </div>
           <form className="modal-body" onSubmit={onSubmit}>
@@ -86,7 +101,7 @@ export const ModalPartido = () => {
                       <option value="">Seleccionar Club</option>
                       {equipos.map((equipo) => (
                         <option key={equipo.id} value={equipo.id}>
-                          {equipo.club.name}
+                          {equipo.club.name} - {equipo?.division?.category}
                         </option>
                       ))}
                     </select>
@@ -111,7 +126,7 @@ export const ModalPartido = () => {
                       <option value="">Seleccionar Club</option>
                       {equipos.map((equipo) => (
                         <option key={equipo.id} value={equipo.id}>
-                          {equipo.club.name}
+                          {equipo.club.name} - {equipo?.division?.category}
                         </option>
                       ))}
                     </select>
@@ -203,7 +218,6 @@ export const ModalPartido = () => {
                 <i className="fa-solid fa-floppy-disk"></i> Guardar partido
               </button>
             </div>
-
           </form>
           <div className="modal-footer">
             <button
@@ -211,6 +225,7 @@ export const ModalPartido = () => {
               type="button"
               className="btn btn-danger"
               data-bs-dismiss="modal"
+              onClick={onClose}
             >
               Cerrar
             </button>
