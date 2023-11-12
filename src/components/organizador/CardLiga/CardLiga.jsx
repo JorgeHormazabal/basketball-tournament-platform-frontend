@@ -15,8 +15,8 @@ export default function CardLiga({ liga, editar }) {
     header = "Finalizado";
   }
   return (
-    <div className="card text-center">
-      <div className="card-header">{header}</div>
+    <div className="card text-center" style={{width: "325px"}}>
+      <div className="card-header" style={{height: "50px"}}>{header}</div>
       <div className="card-body">
         <h5 className="card-title mb-4">{liga.name}</h5>
         <p className="card-text">

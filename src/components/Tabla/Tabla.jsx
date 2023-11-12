@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import ReactPaginate from 'react-paginate';
+
 export default function Tabla({
   cabeceras,
   filas,
@@ -9,7 +12,21 @@ export default function Tabla({
   mostrarJugador,
   mostrarEditar = true,
   mostrarDetalles = false,
+  elementosPorPagina = 12,
 }) {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pageCount = Math.ceil(data.length / elementosPorPagina);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const startIndex = currentPage * elementosPorPagina;
+  const endIndex = startIndex + elementosPorPagina;
+
+  const paginatedData = data.slice(startIndex, endIndex);
+
   return (
     <div className="row mt-4">
       <div className="col-12">
@@ -31,10 +48,10 @@ export default function Tabla({
               </tr>
             </thead>
             <tbody>
-              {data.map((objeto, index) => (
-                <tr key={index}>
+              {paginatedData.map((objeto, index) => (
+                <tr key={startIndex + index}>
                   <th className="pt-2 text-end" scope="row">
-                    {index+1}
+                    {startIndex + index + 1}
                   </th>
                   {filas.map((propiedad) => (
                     <td key={propiedad} className="pt-2 text-start">
@@ -54,14 +71,14 @@ export default function Tabla({
                         </button>
                       )}
                       {mostrarEditar && (
-                      <button
-                        className="btn btn-secondary"
-                        data-bs-toggle="modal"
-                        data-bs-target={`#${modalId}`}
-                        onClick={() => editar(objeto)}
-                      >
-                        <i className="fa-solid fa-edit"></i> Editar
-                      </button>
+                        <button
+                          className="btn btn-secondary"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#${modalId}`}
+                          onClick={() => editar(objeto)}
+                        >
+                          <i className="fa-solid fa-edit"></i> Editar
+                        </button>
                       )}
                       <button
                         onClick={() => borrar(objeto)}
@@ -76,6 +93,22 @@ export default function Tabla({
             </tbody>
           </table>
         </div>
+        {pageCount > 1 && (
+          <ReactPaginate
+            pageCount={pageCount}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            onPageChange={handlePageChange}
+            containerClassName={'pagination justify-content-center mt-3'}
+            activeClassName={'active'}
+            pageClassName={'page-item'}
+            pageLinkClassName={'page-link'}
+            previousClassName={'page-item'}
+            previousLinkClassName={'page-link'}
+            nextClassName={'page-item'}
+            nextLinkClassName={'page-link'}
+          />
+        )}
       </div>
     </div>
   );

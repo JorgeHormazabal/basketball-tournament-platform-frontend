@@ -44,7 +44,7 @@ export function Home() {
       {/* PROXIMOS PARTIDOS  */}
       <div className="Proximos">
         <h2 id="cuarto">Próximos Enfrentamientos</h2>
-        <CardsProximos encuentros={partidos} limit={2} />
+        <CardsProximos encuentros={partidos} limit={2} mostrarPaginacion={false} />
         <br />
       </div>
 
@@ -53,7 +53,7 @@ export function Home() {
         <div className="Pasados">
           <h2 id="cuarto">Últimos Enfrentamientos</h2>
           <div className="contenedorDeLiga">
-          <TablaPasados encuentros={partidos} limit={3}/>
+          <TablaPasados encuentros={partidos} limit={3} mostrarPaginacion={false}/>
           </div>
         </div>
       </div>

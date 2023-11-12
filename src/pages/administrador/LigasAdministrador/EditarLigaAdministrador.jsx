@@ -67,13 +67,14 @@ export function EditarLigaAdministrador() {
   const abrirModal = () => {
     setPartidoActivo(null);
   };
-
+  console.log(ligaActiva)
   return (
-    <div className="dashboard-page">
+    <>
+    <button type="button" className="btn btn-light" style={{marginTop: "10px", marginLeft: "26vh", fontSize: "22px"}} onClick={() => navigate(-1)}>
+    <i className="fa-solid fa-arrow-left"></i> Volver
+    </button>
+    <div className="dashboard-page" style={{marginTop:"12px"}}>
       <div className="container-fluid">
-        <button className="btn btn-primary" onClick={() => navigate(-1)}>
-          Volver
-        </button>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <h1>{ligaActiva.name}</h1>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -182,5 +183,6 @@ export function EditarLigaAdministrador() {
       <ModalLiga />
       <ModalAgregarEquipo />
     </div>
+    </>
   );
 }

@@ -13,7 +13,7 @@ export function TablaPosiciones({ equipos }) {
 
   return (
     <div className="table-responsive py-3">
-      <table className="table table ">
+      <table className="table table" style={{width: "900px"}}>
         <thead className="table-light">
           <tr>
             <th className="text-start" scope="col">

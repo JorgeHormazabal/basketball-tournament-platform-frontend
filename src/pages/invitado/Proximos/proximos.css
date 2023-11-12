@@ -7,16 +7,16 @@
   .encuentro-card {
     border: 1px solid #000000;
     padding: 10px;
-    width: 65%;
+    width: 60%;
     margin: 10px;
-    height: 250px;
+    height: 225px;
   }
   
   .equipo-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .fila2 {
@@ -40,9 +40,10 @@
   .equipo-info img {
     max-width: 125px;
     max-height: 125px;
-    margin: 25px;
+    margin: 15px;
   }
   span {
     font-size: 20px;
   }
+  
   
