@@ -26,15 +26,17 @@ export default function ActivePlayers({
       <table>
         <thead>
           <tr>
-            <th>Jugadores activos</th>
-            <th>Puntaje</th>
-            <th>Faltas</th>
+            <th className="controlpanel_active-players__col1">
+              Jugadores activos
+            </th>
+            <th className="controlpanel_active-players__col2">Puntaje</th>
+            <th className="controlpanel_active-players__col3">Faltas</th>
           </tr>
         </thead>
         <tbody className="controlpanel_active-players__container">
           {activePlayers.map((player, index) => (
             <tr key={player.id} className="controlpanel_active-players__box">
-              <td>
+              <td className="controlpanel_active-players__col1">
                 <select
                   className="controlpanel_active-players__select"
                   value={player.id}
@@ -53,7 +55,7 @@ export default function ActivePlayers({
                   ))}
                 </select>
               </td>
-              <td className="controlpanel_active-players__points">
+              <td className="controlpanel_active-players__points controlpanel_active-players__col2">
                 <button
                   className="controlpanel_active-players__add-btn"
                   onClick={() => updatePoints(player.id, 1)}
@@ -72,6 +74,7 @@ export default function ActivePlayers({
                 >
                   +3
                 </button>
+                <span className="controlpanel__active-players__space"></span>
                 <button
                   className="controlpanel_active-players__remove-btn"
                   onClick={() => updatePoints(player.id, -1)}
@@ -91,7 +94,7 @@ export default function ActivePlayers({
                   -3
                 </button>
               </td>
-              <td className="controlpanel_active-players__fouls">
+              <td className="controlpanel_active-players__fouls controlpanel_active-players__col3">
                 <button
                   className="controlpanel_active-players__add-btn"
                   onClick={() => updateFouls(player.id, 1)}

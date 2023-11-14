@@ -12,10 +12,11 @@ button {
     height: 100%;
     border: 1px solid black;
     padding: 10px;
+    margin: 0;
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 30% 38% 30%;
     grid-template-rows: repeat(2, 0.5fr) repeat(4, 1fr);
-    grid-column-gap: 16px;
+    grid-column-gap: 1%;
     grid-row-gap: 16px;
     .grid-item {
       border: 1px solid #000;
@@ -39,7 +40,7 @@ button {
     #controlpanel__period-control {
       grid-area: 5 / 2 / 6 / 3;
     }
-    #controlpanel__alarm {
+    #controlpanel__actionControlPanel {
       grid-area: 6 / 2 / 7 / 3;
     }
     #controlpanel__team-away {

@@ -1,5 +1,6 @@
-import { displayName } from "helpers";
+import { displayName, sumValuesAtIndex } from "helpers";
 import "./PlayerList.scss";
+import sumAttributeInArray from "helpers/sumAttributeInArray";
 
 export const PlayerList = ({ elementId, players, points, fouls }) => {
   return (
@@ -17,7 +18,7 @@ export const PlayerList = ({ elementId, players, points, fouls }) => {
                 {player.shirtNumber} {displayName(player.name)}
               </td>
               <td>{points[player.id]}</td>
-              <td>{fouls[player.id]}</td>
+              <td>{sumAttributeInArray(fouls, player.id)}</td>
             </tr>
           ))}
         </tbody>

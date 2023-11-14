@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 0 0.5em;
+  padding: 0 2em;
   span {
     font-size: 1.65em;
     display: inline-block;
@@ -37,6 +37,9 @@
     .scoreboard__players__faults {
       text-align: center;
       width: 30%;
+    }
+    .scoreboard__players__faults--red {
+      color: red;
     }
   }
 }

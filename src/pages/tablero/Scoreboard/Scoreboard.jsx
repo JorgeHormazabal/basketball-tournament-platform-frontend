@@ -1,3 +1,5 @@
+import useSound from "use-sound";
+import buzzer from "assets/buzzer.mp3";
 import {
   Clock,
   Faults,
@@ -11,6 +13,9 @@ import { useNavigate, useParams } from "react-router";
 import { socket } from "socket";
 import "./Scoreboard.scss";
 import { useBoardChronometer } from "hooks";
+import { Spinner } from "components";
+import { sumValuesAtIndex } from "helpers";
+import { useRef } from "react";
 
 export default function Scoreboard() {
   const params = useParams();
@@ -24,20 +29,32 @@ export default function Scoreboard() {
     activeAwayPlayers: [],
     homeFaults: [],
     awayFaults: [],
-    homeTotalFouls: 0,
-    awayTotalFouls: 0,
     period: 0,
+    direction: "none",
   });
   const [shortTime, setShortTime] = useState(24000);
   const [isShortRunning, setIsShortRunning] = useState(false);
-  const [shortDirection, setShortDirection] = useState("");
   const navigate = useNavigate();
   const navigateShortClock = (route) => navigate(route);
   const longClock = useBoardChronometer(600);
+  const [hasReceivedState, setHasReceivedState] = useState(false);
+  const [playBuzzer] = useSound(buzzer);
+  const soundBtnRef = useRef(null);
 
   useEffect(() => {
     socket.connect();
-    socket.on("state", ({ state }) => setState(state));
+
+    const joinInterval = setInterval(() => {
+      if (!hasReceivedState) {
+        socket.emit("join", { matchId });
+      }
+    }, 3000);
+
+    socket.on("state", ({ state }) => {
+      clearInterval(joinInterval);
+      setState(state);
+      setHasReceivedState(true);
+    });
     socket.on("stopClock", ({ time }) => {
       console.log("cluck");
       longClock.stop(time);
@@ -48,9 +65,7 @@ export default function Scoreboard() {
     });
     socket.on("resetClock", ({ time }) => longClock.reset(time));
     //SHORT
-    socket.on("startShort", ({ shortTime: time, direction }) => {
-      console.log(time, direction);
-      if (direction) setShortDirection(direction);
+    socket.on("startShort", ({ shortTime: time }) => {
       setShortTime(time);
       setIsShortRunning(true);
     });
@@ -58,11 +73,11 @@ export default function Scoreboard() {
       setIsShortRunning(false);
       setShortTime(time);
     });
-    socket.on("resetShort", ({ direction, shortTime: time }) => {
-      setShortDirection(direction);
+    socket.on("resetShort", ({ shortTime: time }) => {
       setIsShortRunning(false);
       setShortTime(time);
     });
+    socket.on("buzzer", () => soundBtnRef.current.click());
 
     socket.on("update", ({ field, value }) => {
       setState((prevState) => ({
@@ -70,9 +85,9 @@ export default function Scoreboard() {
         [field]: value,
       }));
     });
-    socket.emit("join", { matchId });
 
     return () => {
+      clearInterval(joinInterval);
       socket.disconnect();
       socket.off("state");
       socket.off("stopClock");
@@ -82,50 +97,61 @@ export default function Scoreboard() {
       socket.off("stopShort");
       socket.off("resetShort");
       socket.off("updateShort");
+      socket.off("buzzer");
     };
   }, []);
 
   return (
     <div id="scoreboard">
-      <div id="scoreboard__content">
-        <Score
-          elementId="scoreboard__home"
-          name={state.home}
-          point={state.homePoints}
-        />
-        <Players
-          elementId="scoreboard__home-players"
-          players={state.activeHomePlayers}
-          faults={state.homePlayersFaults}
-        />
-        <Clock serverTime={longClock.displayTime} />
-        <ShortClock
-          isRunning={isShortRunning}
-          serverTime={shortTime}
-          navigateShortClock={navigateShortClock}
-          direction={shortDirection}
-        />
-        <Faults
-          elementId="scoreboard__homeFaults"
-          faults={state.homeTotalFouls}
-        />
-        <Period period={state.period} />
-        <Faults
-          elementId="scoreboard__awayFaults"
-          faults={state.awayTotalFouls}
-        />
+      {" "}
+      <button
+        ref={soundBtnRef}
+        className="invisibleButton"
+        onClick={playBuzzer}
+      ></button>
+      {hasReceivedState ? (
+        <div id="scoreboard__content">
+          <Score
+            elementId="scoreboard__home"
+            name={state.home}
+            point={state.homePoints}
+          />
+          <Players
+            elementId="scoreboard__home-players"
+            players={state.activeHomePlayers}
+            faults={state.homePlayersFaults}
+          />
+          <Clock serverTime={longClock.displayTime} />
+          <ShortClock
+            isRunning={isShortRunning}
+            serverTime={shortTime}
+            navigateShortClock={navigateShortClock}
+            direction={state.direction}
+          />
+          <Faults
+            elementId="scoreboard__homeFaults"
+            faults={sumValuesAtIndex(state.homePlayersFaults, state.period - 1)}
+          />
+          <Period period={state.period} />
+          <Faults
+            elementId="scoreboard__awayFaults"
+            faults={sumValuesAtIndex(state.awayPlayersFaults, state.period - 1)}
+          />
 
-        <Score
-          elementId="scoreboard__away"
-          name={state.away}
-          point={state.awayPoints}
-        />
-        <Players
-          elementId="scoreboard__away-players"
-          players={state.activeAwayPlayers}
-          faults={state.awayPlayersFaults}
-        />
-      </div>
+          <Score
+            elementId="scoreboard__away"
+            name={state.away}
+            point={state.awayPoints}
+          />
+          <Players
+            elementId="scoreboard__away-players"
+            players={state.activeAwayPlayers}
+            faults={state.awayPlayersFaults}
+          />
+        </div>
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 }

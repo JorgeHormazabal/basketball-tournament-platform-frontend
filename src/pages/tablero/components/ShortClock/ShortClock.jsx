@@ -29,29 +29,32 @@ export default function ShortClock({
     <div className="timer" id="scoreboard__short-clock">
       <div id="scoreboard__short-clock__header">
         <span
-          className={`scoreboard__short-clock__direction ${
-            direction === "home" && "scoreboard__short-clock__direction--active"
-          }`}
-        >
-          {"<"}
-        </span>
-        <span
           id="scoreboard__short-clock__description"
           onClick={() => navigateShortClock("reloj/")}
         >
           Reloj de posesión
         </span>
+      </div>
+      <div id="scoreboard__short-clock__body">
         <span
           className={`scoreboard__short-clock__direction ${
-            direction === "away" && "scoreboard__short-clock__direction--active"
+            direction === "left" && "scoreboard__short-clock__direction--active"
+          }`}
+        >
+          {"<"}
+        </span>
+        <div id="scoreboard__short-clock__box">
+          <span id="scoreboard__short-clock__time">
+            {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
+          </span>
+        </div>
+        <span
+          className={`scoreboard__short-clock__direction ${
+            direction === "right" &&
+            "scoreboard__short-clock__direction--active"
           }`}
         >
           {">"}
-        </span>
-      </div>
-      <div id="scoreboard__short-clock__box">
-        <span id="scoreboard__short-clock__time">
-          {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
         </span>
       </div>
     </div>

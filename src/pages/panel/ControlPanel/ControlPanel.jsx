@@ -1,16 +1,18 @@
 import { useParams } from "react-router";
 import "./ControlPanel.scss";
 import { socket } from "socket";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Team from "../components/Team/Team";
 import ActivePlayers from "../components/ActivePlayers/ActivePlayers";
 import ClockControl from "../components/ClockControl/ClockControl";
 import { PlayerList } from "../components/PlayerList/PlayerList";
 import { ShortClockControl } from "../components/ShortClockControl/ShortClockControl";
 import PeriodControl from "../components/PeriodControl/PeriodControl";
-import Alarm from "../components/Alarm/Alarm";
+import ActionControlPanel from "../components/ActionControlPanel/ActionControlPanel";
 import { useState } from "react";
 import { usePanelChronometer } from "hooks";
+import { ensureObjectAtIndex } from "helpers";
+import Swal from "sweetalert2";
 
 const emptyMatch = {
   activeAwayPlayers: [],
@@ -20,13 +22,11 @@ const emptyMatch = {
   awayPlayersFaults: {},
   awayPlayersPoints: {},
   awayPoints: 0,
-  awayTotalFouls: 0,
   home: "",
   homePlayers: [],
   homePlayersFaults: {},
   homePlayersPoints: {},
   homePoints: 0,
-  homeTotalFouls: 0,
   period: 0,
   isEmpty: true,
 };
@@ -59,11 +59,10 @@ export default function ControlPanel() {
     socket.emit("resetClock", { time });
   };
 
-  const startShort = (direction, startTime) => {
+  const startShort = (startTime) => {
     const time = shortChronometer.start(startTime);
     socket.emit("startShort", {
       shortTime: time,
-      direction,
     });
   };
 
@@ -81,15 +80,27 @@ export default function ControlPanel() {
     });
   };
 
-  const resetShort = (direction, startTime) => {
+  const resetShort = (startTime) => {
     const time = shortChronometer.reset(startTime);
     socket.emit("resetShort", {
       shortTime: time,
-      direction,
     });
   };
 
   const updateAndEmit = (field, value) => {
+    const index = value - 1;
+    if (
+      field === "period" &&
+      (!matchInfo.homePlayersFaults[index] ||
+        !matchInfo.awayPlayersFaults[index])
+    ) {
+      let updatedFoulsArr = [...matchInfo.homePlayersFaults];
+      ensureObjectAtIndex(updatedFoulsArr, index);
+      updateAndEmit("homePlayersFaults", updatedFoulsArr);
+      updatedFoulsArr = [...matchInfo.awayPlayersFaults];
+      ensureObjectAtIndex(updatedFoulsArr, index);
+      updateAndEmit("awayPlayersFaults", updatedFoulsArr);
+    }
     socket.emit("update", {
       field,
       value,
@@ -102,18 +113,17 @@ export default function ControlPanel() {
       };
     });
     internalState[field] = value;
-    console.log(matchInfo);
   };
 
   const updateFoulHome = (id, incrementalValue) => {
-    const updatedFouls = { ...matchInfo.homePlayersFaults };
-    updatedFouls[id] += incrementalValue;
+    const updatedFouls = [...matchInfo.homePlayersFaults];
+    updatedFouls[matchInfo.period - 1][id] += incrementalValue;
     updateAndEmit("homePlayersFaults", updatedFouls);
   };
 
   const updateFoulAway = (id, incrementalValue) => {
-    const updatedFouls = { ...matchInfo.awayPlayersFaults };
-    updatedFouls[id] += incrementalValue;
+    const updatedFouls = [...matchInfo.awayPlayersFaults];
+    updatedFouls[matchInfo.period - 1][id] += incrementalValue;
     updateAndEmit("awayPlayersFaults", updatedFouls);
   };
 
@@ -131,12 +141,30 @@ export default function ControlPanel() {
     updateAndEmit("awayPoints", matchInfo.awayPoints + incrementalValue);
   };
 
+  const buzzer = () => socket.emit("playBuzzer", {});
+
+  const saveMatch = () =>
+    socket.emit("saveMatch", {
+      matchId,
+      awayPoints: matchInfo.awayPoints,
+      awayPlayersFaults: matchInfo.awayPlayersFaults,
+      awayPlayersPoints: matchInfo.awayPlayersPoints,
+      homePoints: matchInfo.homePoints,
+      homePlayersFaults: matchInfo.homePlayersFaults,
+      homePlayersPoints: matchInfo.homePlayersPoints,
+    });
+
   const initMatchInfo = (info) => {
     setMatchInfo(info);
     internalState = info;
   };
 
+  var a = () => {
+    console.log(matchInfo, matchId);
+  };
+
   useEffect(() => {
+    /*
     socket.on("new-spectator", ({ id }) => {
       socket.emit("welcome", {
         id,
@@ -144,6 +172,7 @@ export default function ControlPanel() {
         state: matchInfo,
       });
     });
+    */
     socket.on("init-from-server", ({ matchInfo }) => initMatchInfo(matchInfo));
     socket.on("new-spectator", ({ id }) => {
       socket.emit("welcome", {
@@ -152,16 +181,38 @@ export default function ControlPanel() {
       });
     });
 
+    socket.on("saved", ({ success }) => {
+      if (success) {
+        Swal.fire({
+          icon: "success",
+          title: "Resultados guardados",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error al guardar resultados",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+
     socket.connect();
     socket.emit("init", { matchId });
 
     return () => {
       socket.disconnect();
+      socket.off("new-spectator");
+      socket.off("init-from-server");
+      socket.off("saved");
     };
   }, []);
 
   return (
     <div id="controlpanel">
+      <button onClick={a}>X</button>
       <div id="controlpanel__content">
         <Team
           elementId="controlpanel__team-home"
@@ -199,10 +250,12 @@ export default function ControlPanel() {
           stop={stopShort}
           reset={resetShort}
           resume={resumeShort}
+          update={updateAndEmit}
+          direction={matchInfo.direction}
           serverTime={shortChronometer.displayTime}
         />
         <PeriodControl period={matchInfo.period} update={updateAndEmit} />
-        <Alarm />
+        <ActionControlPanel buzzer={buzzer} saveMatch={saveMatch} />
         <ActivePlayers
           elementId="controlpanel__away-active-players"
           activePlayers={matchInfo.activeAwayPlayers}
