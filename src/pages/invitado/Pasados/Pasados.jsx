@@ -80,7 +80,7 @@ export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
           ))}
         </tbody>
       </table>
-      {mostrarPaginacion && (
+      {pageCount > 1 && (
         <ReactPaginate
           pageCount={pageCount}
           pageRangeDisplayed={5}

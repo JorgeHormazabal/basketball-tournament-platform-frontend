@@ -1,80 +1,74 @@
-  .equipo-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 25px;
+  .slick-slide > div {
+    margin: 0 10px;
   }
-
+  .slick-list {
+    margin: 0 -10px;
+  }
+  .sliderContainer{
+    width: 90%;
+    margin: 0 auto;
+  }
+  .equipo-card {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  .equipo-card:hover {
+    transform: scale(0.98);
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
+  .equipo-card img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  .equipo-card h2 {
+    font-size: 25px;
+    color: #000000;
+  }
   .subtitulo h2{
     background-color: #ff8e3c;
     height: 75px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 25px;
+    font-size: 2rem;
+    margin-bottom: 15px;
   }
-
+  .subtitulo{
+    margin-top: 38px;
+  }
+  
   .jugadoras-list{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
-
-  .equipo-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    text-align: center;
-    margin: 15px;
-    transition: transform 0.2s ease-in-out;
-    width: 250px;
-    height: 250px;
-  }
-
-  .equipo-card:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-  }
-  .equipo-card img {
-    width: 150px;
-    height: 150px;
-    margin-bottom: 10px;
-  }
   
-  .equipo-card h2 {
-    font-size: 25px;
-    color: #333333;
-  }
-  
-
   .jugadora-card {
-    background-color: #ffffff;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin: 15px;
-    width: 300px;
-    height: 350px;
+    padding: 10px;
+    margin: 10px;
+    width: 280px;
+    height: 280px;
   }
-  
   .jugadora-card img {
     width: 150px;
     height: 150px;
-    margin: 15px;
+    margin: 5px;
   }
-  
   .jugadora-card h3 {
     font-size: 22px;
-    margin-bottom: 5px;
-    margin: 10px;
-    color: #101010;
+    margin: 5px;
+    color: #111010;
     font-weight: bold;
   }
-  
   .jugadora-card p {
-    font-size: 18px;
-    color: #222222;
+    font-size: 16px;
+    color: #000000;
   }
-  
+
+

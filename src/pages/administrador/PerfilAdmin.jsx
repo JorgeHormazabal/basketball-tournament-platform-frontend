@@ -11,8 +11,8 @@ export function PerfilAdmin() {
   const [totales, setTotales] = useState(null);
   useEffect(() => {
     cargarTotal().then((data) => setTotales(data));
-  });
-
+  },[]);
+  console.log(user);
   return (
     <div className="dashboard-page">
       <BienvenidaTromu />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { MagicMotion } from "react-magic-motion";
 
 export default function Tabla({
   cabeceras,

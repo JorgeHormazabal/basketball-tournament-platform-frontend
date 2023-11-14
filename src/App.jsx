@@ -42,8 +42,8 @@ const PublicLayout = () => {
 const ClubLayout = () => {
   return (
     <div className="pages">
-      <SidebarClub />
-      <Outlet />
+      <SidebarClub className="sidebar"/>
+      <Outlet className="outlet"/>
     </div>
   );
 };
@@ -51,8 +51,8 @@ const ClubLayout = () => {
 const OrganizadorLayout = () => {
   return (
     <div className="pages">
-      <SidebarOrganizador />
-      <Outlet />
+      <SidebarOrganizador className="sidebar"/>
+      <Outlet className="outlet"/>
     </div>
   );
 };
@@ -60,8 +60,8 @@ const OrganizadorLayout = () => {
 const AdminLayout = () => {
   return (
     <div className="pages">
-      <SidebarAdministrador />
-      <Outlet />
+      <SidebarAdministrador className="sidebar"/>
+      <Outlet className="outlet"/>
     </div>
   );
 };

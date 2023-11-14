@@ -91,7 +91,7 @@ export const ModalEquipo = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
+                <i className="fa-solid fa-table-list"></i>
                 </span>
                 <select
                   id="division"
