@@ -13,7 +13,8 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
   const encuentrosFuturos = encuentros.filter((encuentro) => {
     const encuentroFecha = new Date(encuentro.dateTime).getTime();
     const fechaActual = new Date().getTime();
-    return encuentroFecha > fechaActual;
+    console.log(encuentroFecha, fechaActual, encuentroFecha >= fechaActual);
+    return encuentroFecha >= fechaActual;
   });
 
   const encuentrosOrdenados = encuentrosFuturos.sort((a, b) => {
@@ -43,8 +44,8 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
       <div className="encuentros-list">
         {paginatedEncuentros.map((encuentro, index) => (
           <div key={index} className="encuentro-card">
-            
             <div className="equipo-info">
+              {console.log(paginatedEncuentros)}
               <img
                 src={
                   encuentro.home.club.image
@@ -70,10 +71,14 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
               <span>{formatDateTime(encuentro.dateTime)}</span>
             </div>
             <div className="fila3 mt-3">
-            <button className="btn btn-success" onClick={() => navigate(`/tablero/${encuentro.id}`)}>Ver Marcado en vivo</button>
+              <button
+                className="btn btn-success"
+                onClick={() => navigate(`/tablero/${encuentro.id}`)}
+              >
+                Ver Marcador en vivo
+              </button>
             </div>
           </div>
-          
         ))}
       </div>
       <div>
@@ -109,7 +114,7 @@ export function Proximos() {
       <div className="titulos">
         <h1>Próximos Partidos</h1>
       </div>
-      <CardsProximos encuentros={partidos}/>
+      <CardsProximos encuentros={partidos} />
     </div>
   );
 }

@@ -52,7 +52,7 @@ export default function TablaPartidosOrganizador({
                 <td>
                   <button
                     className="btn btn-success"
-                    onClick={() => navigate(`/tablero/${objeto.id}`)}
+                    onClick={() => navigate(`/panel/${objeto.id}`)}
                   >
                     <i className="fa-solid fa-play"></i>
                   </button>
@@ -67,8 +67,12 @@ export default function TablaPartidosOrganizador({
                 <td className="text-start align-middle">
                   {objeto.away.club.name}
                 </td>
-                <td className="text-center align-middle">{objeto.homePoints}</td>
-                <td className="text-center align-middle">{objeto.awayPoints}</td>
+                <td className="text-center align-middle">
+                  {objeto.homePoints}
+                </td>
+                <td className="text-center align-middle">
+                  {objeto.awayPoints}
+                </td>
                 <td className="align-items-center justify-content-center">
                   <div className="btn-group" role="group">
                     <button
@@ -99,14 +103,14 @@ export default function TablaPartidosOrganizador({
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           onPageChange={handlePageChange}
-          containerClassName={'pagination justify-content-center mt-3'}
-          activeClassName={'active'}
-          pageClassName={'page-item'}
-          pageLinkClassName={'page-link'}
-          previousClassName={'page-item'}
-          previousLinkClassName={'page-link'}
-          nextClassName={'page-item'}
-          nextLinkClassName={'page-link'}
+          containerClassName={"pagination justify-content-center mt-3"}
+          activeClassName={"active"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
         />
       )}
     </div>
