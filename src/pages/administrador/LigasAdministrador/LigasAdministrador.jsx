@@ -53,7 +53,7 @@ export function LigasAdministrador() {
             <>
               <div className="d-flex flex-wrap">
                 {ligas.slice(startIndex, endIndex).map((liga) => (
-                  <div key={liga.id} className="col-md-3 mb-3">
+                  <div key={liga.id} className="col-md-4 mb-4">
                   <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
                   </div>
                 ))}

@@ -62,7 +62,7 @@ export default function LigasOrganizador() {
             <>
               <div className="d-flex flex-wrap">
                 {ligasPaginadas.map((liga) => (
-                   <div key={liga.id} className="col-md-3 mb-3">
+                   <div key={liga.id} className="col-md-4 mb-4">
                   <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
                   </div>
                 ))}

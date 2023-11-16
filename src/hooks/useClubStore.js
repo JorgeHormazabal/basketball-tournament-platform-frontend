@@ -55,19 +55,34 @@ export const useClubStore = () => {
 
   const borrarClub = async (club) => {
     try {
-      await backendApi.delete(`/clubs/${club.id}`);
-      await dispatch(onDeleteEvent());
-      Swal.fire({
-        icon: "success",
-        title: "Club borrado",
-        showConfirmButton: false,
-        timer: 1500,
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'No podrás revertir esta acción.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar',
       });
+  
+      if (result.isConfirmed) {
+        await backendApi.delete(`/clubs/${club.id}`);
+        await dispatch(onDeleteEvent());
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Club borrado',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     } catch (error) {
       console.log(error);
-      Swal.fire("Error al eliminar", error.response.data.msg, "error");
+      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
     }
   };
+  
 
   const cargarClubes = async () => {
     try {

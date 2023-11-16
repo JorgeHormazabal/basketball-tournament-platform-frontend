@@ -38,7 +38,7 @@ export function Clubes() {
     setCurrentPage(selected);
   };
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 18;
+  const itemsPerPage = 10;
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const pageCount = Math.ceil(jugadores.length / itemsPerPage);
