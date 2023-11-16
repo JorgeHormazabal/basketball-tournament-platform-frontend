@@ -1,25 +1,52 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./ShortClock.scss";
 
 export default function ShortClock({ isRunning, serverTime }) {
   const [time, setTime] = useState(serverTime);
+  const intervalRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const accumulatedTimeRef = useRef(serverTime);
+
+  const updateTimer = () => {
+    const elapsed = performance.now() - startTimeRef.current;
+    const updatedTime = Math.max(accumulatedTimeRef.current - elapsed, 0);
+    setTime(updatedTime);
+  };
 
   useEffect(() => {
-    setTime(serverTime);
-    let interval;
     if (isRunning) {
-      interval = setInterval(() => {
-        if (time < 10) return;
-        setTime((prevTime) => {
-          if (prevTime < 10) return prevTime;
-          return prevTime - 10;
-        });
-      }, 10);
-    } else if (!isRunning) {
-      clearInterval(interval);
+      if (intervalRef.current === null) {
+        startTimeRef.current = performance.now();
+        intervalRef.current = setInterval(updateTimer, 10);
+      }
+    } else {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+        accumulatedTimeRef.current = time;
+      }
     }
-    return () => clearInterval(interval);
-  }, [isRunning, serverTime]);
+
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isRunning]);
+
+  useEffect(() => {
+    accumulatedTimeRef.current = serverTime;
+    if (!isRunning) {
+      setTime(serverTime);
+    } else {
+      // Restart the timer with the new server time while running
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      startTimeRef.current = performance.now();
+      intervalRef.current = setInterval(updateTimer, 10);
+    }
+  }, [serverTime, isRunning]);
+
   return (
     <span id="shortclock__seconds">
       {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
