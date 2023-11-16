@@ -13,7 +13,7 @@ export function TablaPosiciones({ equipos }) {
 
   return (
     <div className="table-responsive py-3">
-      <table className="table table" style={{width: "900px"}}>
+      <table className="table table" style={{ width: "900px" }}>
         <thead className="table-light">
           <tr>
             <th className="text-start" scope="col">
@@ -56,7 +56,7 @@ export function TablaPosiciones({ equipos }) {
                   src={
                     equipo.team.club.image
                       ? imagePath(equipo.team.club.image)
-                      : "/img/default_club.png"
+                      : "img/default_club.png"
                   }
                 />
                 &nbsp;&nbsp;&nbsp;{equipo.team.club.name}
