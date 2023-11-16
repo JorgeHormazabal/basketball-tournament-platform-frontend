@@ -1,18 +1,19 @@
 import { useParams } from "react-router";
 import "./ControlPanel.scss";
 import { socket } from "socket";
-import { useEffect } from "react";
-import Team from "../components/Team/Team";
-import ActivePlayers from "../components/ActivePlayers/ActivePlayers";
-import ClockControl from "../components/ClockControl/ClockControl";
-import { PlayerList } from "../components/PlayerList/PlayerList";
-import { ShortClockControl } from "../components/ShortClockControl/ShortClockControl";
-import PeriodControl from "../components/PeriodControl/PeriodControl";
-import ActionControlPanel from "../components/ActionControlPanel/ActionControlPanel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePanelChronometer } from "hooks";
 import { ensureObjectAtIndex } from "helpers";
 import Swal from "sweetalert2";
+import {
+  Team,
+  ActivePlayers,
+  ClockControl,
+  PlayerList,
+  ShortClockControl,
+  PeriodControl,
+  ActionControlPanel,
+} from "pages/panel/components";
 
 const emptyMatch = {
   activeAwayPlayers: [],
@@ -36,8 +37,9 @@ export default function ControlPanel() {
   const params = useParams();
   const matchId = params.matchId;
   const [matchInfo, setMatchInfo] = useState(emptyMatch);
-  const shortChronometer = usePanelChronometer(24);
-  const longChronometer = usePanelChronometer(600);
+  const buzzer = () => socket.emit("playBuzzer", {});
+  const shortChronometer = usePanelChronometer(24, buzzer);
+  const longChronometer = usePanelChronometer(600, buzzer);
 
   const start = () => {
     const time = longChronometer.resume();
@@ -54,8 +56,8 @@ export default function ControlPanel() {
     socket.emit("stopClock", { time });
   };
 
-  const reset = () => {
-    const time = longChronometer.reset(600);
+  const reset = (resetTime = 600) => {
+    const time = longChronometer.reset(resetTime);
     socket.emit("resetClock", { time });
   };
 
@@ -66,25 +68,17 @@ export default function ControlPanel() {
     });
   };
 
-  const resumeShort = () => {
-    shortChronometer.resume();
-    socket.emit("startShort", {
-      shortTime: shortChronometer.displayTime,
-    });
-  };
-
-  const stopShort = () => {
-    const time = shortChronometer.stop();
-    socket.emit("stopShort", {
-      shortTime: time,
-    });
-  };
-
-  const resetShort = (startTime) => {
-    const time = shortChronometer.reset(startTime);
-    socket.emit("resetShort", {
-      shortTime: time,
-    });
+  const toggle = () => {
+    const { time, action } = shortChronometer.toggle();
+    if (action === "stopped") {
+      socket.emit("stopShort", {
+        shortTime: time,
+      });
+    } else {
+      socket.emit("startShort", {
+        shortTime: time,
+      });
+    }
   };
 
   const updateAndEmit = (field, value) => {
@@ -141,8 +135,6 @@ export default function ControlPanel() {
     updateAndEmit("awayPoints", matchInfo.awayPoints + incrementalValue);
   };
 
-  const buzzer = () => socket.emit("playBuzzer", {});
-
   const saveMatch = () =>
     socket.emit("saveMatch", {
       matchId,
@@ -159,20 +151,7 @@ export default function ControlPanel() {
     internalState = info;
   };
 
-  var a = () => {
-    console.log(matchInfo, matchId);
-  };
-
   useEffect(() => {
-    /*
-    socket.on("new-spectator", ({ id }) => {
-      socket.emit("welcome", {
-        id,
-        matchInfo,
-        state: matchInfo,
-      });
-    });
-    */
     socket.on("init-from-server", ({ matchInfo }) => initMatchInfo(matchInfo));
     socket.on("new-spectator", ({ id }) => {
       socket.emit("welcome", {
@@ -212,7 +191,6 @@ export default function ControlPanel() {
 
   return (
     <div id="controlpanel">
-      <button onClick={a}>X</button>
       <div id="controlpanel__content">
         <Team
           elementId="controlpanel__team-home"
@@ -247,11 +225,8 @@ export default function ControlPanel() {
         />
         <ShortClockControl
           start={startShort}
-          stop={stopShort}
-          reset={resetShort}
-          resume={resumeShort}
+          toggle={toggle}
           update={updateAndEmit}
-          direction={matchInfo.direction}
           serverTime={shortChronometer.displayTime}
         />
         <PeriodControl period={matchInfo.period} update={updateAndEmit} />

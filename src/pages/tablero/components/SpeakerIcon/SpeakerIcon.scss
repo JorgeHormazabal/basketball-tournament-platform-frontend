@@ -1,0 +1,15 @@
+#speakerButton {
+  position: fixed; /* Position fixed to place it relative to the viewport */
+  top: 3em; /* Distance from the top of the viewport */
+  left: 3em; /* Distance from the left of the viewport */
+  width: 4em;
+  height: 4em;
+  color: white;
+  background: transparent; /* Transparent background */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  z-index: 1000; /* High z-index to ensure it's above everything else */
+  svg {
+    fill: none; /* Color of the speaker icon */
+  }
+}

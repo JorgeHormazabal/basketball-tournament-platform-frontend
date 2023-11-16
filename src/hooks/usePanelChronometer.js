@@ -1,60 +1,83 @@
-import { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 
-export const usePanelChronometer = (startTime) => {
-  const [displayTime, setDisplayTime] = useState(startTime * 1000);
-  const [isRunning, setIsRunning] = useState(false);
-  let interval = useRef();
-  let initial = useRef(0);
+export const usePanelChronometer = (defaultStartTime, buzzer) => {
+  const [displayTime, setDisplayTime] = useState(defaultStartTime * 1000);
+  const interval = useRef(null);
+  const startTimeRef = useRef(null);
+  const accumulatedTimeRef = useRef(defaultStartTime * 1000);
 
-  const start = (startTime) => {
-    clearInterval(interval.current);
-    startTime *= 1000;
-    initial.current = startTime;
-    setDisplayTime(startTime);
-    setIsRunning(true);
-    startClicking();
-    return startTime;
+  const updatedTime = () => {
+    const elapsed = performance.now() - startTimeRef.current;
+    return Math.max(accumulatedTimeRef.current - elapsed, 0);
   };
 
-  const reset = (startTime) => {
-    clearInterval(interval.current);
-    startTime *= 1000;
-    setIsRunning(false);
-    initial.current = startTime;
-    setDisplayTime(startTime);
-    return startTime;
+  const updateDisplayTime = () => {
+    const time = updatedTime();
+    if (time <= 0) {
+      console.log("buzzering");
+      buzzer();
+      stop();
+    } else {
+      setDisplayTime(time);
+    }
   };
 
-  const resume = () => {
-    clearInterval(interval.current);
-    startClicking();
-    setIsRunning(true);
-    return displayTime;
-  };
-
-  const startClicking = () => {
-    interval.current = setInterval(
-      () =>
-        setDisplayTime((prevTime) =>
-          prevTime >= 10 ? prevTime - 10 : prevTime
-        ),
-      10
-    );
-  };
-
-  const adjust = (correction) => {
-    console.log(correction);
-    correction *= 1000;
-    setDisplayTime((previos) => previos + correction);
-    return displayTime + correction;
+  const start = (startTime = defaultStartTime) => {
+    accumulatedTimeRef.current = startTime * 1000;
+    startTimeRef.current = performance.now();
+    if (interval.current !== null) {
+      clearInterval(interval.current);
+    }
+    interval.current = setInterval(updateDisplayTime, 10);
+    return accumulatedTimeRef.current;
   };
 
   const stop = () => {
-    clearInterval(interval.current);
-    setIsRunning(false);
+    const time = updatedTime();
+    if (interval.current !== null) {
+      clearInterval(interval.current);
+      interval.current = null;
+      accumulatedTimeRef.current = time;
+      setDisplayTime(time);
+    }
+    return time;
+  };
+
+  const reset = (startTime = defaultStartTime) => {
+    console.log(startTime);
+    stop();
+    const resetTime = startTime * 1000;
+    accumulatedTimeRef.current = resetTime;
+    setDisplayTime(resetTime);
+    return resetTime;
+  };
+
+  const resume = () => {
+    startTimeRef.current =
+      performance.now() - (accumulatedTimeRef.current - displayTime);
+    if (interval.current === null) {
+      interval.current = setInterval(updateDisplayTime, 10);
+    }
     return displayTime;
   };
 
-  return { displayTime, isRunning, start, stop, reset, resume, adjust };
+  const adjust = (correction) => {
+    correction *= 1000;
+    const newTime = Math.max(displayTime + correction, 0);
+    accumulatedTimeRef.current = newTime;
+    setDisplayTime(newTime);
+    return newTime;
+  };
+
+  const toggle = () => {
+    if (interval.current !== null) {
+      const time = stop();
+      return { time, action: "stopped" };
+    } else {
+      const time = resume();
+      return { time, action: "resumed" };
+    }
+  };
+
+  return { displayTime, start, stop, reset, resume, adjust, toggle };
 };

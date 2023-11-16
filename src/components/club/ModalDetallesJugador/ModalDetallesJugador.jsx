@@ -30,7 +30,7 @@ export const ModalDetallesJugador = () => {
               src={
                 jugadorActivo?.image
                   ? imagePath(jugadorActivo.image)
-                  : "/img/default_player.png"
+                  : "img/default_player.png"
               }
             />
             <p className="fw-bold">Nombre</p>

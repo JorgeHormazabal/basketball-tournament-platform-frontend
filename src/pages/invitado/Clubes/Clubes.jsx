@@ -66,7 +66,7 @@ export function Clubes() {
             >
               <img
                 src={
-                  club.image ? imagePath(club.image) : "/img/default_club.png"
+                  club.image ? imagePath(club.image) : "img/default_club.png"
                 }
                 alt={`Logo de ${club.name}`}
               />
@@ -81,46 +81,43 @@ export function Clubes() {
           <div className="subtitulo">
             <h2>{clubActivo.name}</h2>
           </div>
-          
-            <div className="jugadoras-list">
-              {jugadores.slice(startIndex, endIndex).map((jugador) => (
-                <div key={jugador.id} className="jugadora-card">
-                  <img
-                    src={
-                      jugador.image
-                        ? imagePath(jugador.image)
-                        : "/img/default_player.png"
-                    }
-                  />
-                  <h3>{jugador.name}</h3>
-                  <p>
-                    Edad: {getAge(jugador.birthdate)}&nbsp; Posición:{" "}
-                    {jugador.position ? jugador.position : "No Definida"}
-                  </p>
-                </div>
-              ))}
+
+          <div className="jugadoras-list">
+            {jugadores.slice(startIndex, endIndex).map((jugador) => (
+              <div key={jugador.id} className="jugadora-card">
+                <img
+                  src={
+                    jugador.image
+                      ? imagePath(jugador.image)
+                      : "img/default_player.png"
+                  }
+                />
+                <h3>{jugador.name}</h3>
+                <p>
+                  Edad: {getAge(jugador.birthdate)}&nbsp; Posición:{" "}
+                  {jugador.position ? jugador.position : "No Definida"}
+                </p>
               </div>
-              <div>
-              {pageCount > 1 && (
-                  <ReactPaginate
-                    pageCount={pageCount}
-                    pageRangeDisplayed={5}
-                    marginPagesDisplayed={2}
-                    onPageChange={handlePageChange}
-                    containerClassName={
-                      "pagination justify-content-center mt-3"
-                    }
-                    activeClassName={"active"}
-                    pageClassName={"page-item"}
-                    pageLinkClassName={"page-link"}
-                    previousClassName={"page-item"}
-                    previousLinkClassName={"page-link"}
-                    nextClassName={"page-item"}
-                    nextLinkClassName={"page-link"}
-                  />
-                )}
-            </div>
-          
+            ))}
+          </div>
+          <div>
+            {pageCount > 1 && (
+              <ReactPaginate
+                pageCount={pageCount}
+                pageRangeDisplayed={5}
+                marginPagesDisplayed={2}
+                onPageChange={handlePageChange}
+                containerClassName={"pagination justify-content-center mt-3"}
+                activeClassName={"active"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -142,7 +142,7 @@ export const ModalOrganizador = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                <i className="fa-solid fa-phone"></i>
+                  <i className="fa-solid fa-phone"></i>
                 </span>
                 <input
                   type="text"
@@ -161,7 +161,7 @@ export const ModalOrganizador = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                <i className="fa-solid fa-image"></i>
+                  <i className="fa-solid fa-image"></i>
                 </span>
 
                 <input
@@ -189,7 +189,7 @@ export const ModalOrganizador = () => {
                   width="200px"
                   src={
                     imagePath(organizadorActivo?.image) ||
-                    "/img/default_club.png"
+                    "img/default_club.png"
                   }
                   alt="Upload preview"
                 />

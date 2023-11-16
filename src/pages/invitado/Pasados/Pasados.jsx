@@ -1,7 +1,7 @@
 import { usePartidoStore } from "hooks";
 import { useEffect, useState } from "react";
 import { imagePath, formatDateTime } from "helpers";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -56,7 +56,7 @@ export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
                   src={
                     encuentro.home.club.image
                       ? imagePath(encuentro.home.club.image)
-                      : "/img/default_club.png"
+                      : "img/default_club.png"
                   }
                 />
               </td>
@@ -69,13 +69,15 @@ export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
                   src={
                     encuentro.away.club.image
                       ? imagePath(encuentro.away.club.image)
-                      : "/img/default_club.png"
+                      : "img/default_club.png"
                   }
                 />
                 &nbsp;{encuentro.away.club.name}
               </td>
               <td className="text-start">{encuentro.place}</td>
-              <td className="text-start">{formatDateTime(encuentro.dateTime)}</td>
+              <td className="text-start">
+                {formatDateTime(encuentro.dateTime)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -86,14 +88,14 @@ export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           onPageChange={handlePageChange}
-          containerClassName={'pagination justify-content-center mt-3'}
-          activeClassName={'active'}
-          pageClassName={'page-item'}
-          pageLinkClassName={'page-link'}
-          previousClassName={'page-item'}
-          previousLinkClassName={'page-link'}
-          nextClassName={'page-item'}
-          nextLinkClassName={'page-link'}
+          containerClassName={"pagination justify-content-center mt-3"}
+          activeClassName={"active"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
         />
       )}
     </div>

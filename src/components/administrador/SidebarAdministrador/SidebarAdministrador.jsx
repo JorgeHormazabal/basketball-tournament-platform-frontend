@@ -19,14 +19,17 @@ export default function SidebarAdminitrador() {
         navigate(selected);
       }}
     >
-
       <SideNav.Toggle id="sidenav--toggle" />
 
       <SideNav.Nav defaultSelected="/administrador">
-
         <NavItem className="unclickeable">
           <NavIcon>
-          <img className="sidenav--icon" src={user.image ? imagePath(user.image) : "/img/default_player.png"}/>
+            <img
+              className="sidenav--icon"
+              src={
+                user.image ? imagePath(user.image) : "img/default_player.png"
+              }
+            />
           </NavIcon>
           <NavText>
             <span className="sidenav--text fst-italic">{user.name}</span>
@@ -45,9 +48,7 @@ export default function SidebarAdminitrador() {
             </NavItem>
           );
         })}
-
       </SideNav.Nav>
-
     </SideNav>
   );
 }

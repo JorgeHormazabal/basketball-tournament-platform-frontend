@@ -4,3 +4,4 @@ export { default as Period } from './Period/Period';
 export { default as Players } from './Players/Players';
 export { default as Score } from './Score/Score';
 export { default as ShortClock } from './ShortClock/ShortClock';
+export { default as SpeakerIcon } from './SpeakerIcon/SpeakerIcon';

@@ -1,38 +1,29 @@
+import { useState } from "react";
 import "./ShortClockControl.scss";
 
 export const ShortClockControl = ({
   start,
-  stop,
-  reset,
-  resume,
-  direction,
   update,
+  toggle,
   serverTime: time,
 }) => {
   const handleDirectionLeft = () => update("direction", "left");
   const handleDirectionRight = () => update("direction", "right");
-  let mode = 0;
+  const [status, setStatus] = useState(false);
 
   const handleStart24 = () => {
+    setStatus(true);
     start(24);
-    mode = 24;
+  };
+
+  const handleToggle = () => {
+    setStatus((prev) => !prev);
+    toggle();
   };
 
   const handleStart14 = () => {
+    setStatus(true);
     start(14);
-    mode = 14;
-  };
-
-  const handleStop = () => stop(mode);
-
-  const handleReset24 = () => {
-    reset(24);
-    mode = 24;
-  };
-
-  const handleReset14 = () => {
-    reset(14);
-    mode = 14;
   };
 
   return (
@@ -59,23 +50,32 @@ export const ShortClockControl = ({
       </div>
       <div id="control__short-clock__footer">
         <button
-          className="control_short-clock__start-btn"
+          className="control_short-clock__run-btn"
           onClick={handleStart24}
         >
-          Empezar-24
+          Correr-24
         </button>
         <button
-          className="control_short-clock__start-btn"
+          className="control_short-clock__run-btn"
           onClick={handleStart14}
         >
-          Empezar-14
+          Correr-14
         </button>
-        <button className="control_short-clock__resume-btn" onClick={resume}>
-          Reanudar
+        <button
+          className={
+            status
+              ? "control_short-clock__stop-btn"
+              : "control_short-clock__resume-btn"
+          }
+          onClick={handleToggle}
+        >
+          {status ? "Detener" : "Iniciar"}
         </button>
-        <button className="control_short-clock__stop-btn" onClick={handleStop}>
-          Parar
-        </button>
+      </div>
+    </div>
+  );
+};
+/*
         <button
           className="control_short-clock__reset-btn"
           onClick={handleReset24}
@@ -88,7 +88,21 @@ export const ShortClockControl = ({
         >
           Reset-14
         </button>
-      </div>
-    </div>
-  );
-};
+        <button className="control_short-clock__stop-btn" onClick={handleStop}>
+          Parar
+        </button>
+        */
+
+/*
+  const handleStop = () => stop(mode);
+
+  const handleReset24 = () => {
+    reset(24);
+    mode = 24;
+  };
+
+  const handleReset14 = () => {
+    reset(14);
+    mode = 14;
+  };
+  */

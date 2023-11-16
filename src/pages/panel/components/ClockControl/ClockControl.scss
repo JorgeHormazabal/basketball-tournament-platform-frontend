@@ -16,14 +16,13 @@
       font-size: 7em;
     }
     .controlpanel__clock__second-control {
-      font-size: 3em;
+      font-size: 2em;
       outline: 0;
       cursor: pointer;
       text-align: center;
       border: 0;
-      padding: 7px 16px;
-      min-height: 36px;
-      min-width: 36px;
+      width: 2em;
+      height: 2em;
       color: #ffffff;
       border-radius: 4px;
       font-weight: 500;
@@ -46,14 +45,13 @@
     button {
       font-size: 1.8em;
       width: 6em;
+      height: 2em;
+      padding: 0.2em 1em;
       display: inline-block;
       outline: 0;
       cursor: pointer;
       text-align: center;
       border: 0;
-      padding: 7px 16px;
-      min-height: 36px;
-      min-width: 36px;
       color: #ffffff;
       border-radius: 4px;
       font-weight: 500;
@@ -68,6 +66,35 @@
     }
     #controlpanel__clock__reset-button {
       background: #fd7e14;
+    }
+  }
+  #controlpanel__clock__setter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    input {
+      width: 4em;
+      margin-left: 0.5em;
+    }
+    button {
+      display: inline-block;
+      outline: 0;
+      cursor: pointer;
+      border: 0;
+      font-size: 1em;
+      width: 8em;
+      height: 2.5em;
+      padding: 0.5em 1em;
+      text-align: center;
+      color: #ffffff;
+      background-color: gray;
+      border-radius: 4px;
+      font-weight: 500;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px,
+        rgba(0, 0, 0, 0.2) 0px -1px 0px 0px inset;
+      margin: 0;
     }
   }
 }

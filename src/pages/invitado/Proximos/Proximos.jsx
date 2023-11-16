@@ -2,9 +2,9 @@ import "./proximos.css";
 import { usePartidoStore } from "hooks";
 import { useEffect, useState } from "react";
 import { imagePath, formatDateTime } from "helpers";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
-export function CardsProximos({ encuentros, limit, mostrarPaginacion=true }) {
+export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
 
@@ -13,7 +13,7 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion=true }) {
     const fechaActual = new Date().getTime();
     return encuentroFecha > fechaActual;
   });
-  
+
   const encuentrosOrdenados = encuentrosFuturos.sort((a, b) => {
     const fechaA = new Date(a.dateTime).getTime();
     const fechaB = new Date(b.dateTime).getTime();
@@ -34,56 +34,59 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion=true }) {
   };
 
   return (
-    <div className="encuentros-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <div className="encuentros-list">
-      {paginatedEncuentros.map((encuentro, index) => (
-        <div key={index} className="encuentro-card">
-          <div className="equipo-info">
-            <img
-              src={
-                encuentro.home.club.image
-                  ? imagePath(encuentro.home.club.image)
-                  : "/img/default_club.png"
-              }
-              alt={encuentro.home.club.name}
-            />
-            <h3>{encuentro.home.club.name}</h3>
-            <div className="vs">V/S</div>
-            <h3>{encuentro.away.club.name}</h3>
-            <img
-              src={
-                encuentro.away.club.image
-                  ? imagePath(encuentro.away.club.image)
-                  : "/img/default_club.png"
-              }
-              alt={encuentro.away.club.name}
-            />
+    <div
+      className="encuentros-container"
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <div className="encuentros-list">
+        {paginatedEncuentros.map((encuentro, index) => (
+          <div key={index} className="encuentro-card">
+            <div className="equipo-info">
+              <img
+                src={
+                  encuentro.home.club.image
+                    ? imagePath(encuentro.home.club.image)
+                    : "img/default_club.png"
+                }
+                alt={encuentro.home.club.name}
+              />
+              <h3>{encuentro.home.club.name}</h3>
+              <div className="vs">V/S</div>
+              <h3>{encuentro.away.club.name}</h3>
+              <img
+                src={
+                  encuentro.away.club.image
+                    ? imagePath(encuentro.away.club.image)
+                    : "img/default_club.png"
+                }
+                alt={encuentro.away.club.name}
+              />
+            </div>
+            <div className="fila2">
+              <span>{encuentro.league.name}</span>&emsp;-&emsp;
+              <span>{encuentro.place}</span>&emsp;-&emsp;
+              <span>{formatDateTime(encuentro.dateTime)}</span>
+            </div>
           </div>
-          <div className="fila2">
-            <span>{encuentro.league.name}</span>&emsp;-&emsp;
-            <span>{encuentro.place}</span>&emsp;-&emsp;
-            <span>{formatDateTime(encuentro.dateTime)}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-    <div>
-    {pageCount > 1 && (
-        <ReactPaginate
-          pageCount={pageCount}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageChange}
-          containerClassName={'pagination justify-content-center mt-3'}
-          activeClassName={'active'}
-          pageClassName={'page-item'}
-          pageLinkClassName={'page-link'}
-          previousClassName={'page-item'}
-          previousLinkClassName={'page-link'}
-          nextClassName={'page-item'}
-          nextLinkClassName={'page-link'}
-        />
-      )}
+        ))}
+      </div>
+      <div>
+        {pageCount > 1 && (
+          <ReactPaginate
+            pageCount={pageCount}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination justify-content-center mt-3"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+          />
+        )}
       </div>
     </div>
   );

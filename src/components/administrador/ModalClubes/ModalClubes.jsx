@@ -141,7 +141,7 @@ export const ModalClubes = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                <i className="fa-solid fa-phone"></i>
+                  <i className="fa-solid fa-phone"></i>
                 </span>
                 <input
                   type="text"
@@ -160,7 +160,7 @@ export const ModalClubes = () => {
               </label>
               <div className="input-group">
                 <span className="input-group-text">
-                <i className="fa-solid fa-image"></i>
+                  <i className="fa-solid fa-image"></i>
                 </span>
 
                 <input
@@ -187,7 +187,7 @@ export const ModalClubes = () => {
                 <img
                   className="m-auto d-block"
                   width="200px"
-                  src={imagePath(clubActivo?.image) || "/img/default_club.png"}
+                  src={imagePath(clubActivo?.image) || "img/default_club.png"}
                   alt="Upload preview"
                 />
               </p>

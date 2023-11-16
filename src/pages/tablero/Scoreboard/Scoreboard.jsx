@@ -7,6 +7,7 @@ import {
   Players,
   Score,
   ShortClock,
+  SpeakerIcon,
 } from "pages/tablero/components";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -60,7 +61,7 @@ export default function Scoreboard() {
       longClock.stop(time);
     });
     socket.on("startClock", ({ time }) => {
-      console.log("clock");
+      console.log("clock", time);
       longClock.start(time);
     });
     socket.on("resetClock", ({ time }) => longClock.reset(time));
@@ -103,7 +104,7 @@ export default function Scoreboard() {
 
   return (
     <div id="scoreboard">
-      {" "}
+      <SpeakerIcon />
       <button
         ref={soundBtnRef}
         className="invisibleButton"

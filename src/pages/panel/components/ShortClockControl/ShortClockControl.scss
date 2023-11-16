@@ -3,16 +3,16 @@
   flex-direction: column;
   height: 100%;
   button {
-    font-size: 0.9em;
+    font-size: 1.2em;
     width: 7em;
     display: inline-block;
     outline: 0;
     cursor: pointer;
     text-align: center;
     border: 0;
-    padding: 7px 9px;
-    min-height: 36px;
-    min-width: 36px;
+    width: 8em;
+    height: 2em;
+    padding: 0.2em 0em;
     color: #ffffff;
     border-radius: 4px;
     font-weight: 500;
@@ -39,7 +39,7 @@
       font-size: 3em;
     }
     .control_short-clock__direction-btn {
-      background-color: cornflowerblue;
+      background-color: #17a2b8;
       width: 3em;
     }
   }
@@ -51,15 +51,12 @@
     align-items: center;
     gap: 1em;
     .control_short-clock__resume-btn {
-      background: #17a2b8;
-    }
-    .control_short-clock__start-btn {
       background: #4caf50;
     }
     .control_short-clock__stop-btn {
       background: #dc3545;
     }
-    .control_short-clock__reset-btn {
+    .control_short-clock__run-btn {
       background: #fd7e14;
     }
   }
