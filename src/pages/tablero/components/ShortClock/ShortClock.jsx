@@ -45,7 +45,7 @@ export default function ShortClock({
         </span>
         <div id="scoreboard__short-clock__box">
           <span id="scoreboard__short-clock__time">
-            {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
+            {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
           </span>
         </div>
         <span

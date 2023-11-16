@@ -39,7 +39,7 @@ export const ShortClockControl = ({
           {"<"}
         </button>
         <span id="control_short-clock__time">
-          {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
+          {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
         </span>
         <button
           className="control_short-clock__direction-btn"
