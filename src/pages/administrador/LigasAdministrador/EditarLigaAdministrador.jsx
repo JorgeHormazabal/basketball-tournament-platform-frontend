@@ -57,7 +57,7 @@ export function EditarLigaAdministrador() {
   const borrarEstaLiga = (ligaActiva) => {
     setLigaActiva(ligaActiva);
     borrarLiga(ligaActiva);
-    navigate("/organizador/ligas");
+    navigate("/administrador/ligas");
   };
 
   const editarModal = (jugador) => {

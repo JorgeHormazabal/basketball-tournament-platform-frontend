@@ -25,7 +25,7 @@ export default function SidebarAdminitrador() {
         <NavItem className="unclickeable">
           <NavIcon>
             <img
-              className="sidenav--icon"
+              className="sidenav--icon w-25"
               src={
                 user.image ? imagePath(user.image) : "img/default_player.png"
               }
