@@ -14,7 +14,7 @@ import { useNavigate, useParams } from "react-router";
 import { socket } from "socket";
 import "./Scoreboard.scss";
 import { useBoardChronometer } from "hooks";
-import { Spinner } from "components";
+import { Spinner2 } from "components/Spinner/Spinner2";
 import { sumValuesAtIndex } from "helpers";
 import { useRef } from "react";
 
@@ -151,7 +151,7 @@ export default function Scoreboard() {
           />
         </div>
       ) : (
-        <Spinner />
+        <Spinner2 />
       )}
     </div>
   );

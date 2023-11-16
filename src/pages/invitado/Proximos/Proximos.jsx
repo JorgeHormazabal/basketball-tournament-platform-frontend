@@ -3,8 +3,10 @@ import { usePartidoStore } from "hooks";
 import { useEffect, useState } from "react";
 import { imagePath, formatDateTime } from "helpers";
 import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router";
 
 export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
 
@@ -41,6 +43,7 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
       <div className="encuentros-list">
         {paginatedEncuentros.map((encuentro, index) => (
           <div key={index} className="encuentro-card">
+            
             <div className="equipo-info">
               <img
                 src={
@@ -59,7 +62,6 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
                     ? imagePath(encuentro.away.club.image)
                     : "img/default_club.png"
                 }
-                alt={encuentro.away.club.name}
               />
             </div>
             <div className="fila2">
@@ -67,7 +69,11 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
               <span>{encuentro.place}</span>&emsp;-&emsp;
               <span>{formatDateTime(encuentro.dateTime)}</span>
             </div>
+            <div className="fila3 mt-3">
+            <button className="btn btn-success" onClick={() => navigate(`/tablero/${encuentro.id}`)}>Ver Marcado en vivo</button>
+            </div>
           </div>
+          
         ))}
       </div>
       <div>
@@ -94,7 +100,6 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
 
 export function Proximos() {
   const { partidos, cargarPartidos } = usePartidoStore();
-
   useEffect(() => {
     cargarPartidos();
   }, [cargarPartidos]);
@@ -104,7 +109,7 @@ export function Proximos() {
       <div className="titulos">
         <h1>Próximos Partidos</h1>
       </div>
-      <CardsProximos encuentros={partidos} />
+      <CardsProximos encuentros={partidos}/>
     </div>
   );
 }

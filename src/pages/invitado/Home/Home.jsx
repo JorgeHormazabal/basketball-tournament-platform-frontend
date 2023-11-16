@@ -1,5 +1,5 @@
 import "./home.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { usePartidoStore } from "hooks";
 import { useEffect } from "react"; 
 import { CardsProximos } from "..";
@@ -8,7 +8,6 @@ import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPos
 import { useLigaStore, useEstadisticaLigaEquipoStore } from "hooks";
 
 export function Home() {
-  const navigate = useNavigate();
   const { partidos, cargarPartidos } = usePartidoStore();
   const { cargarTodasLasLigas, ligas } = useLigaStore();
   const { estadisticasLigaEquipo, cargarTodasLasEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
@@ -30,8 +29,6 @@ export function Home() {
   };
   return (
     <>
-      <button onClick={() => navigate("/tablero/3")}>TABLERO--TEMPORAL</button>
-      <button onClick={() => navigate("/panel/3")}>PANEL--TEMPORAL</button>
       {/* HEADER  */}
 
       <div className="Home">

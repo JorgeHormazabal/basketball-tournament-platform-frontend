@@ -32,7 +32,7 @@ export default function ShortClock({
           id="scoreboard__short-clock__description"
           onClick={() => navigateShortClock("reloj/")}
         >
-          Reloj de posesión
+          Reloj de posesion
         </span>
       </div>
       <div id="scoreboard__short-clock__body">
