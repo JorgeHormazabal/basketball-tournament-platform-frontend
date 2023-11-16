@@ -22,7 +22,7 @@ export default function ShortClock({ isRunning, serverTime }) {
   }, [isRunning, serverTime]);
   return (
     <span id="shortclock__seconds">
-      {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
+      {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
     </span>
   );
 }
