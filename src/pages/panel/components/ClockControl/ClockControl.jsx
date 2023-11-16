@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./ClockControl.scss";
 
 export default function ClockControl({
@@ -7,6 +8,24 @@ export default function ClockControl({
   serverTime: time,
   adjust,
 }) {
+  const [newTime, setNewTime] = useState({
+    minutes: 10,
+    seconds: 0,
+  });
+  const onInputChanged = ({ target }) => {
+    setNewTime({
+      ...newTime,
+      [target.name]: target.value,
+    });
+  };
+  const onSubmit = () => {
+    reset(Number(newTime.minutes) * 60 + Number(newTime.seconds));
+    setNewTime({
+      minutes: 10,
+      seconds: 0,
+    });
+  };
+
   return (
     <div id="controlpanel__clock" className="grid-item">
       <span id="controlpanel__clock__title">Reloj</span>
@@ -36,8 +55,39 @@ export default function ClockControl({
         <button id="controlpanel__clock__stop-button" onClick={stop}>
           Parar
         </button>
-        <button id="controlpanel__clock__reset-button" onClick={reset}>
+        <button id="controlpanel__clock__reset-button" onClick={() => reset()}>
           Reset
+        </button>
+      </div>
+      <div id="controlpanel__clock__setter">
+        <div>
+          <label htmlFor="minutes">Minutos:</label>
+          <input
+            type="number"
+            id="minutes"
+            name="minutes"
+            min="0"
+            max="59"
+            value={newTime.minutes}
+            onChange={onInputChanged}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="seconds">Segundos:</label>
+          <input
+            type="number"
+            id="seconds"
+            name="seconds"
+            min="0"
+            max="59"
+            value={newTime.seconds}
+            onChange={onInputChanged}
+          />
+        </div>
+
+        <button id="startButton" onClick={onSubmit}>
+          Establecer
         </button>
       </div>
     </div>
