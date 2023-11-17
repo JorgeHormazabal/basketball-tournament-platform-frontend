@@ -52,7 +52,7 @@ export default function TablaPartidosOrganizador({
                 <td>
                   <button
                     className="btn btn-success"
-                    onClick={() => navigate(`/tablero/${objeto.id}`)}
+                    onClick={() => navigate(`/panel/${objeto.id}`)}
                   >
                     <i className="fa-solid fa-play"></i>
                   </button>
