@@ -10,11 +10,13 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
 
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
   const encuentrosFuturos = encuentros.filter((encuentro) => {
     const encuentroFecha = new Date(encuentro.dateTime).getTime();
-    const fechaActual = new Date().getTime();
-    console.log(encuentroFecha, fechaActual, encuentroFecha >= fechaActual);
-    return encuentroFecha >= fechaActual;
+    const fechaAyer = yesterday.getTime();
+    return encuentroFecha > fechaAyer;
   });
 
   const encuentrosOrdenados = encuentrosFuturos.sort((a, b) => {
@@ -82,7 +84,7 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
         ))}
       </div>
       <div>
-        {pageCount > 1 && (
+        {pageCount > 2 && (
           <ReactPaginate
             pageCount={pageCount}
             pageRangeDisplayed={5}

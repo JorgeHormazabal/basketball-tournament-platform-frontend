@@ -17,6 +17,7 @@
     "axios": "^1.5.0",
     "bootstrap": "^5.3.1",
     "chart.js": "^4.4.0",
+    "date-fn": "^0.0.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -37,9 +38,9 @@
     "socket.io-client": "^4.7.2",
     "sweetalert2": "^11.7.27",
     "sweetalert2-react-content": "^5.0.7",
-    "use-sound": "^4.0.1",
     "swiper": "^11.0.4",
-    "swiper-react": "^1.0.0"
+    "swiper-react": "^1.0.0",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

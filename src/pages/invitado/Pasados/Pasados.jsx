@@ -7,10 +7,13 @@ export function TablaPasados({ encuentros, limit, mostrarPaginacion = true }) {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 8;
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() - 1);
+
   const encuentrosPasados = encuentros.filter((encuentro) => {
     const encuentroFecha = new Date(encuentro.dateTime).getTime();
-    const fechaActual = new Date().getTime();
-    return encuentroFecha < fechaActual;
+    const fechaManiana = tomorrow.getTime();
+    return encuentroFecha < fechaManiana;
   });
 
   const encuentrosOrdenados = encuentrosPasados.sort((a, b) => {
