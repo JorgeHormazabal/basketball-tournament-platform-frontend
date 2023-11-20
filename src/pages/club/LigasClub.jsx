@@ -38,6 +38,7 @@ export function LigasClub() {
             equiposPaginados.map((equipo) => (
               <EstadisticaLigaTab
                 key={equipo.id}
+                id={equipo.id}
                 teamLeagueParticipations={equipo.teamLeagueParticipations}
                 division={equipo.division}
                 coach={equipo.coach}
@@ -52,14 +53,14 @@ export function LigasClub() {
               pageRangeDisplayed={5}
               marginPagesDisplayed={2}
               onPageChange={handlePageChange}
-              containerClassName={'pagination justify-content-center mt-3'}
-              activeClassName={'active'}
-              pageClassName={'page-item'}
-              pageLinkClassName={'page-link'}
-              previousClassName={'page-item'}
-              previousLinkClassName={'page-link'}
-              nextClassName={'page-item'}
-              nextLinkClassName={'page-link'}
+              containerClassName={"pagination justify-content-center mt-3"}
+              activeClassName={"active"}
+              pageClassName={"page-item"}
+              pageLinkClassName={"page-link"}
+              previousClassName={"page-item"}
+              previousLinkClassName={"page-link"}
+              nextClassName={"page-item"}
+              nextLinkClassName={"page-link"}
             />
           )}
         </div>

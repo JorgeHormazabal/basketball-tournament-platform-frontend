@@ -7,6 +7,7 @@ import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
 import { ModalJugador } from "components/club/ModalJugador/ModalJugador";
 import { ModalDetallesJugador } from "components/club/ModalDetallesJugador/ModalDetallesJugador";
+import { ModalEstadisticaJugador } from "components/club/ModalEstadisticaJugador/ModalEstadisticaJugador";
 
 export function JugadoresClub() {
   const {
@@ -34,6 +35,7 @@ export function JugadoresClub() {
     setJugadorActivo(null);
   };
   useEffect(() => {
+    console.log("cargarJugadoresDelClub");
     cargarJugadoresDelClub();
   });
 
@@ -57,14 +59,17 @@ export function JugadoresClub() {
             borrar={borrar}
             modalId={"modalJugador"}
             modalId2={"ModalDetallesJugador"}
+            modalIdEstadistica={"ModalEstadisticaJugador"}
             mostrarDetalles={true}
             mostrarEditar={false}
+            mostrarEstadistica={true}
             mostrarJugador={mostrarJugador}
           />
         )}
       </div>
       <ModalJugador />
       <ModalDetallesJugador />
+      <ModalEstadisticaJugador />
     </div>
   );
 }

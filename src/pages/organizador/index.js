@@ -1,2 +1,3 @@
+export { default as EditarLigaOrganizador } from './EditarLigaOrganizador';
 export { default as LigasOrganizador } from './LigasOrganizador';
-export { PerfilOrganizador } from './PerfilOrganizador';
+export * from './PerfilOrganizador';

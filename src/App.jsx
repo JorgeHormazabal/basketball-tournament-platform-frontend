@@ -14,17 +14,25 @@ import {
   Divisiones,
   Club,
   Organizador,
+  LigasAdministrador,
+  EditarLigaAdministrador,
 } from "pages/administrador/";
-import { PerfilClub, JugadoresClub, EquiposClub, LigasClub } from "pages/club/";
+import {
+  PerfilClub,
+  JugadoresClub,
+  EquiposClub,
+  LigasClub,
+  EstadisticaPartido,
+  Estadisticas,
+} from "pages/club/";
 import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
-import { PerfilOrganizador, LigasOrganizador } from "pages/organizador/";
-import { Estadisticas } from "pages/club/Estadisticas";
-import { LigasAdministrador } from "pages/administrador/LigasAdministrador/LigasAdministrador";
-import { EditarLigaAdministrador } from "pages/administrador/LigasAdministrador/EditarLigaAdministrador";
-import EditarLigaOrganizador from "pages/organizador/EditarLigaOrganizador";
+import {
+  PerfilOrganizador,
+  LigasOrganizador,
+  EditarLigaOrganizador,
+} from "pages/organizador/";
 import Scoreboard from "pages/tablero/Scoreboard/Scoreboard";
 import ControlPanel from "pages/panel/ControlPanel/ControlPanel";
-import ShortClock from "pages/relojPosesion/ShortClock/ShortClock";
 import ShortClockContainer from "pages/relojPosesion/ShortClockContainer/ShortClockContainer";
 
 const PublicLayout = () => {
@@ -42,8 +50,8 @@ const PublicLayout = () => {
 const ClubLayout = () => {
   return (
     <div className="pages">
-      <SidebarClub className="sidebar"/>
-      <Outlet className="outlet"/>
+      <SidebarClub className="sidebar" />
+      <Outlet className="outlet" />
     </div>
   );
 };
@@ -51,8 +59,8 @@ const ClubLayout = () => {
 const OrganizadorLayout = () => {
   return (
     <div className="pages">
-      <SidebarOrganizador className="sidebar"/>
-      <Outlet className="outlet"/>
+      <SidebarOrganizador className="sidebar" />
+      <Outlet className="outlet" />
     </div>
   );
 };
@@ -60,8 +68,8 @@ const OrganizadorLayout = () => {
 const AdminLayout = () => {
   return (
     <div className="pages">
-      <SidebarAdministrador className="sidebar"/>
-      <Outlet className="outlet"/>
+      <SidebarAdministrador className="sidebar" />
+      <Outlet className="outlet" />
     </div>
   );
 };
@@ -131,6 +139,10 @@ const router = createBrowserRouter(
             {
               path: "estadisticas",
               element: <Estadisticas />,
+            },
+            {
+              path: "estadistica-partido/:equipoId/:partidoId",
+              element: <EstadisticaPartido />,
             },
           ],
         },

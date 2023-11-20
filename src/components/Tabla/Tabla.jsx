@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ReactPaginate from 'react-paginate';
+import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
 import { MagicMotion } from "react-magic-motion";
 
 export default function Tabla({
@@ -10,9 +10,13 @@ export default function Tabla({
   borrar,
   modalId,
   modalId2,
+  modalIdEstadistica,
+  modalIdInformeEquipo,
   mostrarJugador,
   mostrarEditar = true,
+  mostrarEstadistica,
   mostrarDetalles = false,
+  mostrarInformeEquipo,
   elementosPorPagina = 12,
 }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -56,7 +60,9 @@ export default function Tabla({
                   </th>
                   {filas.map((propiedad) => (
                     <td key={propiedad} className="pt-2 text-start">
-                      {propiedad === 'password' ? '* * * * * * * *' : objeto[propiedad]}
+                      {propiedad === "password"
+                        ? "* * * * * * * *"
+                        : objeto[propiedad]}
                     </td>
                   ))}
                   <td className="align-items-center justify-content-center">
@@ -81,6 +87,27 @@ export default function Tabla({
                           <i className="fa-solid fa-edit"></i> Editar
                         </button>
                       )}
+                      {mostrarInformeEquipo && (
+                        <button
+                          className="btn btn-info"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#${modalIdInformeEquipo}`}
+                          onClick={() => editar(objeto)}
+                        >
+                          <i className="fa-solid fa-edit"></i> Informe
+                          Estadisticas
+                        </button>
+                      )}
+                      {mostrarEstadistica && (
+                        <button
+                          className="btn btn-info"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#${modalIdEstadistica}`}
+                          onClick={() => editar(objeto)}
+                        >
+                          <i className="fa-solid fa-edit"></i> Estadisticas
+                        </button>
+                      )}
                       <button
                         onClick={() => borrar(objeto)}
                         className="btn btn-danger"
@@ -100,14 +127,14 @@ export default function Tabla({
             pageRangeDisplayed={5}
             marginPagesDisplayed={2}
             onPageChange={handlePageChange}
-            containerClassName={'pagination justify-content-center mt-3'}
-            activeClassName={'active'}
-            pageClassName={'page-item'}
-            pageLinkClassName={'page-link'}
-            previousClassName={'page-item'}
-            previousLinkClassName={'page-link'}
-            nextClassName={'page-item'}
-            nextLinkClassName={'page-link'}
+            containerClassName={"pagination justify-content-center mt-3"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
           />
         )}
       </div>

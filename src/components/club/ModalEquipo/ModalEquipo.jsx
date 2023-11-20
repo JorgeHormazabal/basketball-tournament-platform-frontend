@@ -27,7 +27,7 @@ export const ModalEquipo = () => {
     if (equipoActivo !== null) {
       setFormValues({
         ...equipoActivo,
-        clubId: equipoActivo.club.id,
+        //clubId: equipoActivo.club.id,
         divisionId: equipoActivo.division.id,
       });
     } else {
@@ -142,7 +142,7 @@ export const ModalEquipo = () => {
 
             <div className="d-grid col-6 mx-auto">
               <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar jugadora
+                <i className="fa-solid fa-floppy-disk"></i> Guardar equipo
               </button>
             </div>
           </form>

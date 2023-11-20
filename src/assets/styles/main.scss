@@ -33,6 +33,10 @@ $body-color: $primary_headline;
 .btn-danger {
   --bs-btn-color: #fffffe;
 }
+.btn-info {
+  color: white;
+  --bs-btn-bg: #0099ff;
+}
 .modal-header {
   color: #000000;
 }

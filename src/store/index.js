@@ -2,6 +2,7 @@ export * from './auth/authSlice';
 export * from './club/clubSlice';
 export * from './division/divisionSlice';
 export * from './equipo/equipoSlice';
+export * from './estadisticaJugador/estadisticaJugadorSlice';
 export * from './estadisticaLigaEquipo/estadisticaLigaEquipoSlice';
 export * from './jugador/jugadorSlice';
 export * from './liga/ligaSlice';

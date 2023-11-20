@@ -66,33 +66,32 @@ export const useJugadorStore = () => {
   const borrarJugador = async (jugador) => {
     try {
       const result = await Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'No podrás revertir esta acción.',
-        icon: 'warning',
+        title: "¿Estás seguro?",
+        text: "No podrás revertir esta acción.",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, borrar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (result.isConfirmed) {
         await backendApi.delete(`/players/${jugador.id}`);
         await dispatch(onDeleteEvent());
-  
+
         Swal.fire({
-          icon: 'success',
-          title: 'Jugador borrado',
+          icon: "success",
+          title: "Jugador borrado",
           showConfirmButton: false,
           timer: 1500,
         });
       }
     } catch (error) {
       console.log(error);
-      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+      Swal.fire("Error al eliminar", error.response.data.msg, "error");
     }
   };
-  
 
   const cargarJugadores = async () => {
     try {
@@ -111,10 +110,12 @@ export const useJugadorStore = () => {
 
   const cargarJugadoresDeUnClub = async (clubActivo) => {
     try {
+      console.log("s");
       const { data } = await backendApi.get(`/clubs/players/${clubActivo.id}`);
       data.forEach((player) => {
         player.displayBirthdate = formatDate(player.birthdate);
       });
+      console.log(data);
       dispatch(onLoadEvents(data));
     } catch (error) {
       console.log("Error cargando jugadores");
@@ -144,7 +145,28 @@ export const useJugadorStore = () => {
           return team.players;
         })
         .flat();
+      console.log(99, players);
       dispatch(onLoadEvents(players));
+    } catch (error) {
+      console.log("Error cargando jugadores");
+      console.log(error);
+    }
+  };
+
+  const cargarJugadoresDelEquipoEstadisticas = async (id) => {
+    try {
+      const { data } = await backendApi.get(`/players/team/${id}`);
+      const initializedPlayers = data.map((player) => ({
+        id: player.id,
+        name: player.name,
+        shirtNumber: player.shirtNumber,
+        turnovers: 0,
+        offensiveRebounds: 0,
+        defensiveRebounds: 0,
+        assists: 0,
+        losses: 0,
+      }));
+      dispatch(onLoadEvents(initializedPlayers));
     } catch (error) {
       console.log("Error cargando jugadores");
       console.log(error);
@@ -166,5 +188,6 @@ export const useJugadorStore = () => {
     cargarJugadoresDelClub,
     cargarJugadoresDeUnClub,
     limpiarJugador,
+    cargarJugadoresDelEquipoEstadisticas,
   };
 };

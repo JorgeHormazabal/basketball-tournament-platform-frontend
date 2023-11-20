@@ -6,6 +6,7 @@ import Tabla from "components/Tabla/Tabla";
 import Spinner from "components/Spinner/Spinner";
 import { useEquipoStore } from "hooks/useEquipoStore";
 import { ModalEquipo } from "components/club/ModalEquipo/ModalEquipo";
+import { ModalInformeEquipo } from "components/club/ModalInformeEquipo/ModalInformeEquipo";
 
 export function EquiposClub() {
   const {
@@ -16,13 +17,13 @@ export function EquiposClub() {
     isLoading,
   } = useEquipoStore();
 
-  const borrar = (club) => {
-    setEquipoActivo(club);
-    borrarEquipo(club);
+  const borrar = (equipo) => {
+    setEquipoActivo(equipo);
+    borrarEquipo(equipo);
   };
 
-  const editarModal = (club) => {
-    setEquipoActivo(club);
+  const editarModal = (equipo) => {
+    setEquipoActivo(equipo);
   };
   const abrirModal = () => {
     setEquipoActivo(null);
@@ -51,10 +52,13 @@ export function EquiposClub() {
             editar={editarModal}
             borrar={borrar}
             modalId={"modalEquipo"}
+            modalIdInformeEquipo={"modalGenerarExcel"}
+            mostrarInformeEquipo={true}
           />
         )}
       </div>
       <ModalEquipo />
+      <ModalInformeEquipo />
     </div>
   );
 }
