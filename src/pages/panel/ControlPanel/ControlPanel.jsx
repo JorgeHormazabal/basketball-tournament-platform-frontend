@@ -1,9 +1,9 @@
 import { useParams } from "react-router";
 import "./ControlPanel.scss";
 import { socket } from "socket";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePanelChronometer } from "hooks";
-import { ensureObjectAtIndex } from "helpers";
+import { addPlayerPointsFull, ensureObjectAtIndex } from "helpers";
 import Swal from "sweetalert2";
 import {
   Team,
@@ -35,11 +35,13 @@ let internalState = emptyMatch;
 
 export default function ControlPanel() {
   const params = useParams();
-  const matchId = params.matchId;
   const [matchInfo, setMatchInfo] = useState(emptyMatch);
   const buzzer = () => socket.emit("playBuzzer", {});
   const shortChronometer = usePanelChronometer(24, buzzer);
   const longChronometer = usePanelChronometer(600, buzzer);
+  const [normalDirection, setNormalDirection] = useState(true);
+  const playersPoints = useRef({});
+  const matchId = params.matchId;
 
   const start = () => {
     const time = longChronometer.resume();
@@ -122,6 +124,10 @@ export default function ControlPanel() {
   };
 
   const updatePointsHome = (id, incrementalValue) => {
+    const position = Math.abs(incrementalValue) - 1;
+    playersPoints.current.homePlayersPointsFull[id][position] +=
+      incrementalValue > 0 ? 1 : -1;
+
     const updatedPoints = { ...matchInfo.homePlayersPoints };
     updatedPoints[id] += incrementalValue;
     updateAndEmit("homePlayersPoints", updatedPoints);
@@ -129,24 +135,30 @@ export default function ControlPanel() {
   };
 
   const updatePointsAway = (id, incrementalValue) => {
+    const position = Math.abs(incrementalValue) - 1;
+    playersPoints.current.awayPlayersPointsFull[id][position] +=
+      incrementalValue > 0 ? 1 : -1;
+
     const updatedPoints = { ...matchInfo.awayPlayersPoints };
     updatedPoints[id] += incrementalValue;
     updateAndEmit("awayPlayersPoints", updatedPoints);
     updateAndEmit("awayPoints", matchInfo.awayPoints + incrementalValue);
   };
 
-  const saveMatch = () =>
+  const saveMatch = () => {
     socket.emit("saveMatch", {
       matchId,
       awayPoints: matchInfo.awayPoints,
       awayPlayersFaults: matchInfo.awayPlayersFaults,
-      awayPlayersPoints: matchInfo.awayPlayersPoints,
+      awayPlayersPointsFull: playersPoints.current.awayPlayersPointsFull,
       homePoints: matchInfo.homePoints,
       homePlayersFaults: matchInfo.homePlayersFaults,
-      homePlayersPoints: matchInfo.homePlayersPoints,
+      homePlayersPointsFull: playersPoints.current.homePlayersPointsFull,
     });
+  };
 
   const initMatchInfo = (info) => {
+    playersPoints.current = addPlayerPointsFull(info);
     setMatchInfo(info);
     internalState = info;
   };
@@ -193,12 +205,21 @@ export default function ControlPanel() {
     <div id="controlpanel">
       <div id="controlpanel__content">
         <Team
-          elementId="controlpanel__team-home"
+          elementId={
+            normalDirection
+              ? "controlpanel__team-home"
+              : "controlpanel__team-away"
+          }
           role="Local"
           name={matchInfo.home}
+          points={matchInfo.homePoints}
         />
         <ActivePlayers
-          elementId="controlpanel__home-active-players"
+          elementId={
+            normalDirection
+              ? "controlpanel__home-active-players"
+              : "controlpanel__away-active-players"
+          }
           activePlayers={matchInfo.activeHomePlayers}
           players={matchInfo.homePlayers}
           update={updateAndEmit}
@@ -206,12 +227,17 @@ export default function ControlPanel() {
           updatePoints={updatePointsHome}
         />
         <PlayerList
-          elementId="control__home-players-list"
+          elementId={
+            normalDirection
+              ? "control__home-players-list"
+              : "control__away-players-list"
+          }
           players={matchInfo.homePlayers}
           points={matchInfo.homePlayersPoints}
           fouls={matchInfo.homePlayersFaults}
         />
         <ClockControl
+          setNormalDirection={setNormalDirection}
           start={start}
           stop={stop}
           reset={reset}
@@ -219,9 +245,14 @@ export default function ControlPanel() {
           serverTime={longChronometer.displayTime}
         />
         <Team
-          elementId="controlpanel__team-away"
+          elementId={
+            normalDirection
+              ? "controlpanel__team-away"
+              : "controlpanel__team-home"
+          }
           role="Visita"
           name={matchInfo.away}
+          points={matchInfo.awayPoints}
         />
         <ShortClockControl
           start={startShort}
@@ -232,7 +263,11 @@ export default function ControlPanel() {
         <PeriodControl period={matchInfo.period} update={updateAndEmit} />
         <ActionControlPanel buzzer={buzzer} saveMatch={saveMatch} />
         <ActivePlayers
-          elementId="controlpanel__away-active-players"
+          elementId={
+            normalDirection
+              ? "controlpanel__away-active-players"
+              : "controlpanel__home-active-players"
+          }
           activePlayers={matchInfo.activeAwayPlayers}
           players={matchInfo.awayPlayers}
           update={updateAndEmit}
@@ -240,7 +275,11 @@ export default function ControlPanel() {
           updatePoints={updatePointsAway}
         />
         <PlayerList
-          elementId="control__away-players-list"
+          elementId={
+            normalDirection
+              ? "control__away-players-list"
+              : "control__home-players-list"
+          }
           players={matchInfo.awayPlayers}
           points={matchInfo.awayPlayersPoints}
           fouls={matchInfo.awayPlayersFaults}

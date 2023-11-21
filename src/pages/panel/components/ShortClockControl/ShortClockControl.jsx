@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ShortClockControl.scss";
+import { msToSeconds } from "helpers";
 
 export const ShortClockControl = ({
   start,
@@ -38,9 +39,7 @@ export const ShortClockControl = ({
         >
           {"<"}
         </button>
-        <span id="control_short-clock__time">
-          {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
-        </span>
+        <span id="control_short-clock__time">{msToSeconds(time)}</span>
         <button
           className="control_short-clock__direction-btn"
           onClick={handleDirectionRight}

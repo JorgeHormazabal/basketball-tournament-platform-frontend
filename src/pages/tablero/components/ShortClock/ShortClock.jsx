@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import "./ShortClock.scss";
+import { msToSeconds } from "helpers";
 
 export default function ShortClock({
   isRunning,
   serverTime,
   navigateShortClock,
   direction,
+  reset,
 }) {
   const [time, setTime] = useState(serverTime);
 
   useEffect(() => {
+    console.log("serverTime", serverTime);
     setTime(serverTime);
     let interval;
     if (isRunning) {
@@ -24,7 +27,7 @@ export default function ShortClock({
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isRunning, serverTime]);
+  }, [isRunning, serverTime, reset]);
   return (
     <div className="timer" id="scoreboard__short-clock">
       <div id="scoreboard__short-clock__header">
@@ -44,9 +47,7 @@ export default function ShortClock({
           {"<"}
         </span>
         <div id="scoreboard__short-clock__box">
-          <span id="scoreboard__short-clock__time">
-            {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
-          </span>
+          <span id="scoreboard__short-clock__time">{msToSeconds(time)}</span>
         </div>
         <span
           className={`scoreboard__short-clock__direction ${

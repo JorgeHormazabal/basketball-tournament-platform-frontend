@@ -1,12 +1,24 @@
 .controlpanel__team {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  .controlpanel__team__role {
-    font-size: 2.5em;
+  div {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .controlpanel__team__role {
+      font-size: 2.5em;
+    }
+    .controlpanel__team__name {
+      font-size: 2.8em;
+    }
   }
-  .controlpanel__team__name {
-    font-size: 2.8em;
+  .controlpanel__team__points {
+    font-size: 6em;
+    width: 20%;
+    text-align: center;
   }
 }

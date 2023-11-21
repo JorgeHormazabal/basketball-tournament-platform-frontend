@@ -26,9 +26,7 @@ export default function ActivePlayers({
       <table>
         <thead>
           <tr>
-            <th className="controlpanel_active-players__col1">
-              Jugadores activos
-            </th>
+            <th className="controlpanel_active-players__col1">Jugadores</th>
             <th className="controlpanel_active-players__col2">Puntaje</th>
             <th className="controlpanel_active-players__col3">Faltas</th>
           </tr>

@@ -15,7 +15,7 @@ button {
     margin: 0;
     display: grid;
     grid-template-columns: 30% 38% 30%;
-    grid-template-rows: repeat(2, 0.5fr) repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1.1fr) repeat(4, 1fr);
     grid-column-gap: 1%;
     grid-row-gap: 16px;
     .grid-item {

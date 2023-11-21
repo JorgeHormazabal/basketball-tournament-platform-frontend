@@ -39,6 +39,7 @@ export default function Scoreboard() {
   const navigateShortClock = (route) => navigate(route);
   const longClock = useBoardChronometer(600);
   const [hasReceivedState, setHasReceivedState] = useState(false);
+  const [resetShort, setResetShort] = useState(false);
   const [playBuzzer] = useSound(buzzer);
   const soundBtnRef = useRef(null);
 
@@ -67,14 +68,18 @@ export default function Scoreboard() {
     socket.on("resetClock", ({ time }) => longClock.reset(time));
     //SHORT
     socket.on("startShort", ({ shortTime: time }) => {
+      console.log("start", time);
       setShortTime(time);
       setIsShortRunning(true);
+      setResetShort((previus) => !previus);
     });
     socket.on("stopShort", ({ shortTime: time }) => {
+      console.log("stop", time);
       setIsShortRunning(false);
       setShortTime(time);
     });
     socket.on("resetShort", ({ shortTime: time }) => {
+      console.log("reset", time);
       setIsShortRunning(false);
       setShortTime(time);
     });
@@ -128,6 +133,7 @@ export default function Scoreboard() {
             serverTime={shortTime}
             navigateShortClock={navigateShortClock}
             direction={state.direction}
+            reset={resetShort}
           />
           <Faults
             elementId="scoreboard__homeFaults"
