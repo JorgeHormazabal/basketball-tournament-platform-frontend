@@ -11,7 +11,7 @@ export const ModalEstadisticaJugador = () => {
   useEffect(() => {}, [jugadorActivo]);
   const calculateTotalPoints = (estadistica) => {
     return (
-      estadistica.points + estadistica.doubleDoubles + estadistica.threePointers
+      estadistica.freeThrows + estadistica.doubleDoubles + estadistica.threePointers
     );
   };
 
@@ -50,7 +50,7 @@ export const ModalEstadisticaJugador = () => {
                     <th>Equipo Local</th>
                     <th>Equipo Visitante</th>
                     <th>Faltas</th>
-                    <th>Puntos</th>
+                    <th>Tiros libres</th>
                     <th>Dobles Dobles</th>
                     <th>Triples</th>
                     <th>Pérdidas</th>
@@ -75,7 +75,7 @@ export const ModalEstadisticaJugador = () => {
                         <td>{estadistica.match.home.club.name}</td>
                         <td>{estadistica.match.away.club.name}</td>
                         <td>{estadistica.fouls}</td>
-                        <td>{estadistica.points}</td>
+                        <td>{estadistica.freeThrows}</td>
                         <td>{estadistica.doubleDoubles}</td>
                         <td>{estadistica.threePointers}</td>
                         <td>{estadistica.turnovers}</td>
