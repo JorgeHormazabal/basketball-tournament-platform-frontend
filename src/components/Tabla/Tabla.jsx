@@ -94,7 +94,7 @@ export default function Tabla({
                           data-bs-target={`#${modalIdInformeEquipo}`}
                           onClick={() => editar(objeto)}
                         >
-                          <i className="fa-solid fa-edit"></i> Informe
+                          <i className="fa-solid fa-chart-simple"></i> Informe
                           Estadisticas
                         </button>
                       )}
@@ -105,7 +105,7 @@ export default function Tabla({
                           data-bs-target={`#${modalIdEstadistica}`}
                           onClick={() => editar(objeto)}
                         >
-                          <i className="fa-solid fa-edit"></i> Estadisticas
+                          <i className="fa-solid fa-chart-simple"></i> Estadisticas
                         </button>
                       )}
                       <button

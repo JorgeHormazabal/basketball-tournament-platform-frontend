@@ -23,7 +23,6 @@ import {
   EquiposClub,
   LigasClub,
   EstadisticaPartido,
-  Estadisticas,
 } from "pages/club/";
 import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
 import {
@@ -135,10 +134,6 @@ const router = createBrowserRouter(
             {
               path: "ligas",
               element: <LigasClub />,
-            },
-            {
-              path: "estadisticas",
-              element: <Estadisticas />,
             },
             {
               path: "estadistica-partido/:equipoId/:partidoId",

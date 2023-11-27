@@ -30,12 +30,6 @@ export const SidebarData = [
     cName: "nav-text",
   },
   {
-    title: "Estadísticas",
-    path: "/club/estadisticas",
-    icon: <VscGraphLine style={{ fontSize: "1.75em" }} />,
-    cName: "nav-text",
-  },
-  {
     title: "Salir",
     path: "/",
     icon: <FiLogOut style={{ fontSize: "1.75em" }} />,
