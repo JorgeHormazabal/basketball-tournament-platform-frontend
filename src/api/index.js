@@ -1,1 +1,2 @@
-export { default as backendApi } from "./backendApi";
+export { default as backendApi } from './backendApi';
+export * from './socket';

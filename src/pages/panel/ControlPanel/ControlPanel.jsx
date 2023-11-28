@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import "./ControlPanel.scss";
-import { socket } from "socket";
 import { useEffect, useRef, useState } from "react";
 import { usePanelChronometer } from "hooks";
 import { addPlayerPointsFull, ensureObjectAtIndex } from "helpers";
@@ -14,6 +13,7 @@ import {
   PeriodControl,
   ActionControlPanel,
 } from "pages/panel/components";
+import { socket } from "api";
 
 const emptyMatch = {
   activeAwayPlayers: [],

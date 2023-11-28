@@ -11,12 +11,12 @@ import {
 } from "pages/tablero/components";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { socket } from "socket";
 import "./Scoreboard.scss";
 import { useBoardChronometer } from "hooks";
 import { Spinner2 } from "components/Spinner/Spinner2";
 import { sumValuesAtIndex } from "helpers";
 import { useRef } from "react";
+import { socket } from "api";
 
 export default function Scoreboard() {
   const params = useParams();
