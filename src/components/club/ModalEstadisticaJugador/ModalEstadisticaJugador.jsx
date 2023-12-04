@@ -11,7 +11,9 @@ export const ModalEstadisticaJugador = () => {
   useEffect(() => {}, [jugadorActivo]);
   const calculateTotalPoints = (estadistica) => {
     return (
-      estadistica.freeThrows + estadistica.doubleDoubles + estadistica.threePointers
+      estadistica.freeThrows +
+      estadistica.doubleDoubles +
+      estadistica.threePointers
     );
   };
 
@@ -63,10 +65,9 @@ export const ModalEstadisticaJugador = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {jugadorActivo?.playersStatistics.map(
+                  {jugadorActivo?.playersStatistics?.map(
                     (estadistica, index) => (
                       <tr key={index}>
-                        {console.log(estadistica)}
                         <td>
                           {new Date(
                             estadistica.match.dateTime

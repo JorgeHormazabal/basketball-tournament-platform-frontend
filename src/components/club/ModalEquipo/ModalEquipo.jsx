@@ -11,7 +11,7 @@ const equipoVacio = {
 };
 
 export const ModalEquipo = () => {
-  const { equipoActivo, guardarEquipo } = useEquipoStore();
+  const { equipoActivo, guardarEquipo, setEquipoActivo } = useEquipoStore();
   const { cargarDivisiones, divisiones } = useDivisionStore();
   const { cargarClubes, clubes } = useClubStore();
   const [formValues, setFormValues] = useState(equipoVacio);
@@ -48,6 +48,7 @@ export const ModalEquipo = () => {
   };
 
   const onClose = () => {
+    setEquipoActivo(null);
     setFormValues(equipoVacio);
   };
 

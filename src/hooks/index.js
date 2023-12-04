@@ -4,6 +4,7 @@ export * from './useCleanStore';
 export * from './useClubStore';
 export * from './useDivisionStore';
 export * from './useEquipoStore';
+export * from './useEstadisticaJugadores';
 export * from './useEstadisticaLigaEquipoStore';
 export * from './useForm';
 export * from './useJugadorStore';

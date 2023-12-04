@@ -1,6 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import { useDivisionStore } from "hooks/useDivisionStore";
 import "./ModalDivision.scss";
+import { useForm } from "react-hook-form";
+import TextInput from "components/form/TextInput/TextInput";
+import ModalHeader from "components/form/ModalHeader/ModalHeader";
+import ModalFooter from "components/form/ModalFooter/ModalFooter";
+import ModalSave from "components/form/ModalSave/ModalSave";
 
 const divisionVacio = {
   id: "",
@@ -8,91 +13,56 @@ const divisionVacio = {
 };
 
 export const ModalDivision = () => {
-  const { divisionActiva, guardarDivision } = useDivisionStore();
-  const [formValues, setFormValues] = useState(divisionVacio);
+  const { divisionActiva, guardarDivision, setDivisionActivo } =
+    useDivisionStore();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
   const titulo = useMemo(
     () => (divisionActiva === null ? "Nuevo division" : "Editar division"),
     [divisionActiva]
   );
+  const onSubmit = async (data) => {
+    await guardarDivision(data);
+  };
+  const onClose = () => {
+    setDivisionActivo(null);
+    reset({ ...divisionVacio });
+  };
 
   useEffect(() => {
     if (divisionActiva !== null) {
-      setFormValues({ ...divisionActiva });
+      reset({ ...divisionActiva });
     } else {
-      setFormValues(divisionVacio);
+      reset({ ...divisionVacio });
     }
   }, [divisionActiva]);
-
-  const onInputChanged = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    await guardarDivision(formValues);
-  };
-
-  const onClose = () => {
-    setFormValues(divisionVacio);
-  };
 
   return (
     <div id="modalDivision" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="close"
-              onClick={onClose}
-            ></button>
-          </div>
-          <form className="modal-body" onSubmit={onSubmit}>
-            <input type="hidden" id="id" />
-            <div className="mb-3">
-              <label htmlFor="categoria" className="form-label">
-                Categoria
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <input
-                  type="text"
-                  id="categoria"
-                  className="form-control"
-                  placeholder="Categoria"
-                  value={formValues.category}
-                  name="category"
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
+          <ModalHeader titulo={titulo} onClose={onClose} />
+          <form className="modal-body" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" id="id" {...register("id")} />
 
-            <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar division
-              </button>
-            </div>
+            <TextInput
+              label="Categoria"
+              placeholder="Sub-18"
+              icon="fa-solid fa-user"
+              register={register}
+              errors={errors}
+              name="category"
+              validation={{ required: true }}
+            />
+
+            <ModalSave />
           </form>
-          <div className="modal-footer">
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-              onClick={onClose}
-            >
-              Cerrar
-            </button>
-          </div>
+          <ModalFooter onClose={onClose} />
         </div>
       </div>
     </div>

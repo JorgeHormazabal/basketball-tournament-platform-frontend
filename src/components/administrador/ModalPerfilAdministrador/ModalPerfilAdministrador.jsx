@@ -1,17 +1,28 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import "./ModalPerfilAdministrador.scss";
 import { useAuthStore } from "hooks";
 import { objectToFormData } from "helpers";
+import useImageInput from "hooks/useImageInput";
+import { useForm } from "react-hook-form";
+import {
+  ModalFooter,
+  ModalHeader,
+  ModalImageInput,
+  ModalSave,
+  TextInput,
+} from "components/form";
 
 export const ModalPerfilAdministrador = () => {
   const { user: administrador, updateAdministradorProfile } = useAuthStore();
-  const [formValues, setFormValues] = useState({
-    name: "",
-    password: "",
-    phone: "",
-  });
-  const [file, setFile] = useState();
-  const [preview, setPreview] = useState(null);
+  const { file, preview, onCloseImageInput, handleOnChangeImage } =
+    useImageInput();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    getValues,
+  } = useForm();
 
   const titulo = useMemo(
     () =>
@@ -20,155 +31,77 @@ export const ModalPerfilAdministrador = () => {
   );
 
   useEffect(() => {
-    setFormValues({
+    reset({
       name: administrador.name || "",
       password: administrador.password || "",
       phone: administrador.phone || "",
     });
   }, []);
 
-  const onInputChanged = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
+  const onClose = () => {
+    onCloseImageInput();
+    //reset(clubVacio);
   };
 
-  const handleOnChangeImage = ({ target }) => {
-    setFile(target.files[0]);
-    const file = new FileReader();
-    file.onload = function () {
-      setPreview(file.result);
-    };
-    file.readAsDataURL(target.files[0]);
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    const data = objectToFormData(formValues, true);
-    if (file) data.append("file", file);
-    updateAdministradorProfile(data);
+  const onSubmit = async (data) => {
+    const dataForm = objectToFormData(data, true);
+    if (file) dataForm.append("file", file);
+    updateAdministradorProfile(dataForm);
   };
 
   return (
     <div id="modalAdministrador" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="close"
-            ></button>
-          </div>
-          <form className="modal-body" onSubmit={onSubmit}>
-            <input type="hidden" id="id" />
-            <div className="mb-3">
-              <label htmlFor="nombre" className="form-label">
-                Nombre del administrador
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <input
-                  type="text"
-                  id="nombre"
-                  className="form-control"
-                  placeholder="Nombre del administrador"
-                  value={formValues.name}
-                  name="name"
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
+          <ModalHeader titulo={titulo} onClose={onClose} />
+          <form className="modal-body" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" id="id" {...register("id")} />
 
-            <div className="mb-3">
-              <label htmlFor="clave" className="form-label">
-                Contraseña del administrador
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
-                </span>
-                <input
-                  type="text"
-                  id="clave"
-                  name="password"
-                  className="form-control"
-                  placeholder="Contraseña del administrador"
-                  value={formValues.password}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="phone" className="form-label">
-                Numero del administrador
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <input
-                  type="text"
-                  id="phone"
-                  className="form-control"
-                  placeholder="Numero del administrador"
-                  value={formValues.phone}
-                  name="phone"
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="clave" className="form-label">
-                Logo
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
-                </span>
+            <TextInput
+              label="Nombre"
+              placeholder="Nombre"
+              icon="fa-solid fa-user"
+              register={register}
+              errors={errors}
+              name="name"
+              validation={{ required: true }}
+            />
 
-                <input
-                  id="file"
-                  type="file"
-                  name="file"
-                  accept="image/png, image/jpg, image/jpeg"
-                  onChange={handleOnChangeImage}
-                />
-              </div>
-            </div>
-            {preview && (
-              <p>
-                <img
-                  className="m-auto d-block"
-                  width="200px"
-                  src={preview}
-                  alt="Upload preview"
-                />
-              </p>
-            )}
+            <TextInput
+              label="Contraseña"
+              placeholder="Contraseña"
+              icon="fa-solid fa-key"
+              register={register}
+              errors={errors}
+              type="password"
+              tip="La clave debe tener al menos 6 caracteres"
+              name="password"
+              validation={{ required: false, minLength: 6 }}
+            />
+            <TextInput
+              label="Numero"
+              placeholder="9123456789"
+              icon="fa-solid fa-user"
+              register={register}
+              errors={errors}
+              name="phone"
+              validation={{ required: false }}
+            />
 
-            <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar
-                administrador
-              </button>
-            </div>
+            <ModalImageInput
+              title="Logo"
+              handleOnChangeImage={handleOnChangeImage}
+              preview={preview}
+              image={
+                administrador?.image
+                  ? administrador.image
+                  : "img/default_club.png"
+              }
+            />
+
+            <ModalSave />
           </form>
-          <div className="modal-footer">
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
+          <ModalFooter onClose={onClose} />
         </div>
       </div>
     </div>

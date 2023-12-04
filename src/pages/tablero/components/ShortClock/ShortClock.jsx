@@ -12,7 +12,6 @@ export default function ShortClock({
   const [time, setTime] = useState(serverTime);
 
   useEffect(() => {
-    console.log("serverTime", serverTime);
     setTime(serverTime);
     let interval;
     if (isRunning) {

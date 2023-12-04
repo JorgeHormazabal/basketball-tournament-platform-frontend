@@ -47,7 +47,6 @@ export function CardsProximos({ encuentros, limit, mostrarPaginacion = true }) {
         {paginatedEncuentros.map((encuentro, index) => (
           <div key={index} className="encuentro-card">
             <div className="equipo-info">
-              {console.log(paginatedEncuentros)}
               <img
                 src={
                   encuentro.home.club.image

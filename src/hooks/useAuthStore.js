@@ -40,6 +40,7 @@ export const useAuthStore = () => {
           role: data.role,
           email: data.email,
           image: data.image,
+          phone: data.phone,
         })
       );
       return data.role;

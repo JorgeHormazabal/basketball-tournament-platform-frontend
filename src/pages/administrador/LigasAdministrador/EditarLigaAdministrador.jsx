@@ -70,122 +70,131 @@ export function EditarLigaAdministrador() {
   const abrirModal = () => {
     setPartidoActivo(null);
   };
-  console.log(ligaActiva)
+  
   return (
     <>
-    <button type="button" className="btn btn-light" style={{marginTop: "10px", marginLeft: "26vh", fontSize: "22px"}} onClick={() => navigate(-1)}>
-    <i className="fa-solid fa-arrow-left"></i> Volver
-    </button>
-    <div className="dashboard-page" style={{marginTop:"12px"}}>
-      <div className="container-fluid">
-        <div className="d-flex flex-row justify-content-between align-items-center">
-          <h1>{ligaActiva.name}</h1>
-          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button
-              className="btn btn-warning me-md-2"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#modalLiga"
-              onClick={() => editarModalLiga(ligaActiva)}
-            >
-              <i className="fa-solid fa-edit"></i> Editar
-            </button>
-            <button
-              className="btn btn-danger"
-              type="button"
-              onClick={() => borrarEstaLiga(ligaActiva)}
-            >
-              <i className="fa-solid fa-trash"></i> Borrar
-            </button>
-          </div>
-        </div>
-        <div className="row g-0">
-          <div className="col-md-12 border-right">
-            <div className="status p-3">
-              <table className="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="heading d-block">Ganador</span>
-                        <span className="subheadings">
-                          {ligaActiva.winner
-                            ? ligaActiva?.winner?.name
-                            : "Sin ganador"}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="heading d-block">Reglas</span>
-                        <span className="subheadings">{ligaActiva.rules}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="heading d-block">Fecha de inicio</span>
-                        <span className="subheadings">
-                          {formatDate(ligaActiva.startDate)}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex flex-column">
-                        <span className="heading d-block">Fecha de fin</span>
-                        <span className="subheadings">
-                          {formatDate(ligaActiva.endDate)}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+      <button
+        type="button"
+        className="btn btn-light"
+        style={{ marginTop: "10px", marginLeft: "26vh", fontSize: "22px" }}
+        onClick={() => navigate(-1)}
+      >
+        <i className="fa-solid fa-arrow-left"></i> Volver
+      </button>
+      <div className="dashboard-page" style={{ marginTop: "12px" }}>
+        <div className="container-fluid">
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h1>{ligaActiva.name}</h1>
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                className="btn btn-warning me-md-2"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLiga"
+                onClick={() => editarModalLiga(ligaActiva)}
+              >
+                <i className="fa-solid fa-edit"></i> Editar
+              </button>
+              <button
+                className="btn btn-danger"
+                type="button"
+                onClick={() => borrarEstaLiga(ligaActiva)}
+              >
+                <i className="fa-solid fa-trash"></i> Borrar
+              </button>
             </div>
           </div>
-        </div>
-        <div className="ps-4">
-          <div className="d-flex flex-row justify-content-between align-items-center">
-            <h3 className="m-0">Tabla de puntuaciones</h3>
-            <button
-              className="btn btn-primary me-md-2"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#modalAgregarEquipo"
-            >
-              <i className="fa-solid fa-plus"></i> Agregar Equipo
-            </button>
+          <div className="row g-0">
+            <div className="col-md-12 border-right">
+              <div className="status p-3">
+                <table className="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <span className="heading d-block">Ganador</span>
+                          <span className="subheadings">
+                            {ligaActiva.winner
+                              ? ligaActiva?.winner?.name
+                              : "Sin ganador"}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <span className="heading d-block">Reglas</span>
+                          <span className="subheadings">
+                            {ligaActiva.rules}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <span className="heading d-block">
+                            Fecha de inicio
+                          </span>
+                          <span className="subheadings">
+                            {formatDate(ligaActiva.startDate)}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column">
+                          <span className="heading d-block">Fecha de fin</span>
+                          <span className="subheadings">
+                            {formatDate(ligaActiva.endDate)}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          {isLoadingEstadisticas ? (
-            <Spinner />
-          ) : (
-            <TablaPosiciones equipos={estadisticasLigaEquipo} />
-          )}
-        </div>
-        <div className="ps-4 pt-4">
-          <div className="d-flex flex-row justify-content-between align-items-center">
-            <h3 className="m-0">Partidos</h3>
-            <BotonAgregar
-              modalId="modalPartido"
-              abrir={abrirModal}
-              boton=" Crear Partido"
-            />
+          <div className="ps-4">
+            <div className="d-flex flex-row justify-content-between align-items-center">
+              <h3 className="m-0">Tabla de puntuaciones</h3>
+              <button
+                className="btn btn-primary me-md-2"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalAgregarEquipo"
+              >
+                <i className="fa-solid fa-plus"></i> Agregar Equipo
+              </button>
+            </div>
+            {isLoadingEstadisticas ? (
+              <Spinner />
+            ) : (
+              <TablaPosiciones equipos={estadisticasLigaEquipo} />
+            )}
           </div>
-          {isLoadingPartidos > 0 ? (
-            <Spinner />
-          ) : (
-            <TablaPartidosOrganizador
-              partidos={partidos}
-              editar={editarModal}
-              borrar={borrar}
-              modalId="modalPartido"
-            />
-          )}
+          <div className="ps-4 pt-4">
+            <div className="d-flex flex-row justify-content-between align-items-center">
+              <h3 className="m-0">Partidos</h3>
+              <BotonAgregar
+                modalId="modalPartido"
+                abrir={abrirModal}
+                boton=" Crear Partido"
+              />
+            </div>
+            {isLoadingPartidos > 0 ? (
+              <Spinner />
+            ) : (
+              <TablaPartidosOrganizador
+                partidos={partidos}
+                editar={editarModal}
+                borrar={borrar}
+                modalId="modalPartido"
+              />
+            )}
+          </div>
         </div>
+        <ModalPartido />
+        <ModalLiga />
+        <ModalAgregarEquipo />
       </div>
-      <ModalPartido />
-      <ModalLiga />
-      <ModalAgregarEquipo />
-    </div>
     </>
   );
 }

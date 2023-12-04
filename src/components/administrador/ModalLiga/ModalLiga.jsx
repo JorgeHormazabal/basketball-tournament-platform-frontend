@@ -1,6 +1,14 @@
 import { useEffect, useState, useMemo } from "react";
 import { useEquipoStore, useLigaStore, useOrganizadorStore } from "hooks";
 import "./ModalLiga.scss";
+import { useForm } from "react-hook-form";
+import {
+  ModalFooter,
+  ModalHeader,
+  ModalSave,
+  SelectInput,
+  TextInput,
+} from "components/form";
 
 const nuevaLigaVacia = {
   id: "",
@@ -13,9 +21,15 @@ const nuevaLigaVacia = {
 
 export const ModalLiga = () => {
   const { ligaActiva, guardarLigaAdministrador } = useLigaStore();
-  const [formValues, setFormValues] = useState(nuevaLigaVacia);
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
   const { organizadores, cargarOrganizadores } = useOrganizadorStore();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    getValues,
+  } = useForm();
 
   const titulo = useMemo(
     () => (ligaActiva === null ? "Nueva Liga" : "Editar Liga"),
@@ -24,7 +38,8 @@ export const ModalLiga = () => {
 
   useEffect(() => {
     if (ligaActiva !== null) {
-      setFormValues({
+      cargarEquiposDeLiga(ligaActiva.id);
+      reset({
         id: ligaActiva.id,
         name: ligaActiva.name,
         rules: ligaActiva.rules,
@@ -33,9 +48,6 @@ export const ModalLiga = () => {
         winnerId: ligaActiva.winnerId,
         organizerId: ligaActiva.organizerId,
       });
-      cargarEquiposDeLiga(ligaActiva.id);
-    } else {
-      setFormValues(nuevaLigaVacia);
     }
   }, [ligaActiva]);
 
@@ -43,180 +55,91 @@ export const ModalLiga = () => {
     cargarOrganizadores();
   });
 
-  const onInputChanged = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
+  const onSubmit = async (data) => {
+    await guardarLigaAdministrador(data);
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    await guardarLigaAdministrador(formValues);
+  const onClose = () => {
+    reset({ ...nuevaLigaVacia });
   };
 
   return (
     <div id="modalLiga" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="close"
-            ></button>
-          </div>
-          <form className="modal-body" onSubmit={onSubmit}>
-            <input type="hidden" id="id" />
-            {!formValues.id ? (
+          <ModalHeader titulo={titulo} onClose={onClose} />
+          <form className="modal-body" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" id="id" {...register("id")} />
+
+            {!getValues("id") ? (
               <>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    Nombre
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="LigaUno"
-                      className="form-control"
-                      value={formValues.name}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="rules" className="form-label">
-                    Reglas
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-book"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="rules"
-                      name="rules"
-                      placeholder="Normales"
-                      className="form-control"
-                      value={formValues.rules}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="organizerId" className="form-label">
-                    Organizador
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <select
-                      id="organizerId"
-                      name="organizerId"
-                      className="form-control"
-                      value={formValues.organizerId}
-                      onChange={onInputChanged}
-                    >
-                      <option value="">Seleccionar Organizador</option>
-                      {organizadores.map((organizador) => (
-                        <option key={organizador.id} value={organizador.id}>
-                          {organizador.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                <TextInput
+                  label="Nombre de la liga"
+                  placeholder="Liga SuperCopa"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  errors={errors}
+                  name="name"
+                  validation={{ required: true }}
+                />
+                <TextInput
+                  label="Reglas de la liga"
+                  placeholder="Normales"
+                  icon="fa-solid fa-book"
+                  register={register}
+                  errors={errors}
+                  name="rules"
+                  validation={{ required: true }}
+                />
+                <SelectInput
+                  label="Organizador"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  errors={errors}
+                  name="organizerId"
+                  validation={{ required: true }}
+                  list={organizadores}
+                  displayLabel={(organizador) => organizador.name}
+                />
               </>
             ) : (
               <>
-                <div className="mb-3">
-                  <label htmlFor="winnerId" className="form-label">
-                    Ganador
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-trophy"></i>
-                    </span>
-                    <select
-                      id="winnerId"
-                      name="winnerId"
-                      className="form-control"
-                      value={formValues.winnerId}
-                      onChange={onInputChanged}
-                    >
-                      <option value="">Seleccionar Equipo</option>
-                      {equipos.map((equipo) => (
-                        <option key={equipo.id} value={equipo.club.id}>
-                          {equipo.club.name} - {equipo.id}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                <SelectInput
+                  label="Ganador"
+                  icon="fa-solid fa-trophy"
+                  register={register}
+                  errors={errors}
+                  name="winnerId"
+                  validation={{ required: true }}
+                  list={equipos}
+                  displayLabel={(equipo) =>
+                    `${equipo.club.name} - ${equipo.id}`
+                  }
+                />
               </>
             )}
-            <div className="mb-3">
-              <label htmlFor="startDate" className="form-label">
-                Fecha de Inicio
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-calendar-days"></i>
-                </span>
-                <input
-                  type="date"
-                  id="startDate"
-                  name="startDate"
-                  className="form-control"
-                  value={formValues.startDate}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
+            <TextInput
+              label="Fecha de Inicio"
+              icon="fa-solid fa-calendar-days"
+              register={register}
+              type="date"
+              errors={errors}
+              name="startDate"
+              validation={{ required: true }}
+            />
+            <TextInput
+              label="Fecha de Fin"
+              icon="fa-solid fa-calendar-days"
+              register={register}
+              type="date"
+              errors={errors}
+              name="endDate"
+              validation={{ required: true }}
+            />
 
-            <div className="mb-3">
-              <label htmlFor="endDate" className="form-label">
-                Fecha de Fin
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-calendar-days"></i>
-                </span>
-                <input
-                  type="date"
-                  id="endDate"
-                  name="endDate"
-                  className="form-control"
-                  value={formValues.endDate}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-
-            <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar liga
-              </button>
-            </div>
+            <ModalSave />
           </form>
-          <div className="modal-footer">
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
+          <ModalFooter onClose={onClose} />
         </div>
       </div>
     </div>

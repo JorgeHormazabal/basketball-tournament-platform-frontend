@@ -26,7 +26,6 @@ export const useEstadisticaJugadorStore = () => {
     try {
       const updatePromises = jugadores.map((jugador) => {
         const { id, shirtNumber, name, ...restoEstadistica } = jugador;
-        console.log(restoEstadistica);
         return backendApi.patch(
           `player-statistics/player/${id}/match/${matchId}`,
           restoEstadistica

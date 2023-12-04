@@ -10,10 +10,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BotonAgregar } from "components";
 import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 export default function LigasOrganizador() {
-  const { cargarLigasDelOrganizador, ligas, setLigaActiva } = useLigaStore();
+  const { cargarLigasDelOrganizador, ligas, setLigaActiva, isLoading } =
+    useLigaStore();
   const { limpiarStores } = useCleanStore();
   const navigate = useNavigate();
   const itemsPerPage = 8;
@@ -58,30 +59,30 @@ export default function LigasOrganizador() {
           />
         </div>
         <div className="mt-5">
-          {ligas.length > 0 ? (
+          {!isLoading ? (
             <>
               <div className="d-flex flex-wrap">
                 {ligasPaginadas.map((liga) => (
-                   <div key={liga.id} className="col-md-4 mb-4">
-                  <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
+                  <div key={liga.id} className="col-md-4 mb-4">
+                    <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
                   </div>
                 ))}
               </div>
               {pageCount > 1 && (
-              <ReactPaginate
-                pageCount={pageCount}
-                pageRangeDisplayed={5}
-                marginPagesDisplayed={2}
-                onPageChange={handlePageChange}
-                containerClassName={'pagination justify-content-center mt-3'}
-                activeClassName={'active'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link'}
-                previousClassName={'page-item'}
-                previousLinkClassName={'page-link'}
-                nextClassName={'page-item'}
-                nextLinkClassName={'page-link'}
-              />
+                <ReactPaginate
+                  pageCount={pageCount}
+                  pageRangeDisplayed={5}
+                  marginPagesDisplayed={2}
+                  onPageChange={handlePageChange}
+                  containerClassName={"pagination justify-content-center mt-3"}
+                  activeClassName={"active"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
+                />
               )}
             </>
           ) : (

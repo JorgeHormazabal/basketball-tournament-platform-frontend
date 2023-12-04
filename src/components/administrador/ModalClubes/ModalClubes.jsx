@@ -1,7 +1,15 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useClubStore } from "hooks/useClubStore";
 import "./ModalClubes.scss";
-import { imagePath } from "helpers";
+import { useForm } from "react-hook-form";
+import {
+  ModalFooter,
+  ModalHeader,
+  ModalSave,
+  TextInput,
+} from "components/form";
+import ModalImageInput from "components/form/ModalImageInput/ModalImageInput";
+import useImageInput from "hooks/useImageInput";
 
 const clubVacio = {
   id: "",
@@ -13,10 +21,16 @@ const clubVacio = {
 };
 
 export const ModalClubes = () => {
-  const { clubActivo, guardarClub } = useClubStore();
-  const [formValues, setFormValues] = useState(clubVacio);
-  const [file, setFile] = useState();
-  const [preview, setPreview] = useState(null);
+  const { clubActivo, guardarClub, setClubActivo } = useClubStore();
+  const { file, preview, onCloseImageInput, handleOnChangeImage } =
+    useImageInput();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    getValues,
+  } = useForm();
 
   const titulo = useMemo(
     () => (clubActivo === null ? "Nuevo Club" : "Editar Club"),
@@ -25,191 +39,93 @@ export const ModalClubes = () => {
 
   useEffect(() => {
     if (clubActivo !== null) {
-      setFormValues({ ...clubActivo });
+      reset({ ...clubActivo });
     } else {
-      setFormValues(clubVacio);
+      reset({ ...clubVacio });
     }
-  }, [clubActivo]);
+  }, [clubActivo, reset]);
 
-  const onInputChanged = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    await guardarClub(formValues, file);
+  const onSubmit = async (data) => {
+    await guardarClub(data, file);
   };
 
   const onClose = () => {
-    setFile("");
-    setPreview(null);
-    setFormValues(clubVacio);
-    document.getElementById("file").value = "";
-  };
-
-  const handleOnChangeImage = ({ target }) => {
-    setFile(target.files[0]);
-    const file = new FileReader();
-    file.onload = function () {
-      setPreview(file.result);
-    };
-    file.readAsDataURL(target.files[0]);
+    setClubActivo(null);
+    onCloseImageInput();
+    reset(clubVacio);
   };
 
   return (
     <div id="modalClub" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="close"
-              onClick={onClose}
-            ></button>
-          </div>
-          <form className="modal-body" onSubmit={onSubmit}>
-            <input type="hidden" id="id" />
-            <div className="mb-3">
-              <label htmlFor="nombre" className="form-label">
-                Nombre del club
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-user"></i>
-                </span>
-                <input
-                  type="text"
-                  id="nombre"
-                  className="form-control"
-                  placeholder="Nombre del club"
-                  value={formValues.name}
-                  name="name"
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            {!formValues.id && (
-              <div className="mb-3">
-                <label htmlFor="correo" className="form-label">
-                  Correo del club
-                </label>
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <i className="fa-solid fa-envelope"></i>
-                  </span>
-                  <input
-                    type="text"
-                    id="correo"
-                    name="email"
-                    className="form-control"
-                    placeholder="Correo del club"
-                    value={formValues.email}
-                    onChange={onInputChanged}
-                  />
-                </div>
-              </div>
+          <ModalHeader titulo={titulo} onClose={onClose} />
+          <form className="modal-body" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" id="id" {...register("id")} />
+
+            <TextInput
+              label="Nombre del club"
+              placeholder="Nombre del club"
+              icon="fa-solid fa-user"
+              register={register}
+              errors={errors}
+              name="name"
+              validation={{ required: true }}
+            />
+
+            {!getValues("id") && (
+              <TextInput
+                label="Correo del club"
+                placeholder="Correo del club"
+                icon="fa-solid fa-envelope"
+                register={register}
+                type="email"
+                errors={errors}
+                name="email"
+                validation={{
+                  required: true,
+                  pattern: {
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Correo inválido",
+                  },
+                }}
+              />
             )}
 
-            <div className="mb-3">
-              <label htmlFor="clave" className="form-label">
-                Contraseña del club
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-key"></i>
-                </span>
-                <input
-                  type="text"
-                  id="clave"
-                  name="password"
-                  className="form-control"
-                  placeholder="Contraseña del club"
-                  value={formValues.password}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="phone" className="form-label">
-                Celular del organizador
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-phone"></i>
-                </span>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  className="form-control"
-                  placeholder="Celular del organizador"
-                  value={formValues.phone}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="clave" className="form-label">
-                Logo
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-image"></i>
-                </span>
+            <TextInput
+              label="Contraseña del club"
+              placeholder="Contraseña del club"
+              icon="fa-solid fa-key"
+              register={register}
+              type="password"
+              tip="La clave debe tener al menos 6 caracteres"
+              errors={errors}
+              name="password"
+              validation={{ required: !getValues("id"), minLength: 6 }}
+            />
 
-                <input
-                  id="file"
-                  type="file"
-                  name="file"
-                  accept="image/png, image/jpg, image/jpeg"
-                  onChange={handleOnChangeImage}
-                />
-              </div>
-            </div>
+            <TextInput
+              label="Celular del club"
+              placeholder="Celular del club"
+              icon="fa-solid fa-phone"
+              register={register}
+              errors={errors}
+              name="phone"
+              validation={{ required: true }}
+            />
 
-            {preview ? (
-              <p>
-                <img
-                  className="m-auto d-block"
-                  width="200px"
-                  src={preview}
-                  alt="Upload preview"
-                />
-              </p>
-            ) : (
-              <p>
-                <img
-                  className="m-auto d-block"
-                  width="200px"
-                  src={imagePath(clubActivo?.image) || "img/default_club.png"}
-                  alt="Upload preview"
-                />
-              </p>
-            )}
+            <ModalImageInput
+              title="Logo"
+              handleOnChangeImage={handleOnChangeImage}
+              preview={preview}
+              image={
+                clubActivo?.image ? clubActivo.image : "img/default_club.png"
+              }
+            />
 
-            <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar Club
-              </button>
-            </div>
+            <ModalSave />
           </form>
-          <div className="modal-footer">
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-              onClick={onClose}
-            >
-              Cerrar
-            </button>
-          </div>
+          <ModalFooter onClose={onClose} />
         </div>
       </div>
     </div>

@@ -14,7 +14,6 @@ export const usePanelChronometer = (defaultStartTime, buzzer) => {
   const updateDisplayTime = () => {
     const time = updatedTime();
     if (time <= 0) {
-      console.log("buzzering");
       buzzer();
       stop();
     } else {
@@ -44,7 +43,6 @@ export const usePanelChronometer = (defaultStartTime, buzzer) => {
   };
 
   const reset = (startTime = defaultStartTime) => {
-    console.log(startTime);
     stop();
     const resetTime = startTime * 1000;
     accumulatedTimeRef.current = resetTime;

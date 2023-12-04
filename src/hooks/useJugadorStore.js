@@ -21,7 +21,6 @@ export const useJugadorStore = () => {
   const { user } = useSelector((state) => state.auth);
 
   const setJugadorActivo = (jugador) => {
-    console.log("jActivo", jugador);
     dispatch(onSetActiveEvent(jugador));
   };
 
@@ -29,11 +28,14 @@ export const useJugadorStore = () => {
     try {
       const id = jugador.get("id");
       jugador.delete("id");
-      if (id?.length !== 0) {
+      jugador.delete("playersStatistics");
+      if (id && id?.length !== 0) {
         const { data } = await backendApi.patch(`/players/${id}`, jugador);
         dispatch(
           onUpdateEvent({
+            ...jugadorActivo,
             ...data,
+            displayTeam: data.team.club.name,
             displayDivision: data.team.division.category,
             displayBirthdate: formatDate(data.birthdate),
           })
@@ -46,6 +48,7 @@ export const useJugadorStore = () => {
             displayTeam: data.team.club.name,
             displayDivision: data.team.division.category,
             displayBirthdate: formatDate(data.birthdate),
+            playersStatistics: [],
           })
         );
       }
@@ -110,12 +113,10 @@ export const useJugadorStore = () => {
 
   const cargarJugadoresDeUnClub = async (clubActivo) => {
     try {
-      console.log("s");
       const { data } = await backendApi.get(`/clubs/players/${clubActivo.id}`);
       data.forEach((player) => {
         player.displayBirthdate = formatDate(player.birthdate);
       });
-      console.log(data);
       dispatch(onLoadEvents(data));
     } catch (error) {
       console.log("Error cargando jugadores");
@@ -145,7 +146,6 @@ export const useJugadorStore = () => {
           return team.players;
         })
         .flat();
-      console.log(99, players);
       dispatch(onLoadEvents(players));
     } catch (error) {
       console.log("Error cargando jugadores");

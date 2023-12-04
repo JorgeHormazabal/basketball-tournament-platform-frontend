@@ -1,13 +1,19 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   useEstadisticaLigaEquipoStore,
-  useJugadorStore,
   useLigaStore,
   usePartidoStore,
 } from "hooks";
-import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
 import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import {
+  ModalFooter,
+  ModalHeader,
+  ModalSave,
+  SelectInput,
+  TextInput,
+} from "components/form";
 
 const nuevoPartidoVacio = {
   id: "",
@@ -22,8 +28,14 @@ export const ModalPartido = () => {
   const { partidoActivo, guardarPartido } = usePartidoStore();
   const { ligaActiva } = useLigaStore();
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
-  const [formValues, setFormValues] = useState(nuevoPartidoVacio);
   const { estadisticasLigaEquipo } = useEstadisticaLigaEquipoStore();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    getValues,
+  } = useForm();
 
   const titulo = useMemo(
     () => (partidoActivo === null ? "Nuevo Partido" : "Editar Partido"),
@@ -33,7 +45,7 @@ export const ModalPartido = () => {
   useEffect(() => {
     cargarEquiposDeLiga(ligaActiva.id);
     if (partidoActivo !== null) {
-      setFormValues({
+      reset({
         id: partidoActivo.id,
         dateTime: partidoActivo.dateTime.slice(0, -8),
         place: partidoActivo.place,
@@ -41,195 +53,103 @@ export const ModalPartido = () => {
         awayPoints: partidoActivo.awayPoints,
       });
     } else {
-      setFormValues({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
+      reset({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
     }
   }, [partidoActivo, estadisticasLigaEquipo]);
 
-  const onInputChanged = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if (formValues.homeId === formValues.awayId) {
+  const onSubmit = async (data) => {
+    if (!getValues("id") && data.homeId === data.awayId) {
       Swal.fire("Error al guardar", "Equipo seleccionado dos veces.", "error");
     } else {
-      await guardarPartido(formValues);
+      await guardarPartido(data);
     }
   };
 
   const onClose = () => {
-    setFormValues({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
+    reset({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
   };
 
   return (
     <div id="modalPartido" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{titulo}</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="close"
-              onClick={onClose}
-            ></button>
-          </div>
-          <form className="modal-body" onSubmit={onSubmit}>
-            <input type="hidden" id="id" />
-            {!formValues.id ? (
+          <ModalHeader titulo={titulo} onClose={onClose} />
+          <form className="modal-body" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" id="id" {...register("id")} />
+            {!getValues("id") ? (
               <>
-                <div className="mb-3">
-                  <label htmlFor="homeId" className="form-label">
-                    Equipo Local
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <select
-                      id="homeId"
-                      name="homeId"
-                      className="form-control"
-                      value={formValues.homeId}
-                      onChange={onInputChanged}
-                    >
-                      <option value="">Seleccionar Club</option>
-                      {equipos.map((equipo) => (
-                        <option key={equipo.id} value={equipo.id}>
-                          {equipo.club.name} - {equipo?.division?.category}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="awayId" className="form-label">
-                    Equipo Visitante
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <select
-                      id="awayId"
-                      name="awayId"
-                      className="form-control"
-                      value={formValues.awayId}
-                      onChange={onInputChanged}
-                    >
-                      <option value="">Seleccionar Club</option>
-                      {equipos.map((equipo) => (
-                        <option key={equipo.id} value={equipo.id}>
-                          {equipo.club.name} - {equipo?.division?.category}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                <SelectInput
+                  label="Equipo Local"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  errors={errors}
+                  name="homeId"
+                  validation={{ required: true }}
+                  list={equipos}
+                  displayLabel={(equipo) =>
+                    `${equipo.club.name} - ${equipo?.division?.category}`
+                  }
+                />
+                <SelectInput
+                  label="Equipo Visitante"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  errors={errors}
+                  name="awayId"
+                  validation={{ required: true }}
+                  list={equipos}
+                  displayLabel={(equipo) =>
+                    `${equipo.club.name} - ${equipo?.division?.category}`
+                  }
+                />
               </>
             ) : (
               <>
-                <div className="mb-3">
-                  <label htmlFor="homePoints" className="form-label">
-                    Puntaje Local
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <input
-                      type="number"
-                      id="homePoints"
-                      name="homePoints"
-                      placeholder=""
-                      className="form-control"
-                      value={formValues.homePoints}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="awayPoints" className="form-label">
-                    Puntaje Visita
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="fa-solid fa-user"></i>
-                    </span>
-                    <input
-                      type="number"
-                      id="awayPoints"
-                      name="awayPoints"
-                      placeholder=""
-                      className="form-control"
-                      value={formValues.awayPoints}
-                      onChange={onInputChanged}
-                    />
-                  </div>
-                </div>
+                <TextInput
+                  label="Puntaje Local"
+                  placeholder="0"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  type="number"
+                  errors={errors}
+                  name="homePoints"
+                  validation={{ required: true }}
+                />
+                <TextInput
+                  label="Puntaje Visita"
+                  placeholder="0"
+                  icon="fa-solid fa-user"
+                  register={register}
+                  type="number"
+                  errors={errors}
+                  name="awayPoints"
+                  validation={{ required: true }}
+                />
               </>
             )}
-            <div className="mb-3">
-              <label htmlFor="fechaHora" className="form-label">
-                Fecha y hora del partido
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-calendar-days"></i>
-                </span>
-                <input
-                  type="datetime-local"
-                  id="fechaHora"
-                  name="dateTime"
-                  className="form-control"
-                  value={formValues.dateTime}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="place" className="form-label">
-                Lugar
-              </label>
-              <div className="input-group">
-                <span className="input-group-text">
-                  <i className="fa-solid fa-map-pin"></i>
-                </span>
-                <input
-                  type="text"
-                  id="place"
-                  name="place"
-                  placeholder="Casa del deporte, Chillán"
-                  className="form-control"
-                  value={formValues.place}
-                  onChange={onInputChanged}
-                />
-              </div>
-            </div>
+            <TextInput
+              label="Fecha y hora del partido"
+              placeholder="0"
+              icon="fa-solid fa-calendar-days"
+              register={register}
+              type="date"
+              errors={errors}
+              name="dateTime"
+              validation={{ required: true }}
+            />
+            <TextInput
+              label="Lugar"
+              placeholder="Gimnasio Municipal"
+              icon="fa-solid fa-map-pin"
+              register={register}
+              errors={errors}
+              name="place"
+              validation={{ required: true }}
+            />
 
-            <div className="d-grid col-6 mx-auto">
-              <button type="submit" className="btn btn-secondary">
-                <i className="fa-solid fa-floppy-disk"></i> Guardar partido
-              </button>
-            </div>
+            <ModalSave />
           </form>
-          <div className="modal-footer">
-            <button
-              id="btnCerrar"
-              type="button"
-              className="btn btn-danger"
-              data-bs-dismiss="modal"
-              onClick={onClose}
-            >
-              Cerrar
-            </button>
-          </div>
+          <ModalFooter onClose={onClose} />
         </div>
       </div>
     </div>

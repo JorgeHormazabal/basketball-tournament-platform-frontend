@@ -1,5 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
-import { useEquipoStore, useLigaStore } from "hooks";
+import {
+  useEquipoStore,
+  useEstadisticaLigaEquipoStore,
+  useLigaStore,
+} from "hooks";
 import "./ModalLiga.scss";
 
 const nuevaLigaVacia = {
@@ -14,6 +18,8 @@ export const ModalLiga = () => {
   const { ligaActiva, guardarLigaOrganizador } = useLigaStore();
   const [formValues, setFormValues] = useState(nuevaLigaVacia);
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
+  const { estadisticasLigaEquipo } = useEstadisticaLigaEquipoStore();
+  const [equiposGanadores, setEquiposGanadores] = useState([]);
 
   const titulo = useMemo(
     () => (ligaActiva === null ? "Nueva Liga" : "Editar Liga"),
@@ -21,6 +27,16 @@ export const ModalLiga = () => {
   );
 
   useEffect(() => {
+    if (estadisticasLigaEquipo) {
+      const maxPuntos = Math.max(
+        ...estadisticasLigaEquipo.map((obj) => obj.points)
+      );
+      setEquiposGanadores(
+        estadisticasLigaEquipo
+          .filter((obj) => obj.points === maxPuntos)
+          .map((obj) => obj.id)
+      );
+    }
     if (ligaActiva !== null) {
       setFormValues({
         id: ligaActiva.id,
@@ -34,7 +50,7 @@ export const ModalLiga = () => {
     } else {
       setFormValues(nuevaLigaVacia);
     }
-  }, [ligaActiva]);
+  }, [ligaActiva, estadisticasLigaEquipo]);
 
   const onInputChanged = ({ target }) => {
     setFormValues({
@@ -49,7 +65,7 @@ export const ModalLiga = () => {
   };
 
   const onClose = () => {
-    setFormValues(nuevaLigaVacia);
+    !ligaActiva && setFormValues(nuevaLigaVacia);
   };
 
   return (
@@ -127,11 +143,15 @@ export const ModalLiga = () => {
                       onChange={onInputChanged}
                     >
                       <option value="">Seleccionar Equipo</option>
-                      {equipos.map((equipo) => (
-                        <option key={equipo.id} value={equipo.club.id}>
-                          {equipo.club.name} - {equipo.id}
-                        </option>
-                      ))}
+                      {equipos.map((equipo) => {
+                        return (
+                          equiposGanadores.includes(equipo.id) && (
+                            <option key={equipo.id} value={equipo.club.id}>
+                              {equipo.club.name} - {equipo.id}
+                            </option>
+                          )
+                        );
+                      })}
                     </select>
                   </div>
                 </div>

@@ -58,28 +58,23 @@ export default function Scoreboard() {
       setHasReceivedState(true);
     });
     socket.on("stopClock", ({ time }) => {
-      console.log("cluck");
       longClock.stop(time);
     });
     socket.on("startClock", ({ time }) => {
-      console.log("clock", time);
       longClock.start(time);
     });
     socket.on("resetClock", ({ time }) => longClock.reset(time));
     //SHORT
     socket.on("startShort", ({ shortTime: time }) => {
-      console.log("start", time);
       setShortTime(time);
       setIsShortRunning(true);
       setResetShort((previus) => !previus);
     });
     socket.on("stopShort", ({ shortTime: time }) => {
-      console.log("stop", time);
       setIsShortRunning(false);
       setShortTime(time);
     });
     socket.on("resetShort", ({ shortTime: time }) => {
-      console.log("reset", time);
       setIsShortRunning(false);
       setShortTime(time);
     });

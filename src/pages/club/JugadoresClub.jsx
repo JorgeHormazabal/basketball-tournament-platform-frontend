@@ -35,7 +35,6 @@ export function JugadoresClub() {
     setJugadorActivo(null);
   };
   useEffect(() => {
-    console.log("cargarJugadoresDelClub");
     cargarJugadoresDelClub();
   });
 

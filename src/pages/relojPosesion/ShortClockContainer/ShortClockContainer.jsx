@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import "./ShortClockContainer.scss";
 import { useEffect, useState } from "react";
-import { socket } from "socket";
 import ShortClock from "../ShortClock/ShortClock";
+import { socket } from "api";
 
 export default function ShortClockContainer() {
   const params = useParams();
