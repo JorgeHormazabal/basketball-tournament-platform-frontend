@@ -3,3 +3,16 @@
   margin-left: 30vh;
   margin-right: 15vh;
 }
+
+.boton-texto {
+  background: none;
+  color: blue !important;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.boton-texto:hover {
+  text-decoration: none;
+}

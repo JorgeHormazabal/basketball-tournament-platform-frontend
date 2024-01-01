@@ -1,20 +1,20 @@
+import { BotonAgregar, Spinner } from "components";
+import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/ModalAgregarEquipo";
+import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
+import { ModalPartido } from "components/organizador/ModalPartido/ModalPartido";
+import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
+import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones";
+import { formatDate } from "helpers";
 import {
+  useEquipoStore,
   useEstadisticaLigaEquipoStore,
   useLigaStore,
   usePartidoStore,
-  useEquipoStore,
 } from "hooks";
-import "../Dashboard.scss";
 import { useEffect, useState } from "react";
-import TablaPartidosOrganizador from "components/organizador/TablaPartidosOrganizador/TablaPartidosOrganizador";
-import { BotonAgregar, Spinner } from "components";
-import { ModalPartido } from "components/organizador/ModalPartido/ModalPartido";
-import "./organizador.css";
 import { useNavigate } from "react-router";
-import { ModalLiga } from "components/organizador/ModalLiga/ModalLiga";
-import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones";
-import { formatDate } from "helpers";
-import { ModalAgregarEquipo } from "components/organizador/ModalAgregarEquipo/ModalAgregarEquipo";
+import "../Dashboard.scss";
+import "./organizador.css";
 
 export function EditarLigaAdministrador() {
   const { ligaActiva, setLigaActiva, borrarLiga } = useLigaStore();
@@ -57,7 +57,7 @@ export function EditarLigaAdministrador() {
   const borrarEstaLiga = (ligaActiva) => {
     setLigaActiva(ligaActiva);
     borrarLiga(ligaActiva);
-    navigate("/administrador/ligas");
+    navigate("/administrador/ligas").then(() => setLigaActiva(null));
   };
 
   const editarModal = (jugador) => {
@@ -70,14 +70,17 @@ export function EditarLigaAdministrador() {
   const abrirModal = () => {
     setPartidoActivo(null);
   };
-  
+  const goBack = () => {
+    navigate(-1).then(() => setLigaActiva(null));
+  };
+
   return (
     <>
       <button
         type="button"
         className="btn btn-light"
         style={{ marginTop: "10px", marginLeft: "26vh", fontSize: "22px" }}
-        onClick={() => navigate(-1)}
+        onClick={goBack}
       >
         <i className="fa-solid fa-arrow-left"></i> Volver
       </button>

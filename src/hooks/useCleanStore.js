@@ -1,6 +1,7 @@
 import { useClubStore } from "./useClubStore";
 import { useDivisionStore } from "./useDivisionStore";
 import { useEquipoStore } from "./useEquipoStore";
+import { useEstadisticaJugadorStore } from "./useEstadisticaJugadores";
 import { useEstadisticaLigaEquipoStore } from "./useEstadisticaLigaEquipoStore";
 import { useJugadorStore } from "./useJugadorStore";
 import { useLigaStore } from "./useLigaStore";
@@ -11,6 +12,7 @@ export const useCleanStore = () => {
   const { limpiarClub } = useClubStore();
   const { limpiarDivision } = useDivisionStore();
   const { limpiarEquipo } = useEquipoStore();
+  const { limpiarEstadisticasJugadores } = useEstadisticaJugadorStore();
   const { limpiarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
   const { limpiarJugador } = useJugadorStore();
   const { limpiarLiga } = useLigaStore();
@@ -22,6 +24,7 @@ export const useCleanStore = () => {
     limpiarDivision();
     limpiarEquipo();
     limpiarEstadisticasDeLiga();
+    limpiarEstadisticasJugadores();
     limpiarJugador();
     limpiarLiga();
     limpiarOrganizador();

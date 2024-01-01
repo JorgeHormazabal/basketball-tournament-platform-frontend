@@ -1,49 +1,47 @@
-  .encuentros-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .encuentro-card {
-    border: 1px solid #000000;
-    padding: 10px;
-    width: 60%;
-    margin: 10px;
-    height: 270px;
-  }
-  
-  .equipo-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
-  }
+.encuentros-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  .fila2 {
-    display: flex;
-    align-items: center;
-    justify-content:center;
-  }
-  
-  .equipo-info h3 {
-    font-size: 24px;
-    margin: 0;
-    font-weight: bold;
-  }
-  
-  .vs {
-    font-weight: bold;
-    font-size: 28px;
-    margin: 0 10px;
-  }
-  
-  .equipo-info img {
-    max-width: 125px;
-    max-height: 125px;
-    margin: 15px;
-  }
-  span {
-    font-size: 20px;
-  }
-  
-  
+.encuentro-card {
+  border: 1px solid #000000;
+  padding: 10px;
+  width: 100%;
+  margin: 10px;
+  height: 270px;
+}
+
+.equipo-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.fila2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equipo-info h3 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.vs {
+  font-weight: bold;
+  font-size: 28px;
+  margin: 0 10px;
+}
+
+.equipo-info img {
+  max-width: 125px;
+  max-height: 125px;
+  margin: 15px;
+}
+span {
+  font-size: 20px;
+}

@@ -1,15 +1,15 @@
-import React from "react";
 import { BienvenidaTromu } from "components/club/PerfilClub/BienvenidaTromu";
-import { useAuthStore, useLigaStore } from "hooks";
-import { useEffect } from "react";
-import { useState } from "react";
 import { ModalPerfilOrganizador } from "components/organizador/ModalPerfilOrganizador/ModalPerfilOrganizador";
 import { imagePath } from "helpers";
+import { useAuthStore, useLigaStore } from "hooks";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export function PerfilOrganizador() {
   const { user } = useAuthStore();
   const { cargarTotalLigasDelOrganizador } = useLigaStore();
   const [total, setTotal] = useState({ leagueCount: 0, matchesCount: 0 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     cargarTotalLigasDelOrganizador().then((data) => setTotal(data));
@@ -64,7 +64,19 @@ export function PerfilOrganizador() {
                 <hr className="mt-0 w-100"></hr>
                 <div className="buttons text-center">
                   <button
-                    className="w-50 btn btn-secondary"
+                    className="w-50 btn btn-primary"
+                    onClick={() => {
+                      navigate(
+                        `/panel/${user.name.replace(/\s/g, "")}${user.id}`
+                      );
+                    }}
+                  >
+                    Iniciar Amistoso
+                  </button>
+                </div>
+                <div className="buttons text-center">
+                  <button
+                    className="mt-1 w-50 btn btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#modalOrganizador"
                     onClick={() => {}}

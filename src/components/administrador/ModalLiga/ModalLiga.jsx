@@ -8,7 +8,9 @@ import {
   ModalSave,
   SelectInput,
   TextInput,
+  FileInput,
 } from "components/form";
+import { useFileInput } from "hooks";
 
 const nuevaLigaVacia = {
   id: "",
@@ -30,6 +32,7 @@ export const ModalLiga = () => {
     reset,
     getValues,
   } = useForm();
+  const { file, onCloseFileInput, handleOnChangeFile } = useFileInput();
 
   const titulo = useMemo(
     () => (ligaActiva === null ? "Nueva Liga" : "Editar Liga"),
@@ -56,11 +59,12 @@ export const ModalLiga = () => {
   });
 
   const onSubmit = async (data) => {
-    await guardarLigaAdministrador(data);
+    await guardarLigaAdministrador(data, file);
   };
 
   const onClose = () => {
     reset({ ...nuevaLigaVacia });
+    onCloseFileInput();
   };
 
   return (
@@ -82,14 +86,9 @@ export const ModalLiga = () => {
                   name="name"
                   validation={{ required: true }}
                 />
-                <TextInput
-                  label="Reglas de la liga"
-                  placeholder="Normales"
-                  icon="fa-solid fa-book"
-                  register={register}
-                  errors={errors}
-                  name="rules"
-                  validation={{ required: true }}
+                <FileInput
+                  title="Reglas de la liga"
+                  handleOnChangeFile={handleOnChangeFile}
                 />
                 <SelectInput
                   label="Organizador"
@@ -110,7 +109,7 @@ export const ModalLiga = () => {
                   register={register}
                   errors={errors}
                   name="winnerId"
-                  validation={{ required: true }}
+                  validation={{ required: false }}
                   list={equipos}
                   displayLabel={(equipo) =>
                     `${equipo.club.name} - ${equipo.id}`

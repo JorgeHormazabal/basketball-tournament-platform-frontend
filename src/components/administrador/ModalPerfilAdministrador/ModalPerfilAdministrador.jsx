@@ -1,8 +1,7 @@
 import { useEffect, useMemo } from "react";
 import "./ModalPerfilAdministrador.scss";
-import { useAuthStore } from "hooks";
+import { useAuthStore, useFileInput } from "hooks";
 import { objectToFormData } from "helpers";
-import useImageInput from "hooks/useImageInput";
 import { useForm } from "react-hook-form";
 import {
   ModalFooter,
@@ -14,8 +13,8 @@ import {
 
 export const ModalPerfilAdministrador = () => {
   const { user: administrador, updateAdministradorProfile } = useAuthStore();
-  const { file, preview, onCloseImageInput, handleOnChangeImage } =
-    useImageInput();
+  const { file, preview, onCloseFileInput, handleOnChangeImage } =
+    useFileInput();
   const {
     register,
     formState: { errors },
@@ -39,7 +38,7 @@ export const ModalPerfilAdministrador = () => {
   }, []);
 
   const onClose = () => {
-    onCloseImageInput();
+    onCloseFileInput();
     //reset(clubVacio);
   };
 

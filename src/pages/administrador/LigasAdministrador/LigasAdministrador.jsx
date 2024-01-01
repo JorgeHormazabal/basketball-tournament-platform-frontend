@@ -4,7 +4,7 @@ import { useLigaStore } from "hooks";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ModalLiga } from "components/administrador/ModalLiga/ModalLiga";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 export function LigasAdministrador() {
   const { cargarTodasLasLigas, ligas, setLigaActiva, isLoading } =
@@ -54,7 +54,7 @@ export function LigasAdministrador() {
               <div className="d-flex flex-wrap">
                 {ligas.slice(startIndex, endIndex).map((liga) => (
                   <div key={liga.id} className="col-md-4 mb-4">
-                  <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
+                    <CardLiga key={liga.id} liga={liga} editar={editarLiga} />
                   </div>
                 ))}
               </div>
@@ -64,14 +64,14 @@ export function LigasAdministrador() {
                   pageRangeDisplayed={5}
                   marginPagesDisplayed={2}
                   onPageChange={handlePageChange}
-                  containerClassName={'pagination justify-content-center mt-3'}
-                  activeClassName={'active'}
-                  pageClassName={'page-item'}
-                  pageLinkClassName={'page-link'}
-                  previousClassName={'page-item'}
-                  previousLinkClassName={'page-link'}
-                  nextClassName={'page-item'}
-                  nextLinkClassName={'page-link'}
+                  containerClassName={"pagination justify-content-center mt-3"}
+                  activeClassName={"active"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
                 />
               )}
             </>

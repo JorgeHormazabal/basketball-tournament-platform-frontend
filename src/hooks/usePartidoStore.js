@@ -1,14 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { backendApi } from "api";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import {
   onAddNewEvent,
   onDeleteEvent,
   onLoadEvents,
+  onLogoutEvent,
   onSetActiveEvent,
   onUpdateEvent,
-  onLogoutEvent,
 } from "store/partido/partidoSlice";
+import Swal from "sweetalert2";
+import { useEstadisticaLigaEquipoStore } from "./useEstadisticaLigaEquipoStore";
+import { useLigaStore } from "./useLigaStore";
 
 export const usePartidoStore = () => {
   const dispatch = useDispatch();
@@ -21,11 +24,12 @@ export const usePartidoStore = () => {
   const setPartidoActivo = async (partido) => {
     await dispatch(await onSetActiveEvent(partido));
   };
+  const { reCargarEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  const { ligaActiva } = useLigaStore();
 
-  const guardarPartido = async (partido) => {
+  const guardarPartido = async (partido, forceTrigger = () => {}) => {
     try {
       if (partido.id.length !== 0) {
-        //TODO: update
         const { id, homePoints, awayPoints, ...restoPartido } = partido;
         const { data } = await backendApi.patch(`/matches/${id}`, {
           homePoints: Number(homePoints),
@@ -37,7 +41,7 @@ export const usePartidoStore = () => {
             ...partidoActivo,
             ...restoPartido,
             ...data,
-            dateTime: `${data.dateTime}:00.000Z`,
+            dateTime: `${data.dateTime}`,
             user,
           })
         );
@@ -48,9 +52,7 @@ export const usePartidoStore = () => {
           homeId: Number(partidoResto.homeId),
           awayId: Number(partidoResto.awayId),
         });
-        dispatch(
-          onAddNewEvent({ ...data, dateTime: `${data.dateTime}:00.000Z` })
-        );
+        dispatch(onAddNewEvent({ ...data, dateTime: `${data.dateTime}` }));
       }
 
       Swal.fire({
@@ -59,6 +61,8 @@ export const usePartidoStore = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+
+      reCargarEstadisticasDeLiga(ligaActiva.id);
     } catch (error) {
       console.error(error);
       const errorMessage = error.response?.data?.msg || "Error al guardar";
@@ -109,33 +113,32 @@ export const usePartidoStore = () => {
   const borrarPartido = async (partido) => {
     try {
       const result = await Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'No podrás revertir esta acción.',
-        icon: 'warning',
+        title: "¿Estás seguro?",
+        text: "No podrás revertir esta acción.",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, borrar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (result.isConfirmed) {
         await backendApi.delete(`/matches/${partido.id}`);
         await dispatch(onDeleteEvent());
-  
+
         Swal.fire({
-          icon: 'success',
-          title: 'Partido borrado',
+          icon: "success",
+          title: "Partido borrado",
           showConfirmButton: false,
           timer: 1500,
         });
       }
     } catch (error) {
       console.log(error);
-      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+      Swal.fire("Error al eliminar", error.response.data.msg, "error");
     }
   };
-  
 
   return {
     //* Propiedades

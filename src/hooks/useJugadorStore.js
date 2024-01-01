@@ -55,7 +55,7 @@ export const useJugadorStore = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Jugador guardada",
+        title: "Jugador guardado",
         showConfirmButton: false,
         timer: 1500,
       });

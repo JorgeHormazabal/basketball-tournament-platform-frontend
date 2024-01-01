@@ -1,38 +1,47 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import "./app.css";
 import {
-  Navbar,
   Footer,
+  Navbar,
   SidebarAdministrador,
   SidebarClub,
   SidebarOrganizador,
 } from "components/";
+import NotFound from "pages/NotFound";
 import {
-  PerfilAdmin,
+  Club,
+  Divisiones,
+  EditarLigaAdministrador,
   Equipos,
   Jugadores,
-  Divisiones,
-  Club,
-  Organizador,
   LigasAdministrador,
-  EditarLigaAdministrador,
+  Organizador,
+  PerfilAdmin,
 } from "pages/administrador/";
 import {
-  PerfilClub,
-  JugadoresClub,
   EquiposClub,
-  LigasClub,
   EstadisticaPartido,
+  JugadoresClub,
+  LigasClub,
+  PerfilClub,
 } from "pages/club/";
-import { Clubes, Home, Ligas, Pasados, Proximos, Login } from "pages/invitado/";
 import {
-  PerfilOrganizador,
-  LigasOrganizador,
+  Clubes,
+  Home,
+  Ligas,
+  Login,
+  Organizadores,
+  Pasados,
+  Proximos,
+} from "pages/invitado/";
+import {
   EditarLigaOrganizador,
+  LigasOrganizador,
+  PerfilOrganizador,
 } from "pages/organizador/";
-import Scoreboard from "pages/tablero/Scoreboard/Scoreboard";
 import ControlPanel from "pages/panel/ControlPanel/ControlPanel";
 import ShortClockContainer from "pages/relojPosesion/ShortClockContainer/ShortClockContainer";
+import Scoreboard from "pages/tablero/Scoreboard/Scoreboard";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./app.css";
 
 const PublicLayout = () => {
   return (
@@ -174,6 +183,10 @@ const router = createBrowserRouter(
               path: "clubes",
               element: <Clubes />,
             },
+            {
+              path: "organizadores",
+              element: <Organizadores />,
+            },
           ],
         },
         { path: "tablero/:matchId", element: <Scoreboard /> },
@@ -183,13 +196,15 @@ const router = createBrowserRouter(
           path: "login",
           element: <Login />,
         },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
       ],
     },
   ],
   {
-    basename: import.meta.env.DEV
-      ? "/"
-      : "/basketball-tournament-platform-frontend/",
+    basename: "/tromu/",
   }
 );
 

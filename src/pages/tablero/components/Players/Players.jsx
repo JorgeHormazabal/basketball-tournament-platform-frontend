@@ -1,13 +1,8 @@
+import { displayName } from "helpers";
 import sumAttributeInArray from "helpers/sumAttributeInArray";
 import "./Players.scss";
 
 export default function Players({ players, faults, elementId }) {
-  const displayName = (name) => {
-    const parts = name.split(" ");
-    return parts.length === 4
-      ? `${parts[0]} ${parts[2][0]}.`
-      : `${parts[0]} ${parts[1][0]}.`;
-  };
   return (
     <div id={elementId}>
       <div id="scoreboard__player__header">

@@ -1,15 +1,18 @@
+import { msToSeconds } from "helpers";
 import { useState } from "react";
 import "./ShortClockControl.scss";
-import { msToSeconds } from "helpers";
 
 export const ShortClockControl = ({
   start,
   update,
   toggle,
+  normalDirection,
   serverTime: time,
 }) => {
-  const handleDirectionLeft = () => update("direction", "left");
-  const handleDirectionRight = () => update("direction", "right");
+  const handleDirectionLeft = () =>
+    update("direction", normalDirection ? "left" : "right");
+  const handleDirectionRight = () =>
+    update("direction", normalDirection ? "right" : "left");
   const [status, setStatus] = useState(false);
 
   const handleStart24 = () => {

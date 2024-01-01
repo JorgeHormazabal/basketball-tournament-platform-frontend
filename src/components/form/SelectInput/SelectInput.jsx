@@ -18,7 +18,7 @@ export default function SelectInput({
         {required && (
           <span className="fs-6 fst-italic text-muted"> Requerido</span>
         )}
-        {errors[name] && <ErrorText type={errors[name].type} />}
+        {errors[name] && <ErrorText type={errors[name]} />}
       </label>
       <div className="input-group">
         <span className="input-group-text">

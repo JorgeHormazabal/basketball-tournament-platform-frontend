@@ -1,0 +1,46 @@
+.result {
+  position: fixed; // Posicionamiento fijo
+  top: 50%; // Centrado vertical
+  left: 50%; // Centrado horizontal
+  transform: translate(-50%, -50%); // Ajuste fino para centrar exactamente
+  z-index: 1000; // Asegura que se muestre por encima de otros elementos
+
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; // Altura máxima para asegurar que no sea demasiado grande
+  overflow-y: auto; // Desplazamiento si es necesario
+  border: 10px solid black;
+  padding: 20px;
+  width: 90vw; // Ancho moderado
+  box-sizing: border-box;
+  background-color: white; // Fondo blanco para el contraste
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+  }
+
+  h2,
+  p {
+    margin: 10px 0;
+  }
+}
+
+.close-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: #f44336;
+  color: white;
+  border-radius: 5px;
+  &:hover {
+    background-color: #d32f2f;
+  }
+}

@@ -9,6 +9,7 @@ import {
   onUpdateEvent,
   onLogoutEvent,
 } from "store/liga/ligaSlice";
+import { objectToFormData } from "helpers";
 
 export const useLigaStore = () => {
   const dispatch = useDispatch();
@@ -23,26 +24,33 @@ export const useLigaStore = () => {
     await dispatch(onSetActiveEvent(liga));
   };
 
-  const guardarLigaOrganizador = async (liga) => {
+  const guardarLigaOrganizador = async (liga, file) => {
     try {
       if (liga.id.length !== 0) {
-        const { id, organizerId, winnerId, ...restoLiga } = liga;
+        const { id, organizerId, winnerId, rules, ...restoLiga } = liga;
         const { data } = await backendApi.patch(`/leagues/${id}`, {
           ...restoLiga,
-          winnerId: Number(winnerId),
+          ...(winnerId && winnerId.length > 0 ? { winnerId } : {}),
         });
+        console.log({
+          ...restoLiga,
+          ...(winnerId && winnerId.length > 0 ? { winnerId } : {}),
+        });
+        console.log("data", data);
         dispatch(
           onUpdateEvent({
+            ...ligas.find((liga) => liga.id === id),
             ...liga,
             ...data,
-            user,
           })
         );
       } else {
+        let info;
         const { id, ...restoLiga } = liga;
-        const { data } = await backendApi.post("/leagues/organizer", {
-          ...restoLiga,
-        });
+        info = objectToFormData(restoLiga, true);
+        if (file) info.append("file", file);
+        console.log(info.get("name"));
+        const { data } = await backendApi.post("/leagues/organizer", info);
         dispatch(onAddNewEvent(data));
       }
 
@@ -59,10 +67,11 @@ export const useLigaStore = () => {
     }
   };
 
-  const guardarLigaAdministrador = async (liga) => {
+  const guardarLigaAdministrador = async (liga, file) => {
     try {
+      let info;
       if (liga.id.length !== 0) {
-        const { id, organizerId, winnerId, ...restoLiga } = liga;
+        const { id, organizerId, winnerId, rules, ...restoLiga } = liga;
         const { data } = await backendApi.patch(`/leagues/${id}`, {
           ...restoLiga,
           winnerId: Number(winnerId),
@@ -76,10 +85,10 @@ export const useLigaStore = () => {
         );
       } else {
         const { id, organizerId, ...restoLiga } = liga;
-        const { data } = await backendApi.post("/leagues/", {
-          ...restoLiga,
-          organizerId: Number(organizerId),
-        });
+        info = objectToFormData({ ...restoLiga, organizerId }, true);
+        if (file) info.append("file", file);
+        console.log(info);
+        const { data } = await backendApi.post("/leagues/", info);
         dispatch(onAddNewEvent(data));
       }
 

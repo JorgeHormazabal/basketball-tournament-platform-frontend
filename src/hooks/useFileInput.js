@@ -1,11 +1,10 @@
-import React from "react";
 import { useState } from "react";
 
-export default function useImageInput() {
+export const useFileInput = () => {
   const [file, setFile] = useState();
   const [preview, setPreview] = useState(null);
 
-  const onCloseImageInput = () => {
+  const onCloseFileInput = () => {
     setFile("");
     setPreview(null);
     document.getElementById("file").value = "";
@@ -19,5 +18,17 @@ export default function useImageInput() {
     };
     file.readAsDataURL(target.files[0]);
   };
-  return { file, preview, onCloseImageInput, handleOnChangeImage };
-}
+
+  const handleOnChangeFile = ({ target }) => {
+    setFile(target.files[0]);
+    const file = new FileReader();
+    file.readAsDataURL(target.files[0]);
+  };
+  return {
+    file,
+    preview,
+    onCloseFileInput,
+    handleOnChangeImage,
+    handleOnChangeFile,
+  };
+};

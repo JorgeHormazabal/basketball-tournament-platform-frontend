@@ -1,4 +1,5 @@
 export { default as ErrorText } from './ErrorText/ErrorText';
+export { default as FileInput } from './FileInput/FileInput';
 export { default as ModalFooter } from './ModalFooter/ModalFooter';
 export { default as ModalHeader } from './ModalHeader/ModalHeader';
 export { default as ModalImageInput } from './ModalImageInput/ModalImageInput';

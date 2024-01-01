@@ -9,7 +9,7 @@ import {
   ModalSave,
   TextInput,
 } from "components/form";
-import useImageInput from "hooks/useImageInput";
+import { useFileInput } from "hooks";
 import ModalImageInput from "components/form/ModalImageInput/ModalImageInput";
 
 const organizadorVacio = {
@@ -24,8 +24,8 @@ const organizadorVacio = {
 export const ModalOrganizador = () => {
   const { organizadorActivo, guardarOganizador, setOrganizadorActivo } =
     useOrganizadorStore();
-  const { file, preview, onCloseImageInput, handleOnChangeImage } =
-    useImageInput();
+  const { file, preview, onCloseFileInput, handleOnChangeImage } =
+    useFileInput();
   const {
     register,
     formState: { errors },
@@ -54,7 +54,7 @@ export const ModalOrganizador = () => {
 
   const onClose = () => {
     setOrganizadorActivo(null);
-    onCloseImageInput();
+    onCloseFileInput();
     reset({ ...organizadorVacio });
   };
 

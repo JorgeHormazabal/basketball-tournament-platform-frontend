@@ -4,20 +4,12 @@ import {
   clearErrorMessage,
   onChecking,
   onLogin,
-  onLogout,
   onUpdate,
 } from "../store/auth/authSlice";
 
 import { onLogout as onLogoutAuth } from "store/auth/authSlice";
-import { onLogoutEvent as onLogoutClub } from "store/club/clubSlice";
-import { onLogoutEvent as onLogoutDivision } from "store/division/divisionSlice";
-import { onLogoutEvent as onLogoutEquipo } from "store/equipo/equipoSlice";
-import { onLogoutEvent as onLogoutEstadisticaLigaEquipo } from "store/estadisticaLigaEquipo/estadisticaLigaEquipoSlice";
-import { onLogoutEvent as onLogoutJugador } from "store/jugador/jugadorSlice";
-import { onLogoutEvent as onLogoutLiga } from "store/liga/ligaSlice";
-import { onLogoutEvent as onLogoutOrganizador } from "store/organizador/organizadorSlice";
-import { useCleanStore } from "./useCleanStore";
 import Swal from "sweetalert2";
+import { useCleanStore } from "./useCleanStore";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -33,9 +25,9 @@ export const useAuthStore = () => {
       });
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      //TODO: guardar imagen
       await dispatch(
         onLogin({
+          id: data.id,
           name: data.name,
           role: data.role,
           email: data.email,
@@ -176,6 +168,8 @@ export const useAuthStore = () => {
   const startLogout = (msg) => {
     localStorage.clear();
     dispatch(msg ? onLogoutAuth(msg) : onLogoutAuth());
+    localStorage.removeItem("token");
+    localStorage.removeItem("token-init-date");
     limpiarStores();
   };
 

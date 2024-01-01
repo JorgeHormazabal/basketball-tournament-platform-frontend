@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { formatDateTime } from "helpers";
-import { useNavigate } from "react-router";
+import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router";
 
 export default function TablaPartidosOrganizador({
   partidos,
@@ -50,12 +50,14 @@ export default function TablaPartidosOrganizador({
             {paginatedPartidos.map((objeto, index) => (
               <tr key={index}>
                 <td>
-                  <button
-                    className="btn btn-success"
-                    onClick={() => navigate(`/panel/${objeto.id}`)}
-                  >
-                    <i className="fa-solid fa-play"></i>
-                  </button>
+                  {objeto.homePoints === 0 && objeto.awayPoints === 0 && (
+                    <button
+                      className="btn btn-success"
+                      onClick={() => navigate(`/panel/${objeto.id}`)}
+                    >
+                      <i className="fa-solid fa-play"></i>
+                    </button>
+                  )}
                 </td>
                 <td className="text-start align-middle">
                   {formatDateTime(objeto.dateTime)}
@@ -73,23 +75,23 @@ export default function TablaPartidosOrganizador({
                 <td className="text-center align-middle">
                   {objeto.awayPoints}
                 </td>
-                <td className="align-items-center justify-content-center">
-                  <div className="btn-group" role="group">
-                    <button
-                      className="btn btn-secondary"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#${modalId}`}
-                      onClick={() => editar(objeto)}
-                    >
-                      <i className="fa-solid fa-edit"></i> Editar
-                    </button>
+                <td className="d-flex align-items-start justify-content-start">
+                  <button
+                    className="btn btn-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#${modalId}`}
+                    onClick={() => editar(objeto)}
+                  >
+                    <i className="fa-solid fa-edit"></i> Editar
+                  </button>
+                  {objeto.homePoints === 0 && objeto.awayPoints === 0 && (
                     <button
                       onClick={() => borrar(objeto)}
                       className="btn btn-danger"
                     >
                       <i className="fa-solid fa-trash"></i> Borrar
                     </button>
-                  </div>
+                  )}
                 </td>
               </tr>
             ))}

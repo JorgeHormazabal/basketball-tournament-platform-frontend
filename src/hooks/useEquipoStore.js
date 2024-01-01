@@ -1,14 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { backendApi } from "api";
+import { useDispatch, useSelector } from "react-redux";
 import {
   onAddNewEvent,
   onDeleteEvent,
   onLoadEvents,
+  onLogoutEvent,
   onSetActiveEvent,
   onUpdateEvent,
-  onLogoutEvent,
 } from "store/equipo/equipoSlice";
+import Swal from "sweetalert2";
 
 export const useEquipoStore = () => {
   const dispatch = useDispatch();
@@ -61,33 +61,32 @@ export const useEquipoStore = () => {
   const borrarEquipo = async (equipo) => {
     try {
       const result = await Swal.fire({
-        title: '¿Estás seguro?',
-        text: 'No podrás revertir esta acción.',
-        icon: 'warning',
+        title: "¿Estás seguro?",
+        text: "No podrás revertir esta acción.",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, borrar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, borrar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (result.isConfirmed) {
         await backendApi.delete(`/teams/${equipo.id}`);
         await dispatch(onDeleteEvent());
-  
+
         Swal.fire({
-          icon: 'success',
-          title: 'Equipo borrado',
+          icon: "success",
+          title: "Equipo borrado",
           showConfirmButton: false,
           timer: 1500,
         });
       }
     } catch (error) {
       console.log(error);
-      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+      Swal.fire("Error al eliminar", error.response.data.msg, "error");
     }
   };
-  
 
   const cargarEquipos = async () => {
     try {
@@ -146,6 +145,7 @@ export const useEquipoStore = () => {
         (equipo) =>
           !equiposDeLiga.some((equipoLiga) => equipoLiga.id === equipo.id)
       );
+      console.log(equiposTotales, equiposDeLiga, equiposFueraDeLiga);
       return equiposFueraDeLiga;
     } catch (error) {
       console.log("Error cargando equipos fuera de la liga");

@@ -1,16 +1,19 @@
-import "./home.css";
-import { Link } from "react-router-dom";
-import { usePartidoStore } from "hooks";
-import { useEffect } from "react"; 
-import { CardsProximos } from "..";
-import { TablaPasados } from "..";
 import { TablaPosiciones } from "components/organizador/TablaPosiciones/TablaPosiciones";
-import { useLigaStore, useEstadisticaLigaEquipoStore } from "hooks";
+import {
+  useEstadisticaLigaEquipoStore,
+  useLigaStore,
+  usePartidoStore,
+} from "hooks";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { CardsProximos, TablaPasados } from "..";
+import "./home.css";
 
 export function Home() {
   const { partidos, cargarPartidos } = usePartidoStore();
   const { cargarTodasLasLigas, ligas } = useLigaStore();
-  const { estadisticasLigaEquipo, cargarTodasLasEstadisticasDeLiga } = useEstadisticaLigaEquipoStore();
+  const { estadisticasLigaEquipo, cargarTodasLasEstadisticasDeLiga } =
+    useEstadisticaLigaEquipoStore();
   useEffect(() => {
     cargarPartidos();
     cargarTodasLasLigas();
@@ -23,7 +26,9 @@ export function Home() {
 
   const filtrarEstadisticasPrimeraLiga = () => {
     if (ligas.length > 0) {
-      return estadisticasLigaEquipo.filter(equipo => equipo.ligaId === ligas[0].id);
+      return estadisticasLigaEquipo.filter(
+        (equipo) => equipo.ligaId === ligas[0].id
+      );
     }
     return [];
   };
@@ -41,7 +46,11 @@ export function Home() {
       {/* PROXIMOS PARTIDOS  */}
       <div className="Proximos">
         <h2 id="cuarto">Próximos Enfrentamientos</h2>
-        <CardsProximos encuentros={partidos} limit={2} mostrarPaginacion={false} />
+        <CardsProximos
+          encuentros={partidos}
+          limit={2}
+          mostrarPaginacion={false}
+        />
         <br />
       </div>
 
@@ -50,7 +59,11 @@ export function Home() {
         <div className="Pasados">
           <h2 id="cuarto">Últimos Enfrentamientos</h2>
           <div className="contenedorDeLiga">
-          <TablaPasados encuentros={partidos} limit={3} mostrarPaginacion={false}/>
+            <TablaPasados
+              encuentros={partidos}
+              limit={3}
+              mostrarPaginacion={false}
+            />
           </div>
         </div>
       </div>
@@ -59,11 +72,12 @@ export function Home() {
       {/* DIV LIGAS  */}
       <div className="Ligass">
         <h2 id="actualizacionligauno">
-          Última Actualización de <strong>{ligas.length > 0 ? ligas[0].name : ''}</strong>
+          Última Actualización de{" "}
+          <strong>{ligas.length > 0 ? ligas[0].name : ""}</strong>
         </h2>
         <div className="LigasAPP">
           <div className="contenedorDeLiga">
-          <TablaPosiciones equipos={filtrarEstadisticasPrimeraLiga()} />
+            <TablaPosiciones equipos={filtrarEstadisticasPrimeraLiga()} />
           </div>
         </div>
       </div>

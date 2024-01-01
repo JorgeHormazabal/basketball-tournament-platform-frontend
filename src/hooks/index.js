@@ -6,6 +6,7 @@ export * from './useDivisionStore';
 export * from './useEquipoStore';
 export * from './useEstadisticaJugadores';
 export * from './useEstadisticaLigaEquipoStore';
+export * from './useFileInput';
 export * from './useForm';
 export * from './useJugadorStore';
 export * from './useLigaStore';

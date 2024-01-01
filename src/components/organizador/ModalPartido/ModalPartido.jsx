@@ -1,12 +1,3 @@
-import { useEffect, useMemo } from "react";
-import {
-  useEstadisticaLigaEquipoStore,
-  useLigaStore,
-  usePartidoStore,
-} from "hooks";
-import { useEquipoStore } from "hooks/useEquipoStore";
-import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
 import {
   ModalFooter,
   ModalHeader,
@@ -14,6 +5,15 @@ import {
   SelectInput,
   TextInput,
 } from "components/form";
+import {
+  useEstadisticaLigaEquipoStore,
+  useLigaStore,
+  usePartidoStore,
+} from "hooks";
+import { useEquipoStore } from "hooks/useEquipoStore";
+import { useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const nuevoPartidoVacio = {
   id: "",
@@ -24,8 +24,8 @@ const nuevoPartidoVacio = {
   awayId: "",
 };
 
-export const ModalPartido = () => {
-  const { partidoActivo, guardarPartido } = usePartidoStore();
+export const ModalPartido = ({ forceTrigger }) => {
+  const { partidoActivo, guardarPartido, setPartidoActivo } = usePartidoStore();
   const { ligaActiva } = useLigaStore();
   const { equipos, cargarEquiposDeLiga } = useEquipoStore();
   const { estadisticasLigaEquipo } = useEstadisticaLigaEquipoStore();
@@ -61,11 +61,12 @@ export const ModalPartido = () => {
     if (!getValues("id") && data.homeId === data.awayId) {
       Swal.fire("Error al guardar", "Equipo seleccionado dos veces.", "error");
     } else {
-      await guardarPartido(data);
+      await guardarPartido(data, forceTrigger);
     }
   };
 
   const onClose = () => {
+    setPartidoActivo(null);
     reset({ ...nuevoPartidoVacio, leagueId: ligaActiva.id });
   };
 
@@ -132,7 +133,7 @@ export const ModalPartido = () => {
               placeholder="0"
               icon="fa-solid fa-calendar-days"
               register={register}
-              type="date"
+              type="datetime-local"
               errors={errors}
               name="dateTime"
               validation={{ required: true }}

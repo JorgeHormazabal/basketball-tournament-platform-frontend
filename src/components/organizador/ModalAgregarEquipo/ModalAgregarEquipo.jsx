@@ -6,8 +6,8 @@ import {
 } from "components/form";
 import {
   useEquipoStore,
-  useLigaStore,
   useEstadisticaLigaEquipoStore,
+  useLigaStore,
 } from "hooks";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,8 +31,13 @@ export function ModalAgregarEquipo() {
   };
 
   const onSubmit = async (data) => {
-    await agregarEquipoALiga(ligaActiva.id, data.equipoId);
-    cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => setEquipos(data));
+    await agregarEquipoALiga(ligaActiva.id, data.equipoId, () =>
+      cargarEquiposFueraDeLiga(ligaActiva.id).then((data) => {
+        console.log("ladata", data);
+        setEquipos(data);
+        reset({ equipoId: data[0].id });
+      })
+    );
   };
 
   useEffect(() => {

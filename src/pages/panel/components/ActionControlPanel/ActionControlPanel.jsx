@@ -1,8 +1,12 @@
 import { useState } from "react";
-import "./ActionControlPanel.scss";
 import Swal from "sweetalert2";
+import "./ActionControlPanel.scss";
 
-export default function ActionControlPanel({ buzzer, saveMatch }) {
+export default function ActionControlPanel({
+  buzzer,
+  saveMatch,
+  isFriendlyMatch,
+}) {
   const [pressed, setPressed] = useState(false);
 
   const handleSave = () => {
@@ -37,18 +41,20 @@ export default function ActionControlPanel({ buzzer, saveMatch }) {
       >
         Alarma
       </button>
-      <button
-        id="controlpanel__actionControlPanel__save-btn"
-        className={
-          pressed
-            ? "controlpanel__actionControlPanel__save-btn--pressed"
-            : undefined
-        }
-        disabled={pressed}
-        onClick={handleSave}
-      >
-        Guardar
-      </button>
+      {!isFriendlyMatch && (
+        <button
+          id="controlpanel__actionControlPanel__save-btn"
+          className={
+            pressed
+              ? "controlpanel__actionControlPanel__save-btn--pressed"
+              : undefined
+          }
+          disabled={pressed}
+          onClick={handleSave}
+        >
+          Guardar
+        </button>
+      )}
     </div>
   );
 }

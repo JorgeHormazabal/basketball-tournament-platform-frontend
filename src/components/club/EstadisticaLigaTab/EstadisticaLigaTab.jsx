@@ -1,4 +1,5 @@
 import TablaPartidos from "components/TablaPartidos/TablaPartidos";
+import { handleDownload } from "helpers";
 
 export default function EstadisticaLigaTab({
   id: equipoId,
@@ -19,7 +20,17 @@ export default function EstadisticaLigaTab({
             <div className="row">
               <div className="col">
                 <p className="fw-bold">{participation.leagueInfo.name}</p>
-                <p>{participation.leagueInfo.rules}</p>
+                <button
+                  className="btn btn-link"
+                  onClick={() =>
+                    handleDownload(
+                      participation.leagueInfo.rules,
+                      participation.leagueInfo.name
+                    )
+                  }
+                >
+                  Descargar reglas
+                </button>
               </div>
               <div className="col">
                 <p>Fecha de inicio: {participation.leagueInfo.startDate}</p>
@@ -49,7 +60,10 @@ export default function EstadisticaLigaTab({
                 </tr>
               </tbody>
             </table>
-            <TablaPartidos partidos={participation.matches} equipoId={equipoId} />
+            <TablaPartidos
+              partidos={participation.matches}
+              equipoId={equipoId}
+            />
           </div>
         ))}
       </div>

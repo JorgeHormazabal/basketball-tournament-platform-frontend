@@ -4,7 +4,6 @@ const backendApi = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
-// Todo: configurar interceptores
 backendApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 

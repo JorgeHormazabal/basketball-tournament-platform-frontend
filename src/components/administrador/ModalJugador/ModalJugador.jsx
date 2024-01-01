@@ -4,7 +4,7 @@ import "./ModalJugador.scss";
 import { useEquipoStore } from "hooks/useEquipoStore";
 import { objectToFormData } from "helpers";
 import { useForm } from "react-hook-form";
-import useImageInput from "hooks/useImageInput";
+import { useFileInput } from "hooks";
 import {
   ModalFooter,
   ModalHeader,
@@ -36,8 +36,8 @@ const jugadorVacio = {
 export const ModalJugador = () => {
   const { jugadorActivo, guardarJugador, setJugadorActivo } = useJugadorStore();
   const { equipos, cargarEquipos } = useEquipoStore();
-  const { file, preview, onCloseImageInput, handleOnChangeImage } =
-    useImageInput();
+  const { file, preview, onCloseFileInput, handleOnChangeImage } =
+    useFileInput();
   const {
     register,
     formState: { errors },
@@ -78,7 +78,7 @@ export const ModalJugador = () => {
 
   const onClose = () => {
     setJugadorActivo(null);
-    onCloseImageInput();
+    onCloseFileInput();
     reset(jugadorVacio);
   };
 

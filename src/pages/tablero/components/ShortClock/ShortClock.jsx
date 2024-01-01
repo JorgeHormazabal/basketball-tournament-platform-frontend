@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import "./ShortClock.scss";
 import { msToSeconds } from "helpers";
+import { useEffect, useRef, useState } from "react";
+import "./ShortClock.scss";
 
 export default function ShortClock({
   isRunning,
@@ -9,24 +9,37 @@ export default function ShortClock({
   direction,
   reset,
 }) {
-  const [time, setTime] = useState(serverTime);
+  const [timeLeft, setTimeLeft] = useState(serverTime);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    setTime(serverTime);
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        if (time < 10) return;
-        setTime((prevTime) => {
-          if (prevTime < 10) return prevTime;
-          return prevTime - 10;
-        });
-      }, 10);
-    } else if (!isRunning) {
-      clearInterval(interval);
+    setTimeLeft(serverTime);
+  }, [serverTime, reset]);
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
-    return () => clearInterval(interval);
-  }, [isRunning, serverTime, reset]);
+
+    if (isRunning && timeLeft > 0) {
+      intervalRef.current = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 10);
+      }, 10);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isRunning, timeLeft]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 && intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  }, [timeLeft]);
+
   return (
     <div className="timer" id="scoreboard__short-clock">
       <div id="scoreboard__short-clock__header">
@@ -46,7 +59,9 @@ export default function ShortClock({
           {"<"}
         </span>
         <div id="scoreboard__short-clock__box">
-          <span id="scoreboard__short-clock__time">{msToSeconds(time)}</span>
+          <span id="scoreboard__short-clock__time">
+            {msToSeconds(timeLeft)}
+          </span>
         </div>
         <span
           className={`scoreboard__short-clock__direction ${

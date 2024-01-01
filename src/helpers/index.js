@@ -1,5 +1,7 @@
 export { default as addPlayerPointsFull } from './addPlayerPointsFull';
 export { default as displayName } from './displayName';
+export { default as documentPath } from './documentPath';
+export * from './downloadRules';
 export { default as ensureObjectAtIndex } from './ensureObjectAtIndex';
 export { default as formatDate } from './formatDate';
 export { default as formatDateTime } from './formatDateTime';

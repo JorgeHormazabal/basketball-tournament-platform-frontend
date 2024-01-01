@@ -48,6 +48,16 @@ export const useEstadisticaJugadorStore = () => {
     }
   };
 
+
+  const limpiarEstadisticasJugadores = async () => {
+    try {
+      dispatch(onLogoutEvent());
+    } catch (error) {
+      console.log("Error limpiando estadisticas jugadores");
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     estadisticasJugadores,
@@ -56,5 +66,6 @@ export const useEstadisticaJugadorStore = () => {
     //* Métodos
     setEstadisticaLigaEquipoActiva,
     guardarEstadisticasJugadores,
+    limpiarEstadisticasJugadores
   };
 };

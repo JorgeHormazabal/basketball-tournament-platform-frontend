@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "components/form";
 import ModalImageInput from "components/form/ModalImageInput/ModalImageInput";
-import useImageInput from "hooks/useImageInput";
+import { useFileInput } from "hooks";
 
 const clubVacio = {
   id: "",
@@ -22,8 +22,8 @@ const clubVacio = {
 
 export const ModalClubes = () => {
   const { clubActivo, guardarClub, setClubActivo } = useClubStore();
-  const { file, preview, onCloseImageInput, handleOnChangeImage } =
-    useImageInput();
+  const { file, preview, onCloseFileInput, handleOnChangeImage } =
+    useFileInput();
   const {
     register,
     formState: { errors },
@@ -51,7 +51,7 @@ export const ModalClubes = () => {
 
   const onClose = () => {
     setClubActivo(null);
-    onCloseImageInput();
+    onCloseFileInput();
     reset(clubVacio);
   };
 

@@ -1,15 +1,18 @@
 import { imagePath } from "helpers";
-import { useState, useEffect } from "react";
+import { useEstadisticaLigaEquipoStore, useLigaStore } from "hooks";
+import { useEffect } from "react";
 
-export function TablaPosiciones({ equipos }) {
-  const [equiposOrdenados, setEquiposOrdenados] = useState([]);
+export function TablaPosiciones({ trigger }) {
+  const { ligaActiva } = useLigaStore();
+  const {
+    estadisticasLigaEquipo: estadisticas,
+    cargarEstadisticasDeLiga,
+    isLoading,
+  } = useEstadisticaLigaEquipoStore();
 
   useEffect(() => {
-    const equiposClon = [...equipos];
-    equiposClon.sort((a, b) => b.points - a.points);
-
-    setEquiposOrdenados(equiposClon);
-  }, [equipos]);
+    console.log("estadisticas");
+  }, [estadisticas]);
 
   return (
     <div className="table-responsive py-3">
@@ -46,7 +49,7 @@ export function TablaPosiciones({ equipos }) {
           </tr>
         </thead>
         <tbody>
-          {equiposOrdenados.map((equipo, index) => (
+          {estadisticas.map((equipo, index) => (
             <tr key={index}>
               <td className="text-start align-middle">
                 &nbsp;&nbsp;&nbsp;{index + 1}

@@ -1,5 +1,8 @@
-import useSound from "use-sound";
+import { socket } from "api";
 import buzzer from "assets/buzzer.mp3";
+import { Spinner2 } from "components/Spinner/Spinner2";
+import { sumValuesAtIndex } from "helpers";
+import { useBoardChronometer } from "hooks";
 import {
   Clock,
   Faults,
@@ -9,14 +12,10 @@ import {
   ShortClock,
   SpeakerIcon,
 } from "pages/tablero/components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import useSound from "use-sound";
 import "./Scoreboard.scss";
-import { useBoardChronometer } from "hooks";
-import { Spinner2 } from "components/Spinner/Spinner2";
-import { sumValuesAtIndex } from "helpers";
-import { useRef } from "react";
-import { socket } from "api";
 
 export default function Scoreboard() {
   const params = useParams();
@@ -47,6 +46,7 @@ export default function Scoreboard() {
     socket.connect();
 
     const joinInterval = setInterval(() => {
+      console.log(matchId);
       if (!hasReceivedState) {
         socket.emit("join", { matchId });
       }
