@@ -61,6 +61,7 @@ export default function ControlPanel() {
   };
 
   const adjust = (correction) => {
+    if (longChronometer.interval.current) return;
     const time = longChronometer.adjust(correction);
     socket.emit("stopClock", { time });
   };
@@ -92,6 +93,7 @@ export default function ControlPanel() {
 
   const updateAndEmit = (field, value) => {
     if (value < 0) return;
+    if (field === "period" && value < 1) return;
     const index = value - 1;
     if (
       field === "period" &&

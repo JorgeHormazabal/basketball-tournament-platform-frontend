@@ -1,6 +1,6 @@
+import { msToMinutes, msToSeconds } from "helpers";
 import { useState } from "react";
 import "./ClockControl.scss";
-import { msToMinutes, msToSeconds } from "helpers";
 
 export default function ClockControl({
   setNormalDirection,
@@ -26,6 +26,12 @@ export default function ClockControl({
       minutes: 10,
       seconds: 0,
     });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -72,6 +78,7 @@ export default function ClockControl({
             max="59"
             value={newTime.minutes}
             onChange={onInputChanged}
+            onKeyDown={handleKeyDown}
           />
         </div>
 
@@ -85,6 +92,7 @@ export default function ClockControl({
             max="59"
             value={newTime.seconds}
             onChange={onInputChanged}
+            onKeyDown={handleKeyDown}
           />
         </div>
 

@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { msToSeconds } from "helpers";
+import { useEffect, useRef, useState } from "react";
 import "./ShortClock.scss";
 
 export default function ShortClock({ isRunning, serverTime }) {
@@ -47,9 +48,5 @@ export default function ShortClock({ isRunning, serverTime }) {
     }
   }, [serverTime, isRunning]);
 
-  return (
-    <span id="shortclock__seconds">
-      {("0" + Math.ceil((time / 1000) % 60)).slice(-2)}
-    </span>
-  );
+  return <span id="shortclock__seconds">{msToSeconds(time)}</span>;
 }

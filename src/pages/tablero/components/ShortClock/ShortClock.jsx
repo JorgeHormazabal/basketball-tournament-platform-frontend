@@ -11,20 +11,40 @@ export default function ShortClock({
 }) {
   const [timeLeft, setTimeLeft] = useState(serverTime);
   const intervalRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const accumulatedTimeRef = useRef(serverTime);
 
   useEffect(() => {
     setTimeLeft(serverTime);
-  }, [serverTime, reset]);
+    accumulatedTimeRef.current = serverTime;
+  }, [serverTime]);
 
   useEffect(() => {
+    // Reset the clock when 'reset' changes
+    if (reset) {
+      startTimeRef.current = performance.now();
+      accumulatedTimeRef.current = serverTime;
+      setTimeLeft(serverTime);
+    }
+
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
 
-    if (isRunning && timeLeft > 0) {
-      intervalRef.current = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 10);
-      }, 10);
+    const updateClock = () => {
+      const elapsed = performance.now() - startTimeRef.current;
+      const newTime = Math.max(accumulatedTimeRef.current - elapsed, 0);
+      if (newTime <= 0) {
+        clearInterval(intervalRef.current);
+        setTimeLeft(0);
+      } else {
+        setTimeLeft(newTime);
+      }
+    };
+
+    if (isRunning) {
+      startTimeRef.current = performance.now();
+      intervalRef.current = setInterval(updateClock, 10);
     }
 
     return () => {
@@ -32,13 +52,7 @@ export default function ShortClock({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, timeLeft]);
-
-  useEffect(() => {
-    if (timeLeft <= 0 && intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-  }, [timeLeft]);
+  }, [isRunning, reset]); // Added reset to the dependency array
 
   return (
     <div className="timer" id="scoreboard__short-clock">

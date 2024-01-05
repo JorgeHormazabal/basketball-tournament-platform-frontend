@@ -77,5 +77,5 @@ export const usePanelChronometer = (defaultStartTime, buzzer) => {
     }
   };
 
-  return { displayTime, start, stop, reset, resume, adjust, toggle };
+  return { displayTime, start, stop, reset, resume, adjust, toggle, interval };
 };
